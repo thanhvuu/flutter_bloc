@@ -10,10 +10,12 @@ import 'package:bloc_app_demo/core/hive_database/daos/product_dao.dart';
 import 'package:bloc_app_demo/data/data_sources/product_remote_data_source.dart';
 import 'package:bloc_app_demo/data/data_sources/product_local_data_source.dart';
 import 'package:bloc_app_demo/data/repositories/product_repository_impl.dart';
+import 'package:bloc_app_demo/data/repositories/auth_repository_impl.dart';
 
 class Injection {
   late final ProductRepositoryImpl productRepository;
   late final CartRepositoryImpl cartRepository;
+  late final AuthRepositoryImpl authRepository;
 
   Future<void> init() async {
     // Hive
@@ -43,6 +45,7 @@ class Injection {
       localDataSource: cartLocalDataSource,
       remoteDataSource: cartRemoteDataSource,
     );
+    authRepository = AuthRepositoryImpl();
     
   }
 }

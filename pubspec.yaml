@@ -52,6 +52,10 @@ dependencies:
   bloc: ^8.1.4
   rxdart: ^0.28.0
   bloc_concurrency: ^0.2.5
+  flutter_secure_storage: ^10.3.1
+  firebase_core: ^4.7.0
+  firebase_auth: ^6.4.0
+  cloud_firestore: ^6.3.0
 
 dev_dependencies:
   flutter_test:
