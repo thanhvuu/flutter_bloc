@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
           create: (context) => HomeBloc(injection.productRepository)..add(LoadHomeDataEvent()),
         ),
         BlocProvider<CartBloc>(
-          create: (context) => CartBloc(injection.cartRepository)..add(LoadCartEvent()),
+          create: (context) => CartBloc(injection.cartRepository,injection.authRepository)..add(LoadCartEvent()),
         ),
         BlocProvider<SearchBloc>(
           create: (context) => SearchBloc(repository: injection.productRepository),

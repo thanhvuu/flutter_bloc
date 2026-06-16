@@ -32,3 +32,5 @@ final class CartError extends CartState {
   @override  
   List<Object?> get props => [message];
 }
+
+final class CartRequireAuth extends CartState {}
