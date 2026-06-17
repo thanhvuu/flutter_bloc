@@ -2,33 +2,34 @@ import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:bloc_app_demo/domain/entities/user.dart';
 import 'package:bloc_app_demo/domain/repositories/auth_repository.dart';
+import 'package:bloc_app_demo/data/models/user_model.dart';
+
 class AuthRepositoryImpl implements AuthRepository {
   
   final firebase_auth.FirebaseAuth _firebaseAuth = firebase_auth.FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Future<User?> _mapFirebaseUserToEntity(firebase_auth.User? firebaseUser) async {
+    Future<User?> _mapFirebaseUserToEntity(firebase_auth.User? firebaseUser) async {
     if(firebaseUser == null) return null;
 
     final doc = await _firestore.collection('user').doc(firebaseUser.uid).get();
 
     if(doc.exists) {
+      // Gắn thêm id vào Map data vì Firebase thường không lưu id ở trong document field
       final data = doc.data()!;
-      return User(
-        id: firebaseUser.uid,
-        email: firebaseUser.email ?? '',
-        name: data['name'] ?? '',
-        phone: data['phone'] ?? '',
-        address: data['address'] ?? '',
-      );
+      data['id'] = firebaseUser.uid; 
+      
+      final model = UserModel.fromJson(data);
+      return model.toEntity();
     } else {
-       return User(
+       final model = UserModel(
         id: firebaseUser.uid,
         email: firebaseUser.email ?? '',
         name: '',
         phone: '',
         address: '',
       );
+      return model.toEntity();
     }
   }
   @override  
@@ -58,20 +59,17 @@ class AuthRepositoryImpl implements AuthRepository {
 
       final String uid = credential.user!.uid;
 
-      await _firestore.collection('user').doc(uid).set({
-        'name': name,
-        'phone': phone,
-        'address': address,
-        'email': email,
-      });
-
-      return User(
+      final model = UserModel(
         id: uid,
         email: email,
         name: name,
-        phone: phone ,
+        phone: phone,
         address: address,
       );
+
+      await _firestore.collection('user').doc(uid).set(model.toJson());
+
+      return model.toEntity();
     } catch (e) {
       rethrow;
     }

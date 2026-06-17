@@ -24,10 +24,7 @@ class _CartScreenState extends State<CartScreen> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.menu, color: Colors.black),
-          onPressed: () {},
-        ),
+        
         title: const Text(
           'ELITE ATHLETE',
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.w900),
@@ -37,10 +34,6 @@ class _CartScreenState extends State<CartScreen> {
           Stack(
             alignment: Alignment.center,
             children: [
-              IconButton(
-                icon: const Icon(Icons.shopping_cart_outlined, color: Colors.black),
-                onPressed: () {},
-              ),
               Positioned(
                 top: 8,
                 right: 8,

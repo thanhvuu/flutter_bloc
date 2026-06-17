@@ -13,24 +13,11 @@ class HomeScreen extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Colors.black,
           elevation: 0,
-          leading: IconButton(
-              onPressed: () {
-                // Handle menu button press
-              },
-              icon: const Icon(Icons.menu_sharp, color: Colors.white)),
           centerTitle: true,
           title: const Text(
             'ELITE ATHLETE',
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
           ),
-          actions: [
-            IconButton(
-                onPressed: () {
-                  // Handle cart button press
-                },
-                icon: const Icon(Icons.shopping_cart_outlined,
-                    color: Colors.white))
-          ],
         ),
         body:  SingleChildScrollView(
           child: Column(
