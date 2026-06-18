@@ -3,6 +3,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:bloc_app_demo/domain/entities/user.dart';
 import 'package:bloc_app_demo/domain/repositories/auth_repository.dart';
+import 'package:bloc_app_demo/core/utils/firebase_error_handler.dart';
 
 
 part 'auth_event.dart';
@@ -47,7 +48,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(Unauthenticated());
       }
     } catch (e) {
-      emit(AuthError(_parseFirebaseError(e)));
+      emit(AuthError(FirebaseErrorHandler.parseError(e)));
       emit(Unauthenticated());
     }
   }
@@ -68,7 +69,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(Unauthenticated());
       }
     } catch (e) {
-      emit(AuthError(_parseFirebaseError(e)));
+      emit(AuthError(FirebaseErrorHandler.parseError(e)));
       emit(Unauthenticated());
     }
   }
@@ -80,22 +81,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     } catch (e) {
       emit(AuthError(e.toString()));
     }
-  }
-
-  String _parseFirebaseError(dynamic error) {
-    final errorStr = error.toString();
-    if (errorStr.contains('user-not-found') || errorStr.contains('invalid-credential')) {
-      return 'Thông tin đăng nhập không chính xác.';
-    } else if (errorStr.contains('wrong-password')) {
-      return 'Mật khẩu không chính xác.';
-    } else if (errorStr.contains('email-already-in-use')) {
-      return 'Email này đã được đăng ký bởi tài khoản khác.';
-    } else if (errorStr.contains('weak-password')) {
-      return 'Mật khẩu quá yếu (tối thiểu phải có 6 ký tự).';
-    } else if (errorStr.contains('invalid-email')) {
-      return 'Định dạng email không hợp lệ.';
-    }
-    return 'Lỗi: ${error.toString()}';
   }
 
   @override

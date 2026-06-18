@@ -12,7 +12,7 @@ class LoginView extends StatefulWidget {
 
 class _LoginViewState extends State<LoginView> {
   final _formKey = GlobalKey<FormState>();
-  bool _isSignUpMode = false; // Toggle hiển thị Form Đăng nhập <-> Đăng ký
+  bool _isSignUpMode = false; 
 
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
