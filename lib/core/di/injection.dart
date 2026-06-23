@@ -1,3 +1,4 @@
+
 import 'package:dio/dio.dart';
 import 'package:bloc_app_demo/core/api/rest_client.dart';
 import 'package:bloc_app_demo/core/constants/api_constants.dart';
@@ -11,11 +12,13 @@ import 'package:bloc_app_demo/data/data_sources/product_remote_data_source.dart'
 import 'package:bloc_app_demo/data/data_sources/product_local_data_source.dart';
 import 'package:bloc_app_demo/data/repositories/product_repository_impl.dart';
 import 'package:bloc_app_demo/data/repositories/auth_repository_impl.dart';
+import 'package:bloc_app_demo/data/repositories/order_repository_impl.dart';
 
 class Injection {
   late final ProductRepositoryImpl productRepository;
   late final CartRepositoryImpl cartRepository;
   late final AuthRepositoryImpl authRepository;
+  late final OrderRepositoryImpl orderRepository;
 
   Future<void> init() async {
     // Hive
@@ -46,6 +49,7 @@ class Injection {
       remoteDataSource: cartRemoteDataSource,
     );
     authRepository = AuthRepositoryImpl();
+    orderRepository = OrderRepositoryImpl(restClient: restClient);
     
   }
 }

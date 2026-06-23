@@ -33,4 +33,10 @@ final class CartError extends CartState {
   List<Object?> get props => [message];
 }
 
-final class CartRequireAuth extends CartState {}
+final class CartRequireAuth extends CartState {
+  final int timestamp;
+  const CartRequireAuth(this.timestamp);
+
+  @override
+  List<Object?> get props => [timestamp];
+}

@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bloc_app_demo/features/home/bloc/home_bloc.dart';
 import 'package:bloc_app_demo/features/cart/bloc/cart_bloc.dart';
 import 'package:bloc_app_demo/domain/entities/cart_item.dart';
-
+import 'package:go_router/go_router.dart';
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
@@ -19,10 +19,16 @@ class HomeScreen extends StatelessWidget {
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
           ),
         ),
-        body:  SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+        body:  BlocListener<CartBloc, CartState>(
+          listener: (context, state) {
+            if (state is CartRequireAuth) {
+              _showLoginRequiredDialog(context);
+            }
+          },
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
               // Banner Section
                Container(
                 height: 500, 
@@ -214,15 +220,6 @@ class HomeScreen extends StatelessWidget {
                                               );
                                              
                                               context.read<CartBloc>().add(AddToCartEvent(item));
-                                              
-                                              
-                                              ScaffoldMessenger.of(context).showSnackBar(
-                                                SnackBar(
-                                                  content: Text('Đã thêm ${product.name} vào giỏ!'),
-                                                  duration: const Duration(seconds: 1),
-                                                  backgroundColor: Colors.green.shade700,
-                                                ),
-                                              );
                                             },
                                             child: Container(
                                               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -264,7 +261,34 @@ class HomeScreen extends StatelessWidget {
             ],
           ),
         ),
-        
+      ),
+    );
+  }
+
+  void _showLoginRequiredDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        return AlertDialog(
+          title: const Text('Yêu cầu Đăng nhập', style: TextStyle(fontWeight: FontWeight.bold)),
+          content: const Text('Bạn cần phải đăng nhập để thêm sản phẩm vào giỏ hàng.'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(dialogContext),
+              child: const Text('HỦY', style: TextStyle(color: Colors.grey)),
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+              onPressed: () {
+                Navigator.pop(dialogContext); // Đóng Dialog
+                // Điều hướng sang Tab PROFILE (Index 3 của StatefulNavigationShell)
+                StatefulNavigationShell.of(context).goBranch(3);
+              },
+              child: const Text('ĐĂNG NHẬP NGAY', style: TextStyle(color: Colors.white)),
+            ),
+          ],
         );
+      },
+    );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:bloc_app_demo/features/order/view/order_history_screen.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bloc_app_demo/features/auth/view/profile_screen.dart';
 import 'package:bloc_app_demo/features/home/views/main_screen.dart';
@@ -39,6 +40,9 @@ class AppRouter {
               routes: [
                 GoRoute(path: '/profile',
                 builder: (context,state) => const ProfileScreen(),
+                ),
+                GoRoute(path: '/orders',
+                builder: (context, state) => const OrderHistoryScreen(),
                 )
               ]
               )

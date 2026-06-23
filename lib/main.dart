@@ -8,6 +8,8 @@ import 'package:bloc_app_demo/core/router/app_router.dart';
 import 'package:bloc_app_demo/features/cart/bloc/cart_bloc.dart';
 import 'package:bloc_app_demo/features/search/bloc/search_bloc.dart';
 import 'package:bloc_app_demo/features/auth/bloc/auth_bloc.dart';
+import 'package:bloc_app_demo/features/order/bloc/order_bloc.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -33,7 +35,7 @@ class MyApp extends StatelessWidget {
           create: (context) => HomeBloc(injection.productRepository)..add(LoadHomeDataEvent()),
         ),
         BlocProvider<CartBloc>(
-          create: (context) => CartBloc(injection.cartRepository,injection.authRepository)..add(LoadCartEvent()),
+          create: (context) => CartBloc(injection.cartRepository,injection.authRepository, injection.orderRepository)..add(LoadCartEvent()),
         ),
         BlocProvider<SearchBloc>(
           create: (context) => SearchBloc(repository: injection.productRepository),
@@ -41,6 +43,9 @@ class MyApp extends StatelessWidget {
         BlocProvider<AuthBloc>(
           create: (context) => AuthBloc(authRepository: injection.authRepository),
         ),
+        BlocProvider(
+          create: (context) => OrderBloc(orderRepository: injection.orderRepository),
+        )
       ],
       child: MaterialApp.router(
         title: 'BLoC App Demo',

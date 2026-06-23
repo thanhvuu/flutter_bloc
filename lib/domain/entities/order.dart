@@ -18,5 +18,6 @@ class AppOrder extends Equatable {
     required this.createdAt,
   });
 
+  @override
   List<Object?> get props => [id,userId, items, totalAmount,status, createdAt];
 }
