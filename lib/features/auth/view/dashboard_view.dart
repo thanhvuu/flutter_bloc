@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bloc_app_demo/domain/entities/user.dart';
 import 'package:bloc_app_demo/features/auth/bloc/auth_bloc.dart';
 import 'package:bloc_app_demo/features/order/bloc/order_bloc.dart';
+import 'package:bloc_app_demo/core/utils/order_formatter.dart';
 
 class DashboardView extends StatefulWidget {
   final User user;
@@ -148,8 +149,8 @@ class _DashboardViewState extends State<DashboardView> {
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: ListTile(
-                          title: Text('Đơn hàng #${order.id.substring(0, 8).toUpperCase()}', style: const TextStyle(fontWeight: FontWeight.bold)),
-                          subtitle: Text('Ngày đặt: $dateStr'),
+                          title: Text('Đơn hàng ${order.displayId}', style: const TextStyle(fontWeight: FontWeight.bold)),
+                          subtitle: Text('Ngày đặt: ${order.displayDate}'),
                           trailing: Text(
                             '\$${total.toStringAsFixed(2)}',
                             style: const TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
