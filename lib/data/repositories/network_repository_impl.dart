@@ -10,13 +10,13 @@ class NetworkRepositoryImpl implements NetworkRepository {
       @override  
       Future<bool> checkConnection() async {
         final result = await _connectivity.checkConnectivity();
-        return result != ConnectivityResult.none;
+        return result == ConnectivityResult.none;
       }
 
       @override  
       Stream<bool> get isConnectedStream {
         return _connectivity.onConnectivityChanged.map((result) {
-          return result != ConnectivityResult.none;
+          return result == ConnectivityResult.none;
         });
       }
 }
