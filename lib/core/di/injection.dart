@@ -13,12 +13,14 @@ import 'package:bloc_app_demo/data/data_sources/product_local_data_source.dart';
 import 'package:bloc_app_demo/data/repositories/product_repository_impl.dart';
 import 'package:bloc_app_demo/data/repositories/auth_repository_impl.dart';
 import 'package:bloc_app_demo/data/repositories/order_repository_impl.dart';
+import 'package:bloc_app_demo/data/repositories/network_repository_impl.dart';
 
 class Injection {
   late final ProductRepositoryImpl productRepository;
   late final CartRepositoryImpl cartRepository;
   late final AuthRepositoryImpl authRepository;
   late final OrderRepositoryImpl orderRepository;
+  late final NetworkRepositoryImpl networkRepository;
 
   Future<void> init() async {
     // Hive
@@ -50,6 +52,7 @@ class Injection {
     );
     authRepository = AuthRepositoryImpl();
     orderRepository = OrderRepositoryImpl(restClient: restClient);
+    networkRepository = NetworkRepositoryImpl();
     
   }
 }

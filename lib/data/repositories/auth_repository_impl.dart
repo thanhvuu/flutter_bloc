@@ -12,7 +12,17 @@ class AuthRepositoryImpl implements AuthRepository {
     Future<User?> _mapFirebaseUserToEntity(firebase_auth.User? firebaseUser) async {
     if(firebaseUser == null) return null;
 
-    final doc = await _firestore.collection('user').doc(firebaseUser.uid).get();
+    DocumentSnapshot<Map<String, dynamic>> doc;
+
+    try{
+      doc = await _firestore.collection('user').doc(firebaseUser.uid).get(
+        const GetOptions(source: Source.cache),
+      );
+    } catch (_) {
+      doc = await _firestore.collection('user').doc(firebaseUser.uid).get(
+        const GetOptions(source: Source.server),
+      );
+    }
 
     if(doc.exists) {
       // Gắn thêm id vào Map data vì Firebase thường không lưu id ở trong document field

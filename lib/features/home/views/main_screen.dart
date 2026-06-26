@@ -1,5 +1,8 @@
+import 'package:bloc_app_demo/features/cart/bloc/cart_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+
 
 class MainScreen extends StatelessWidget {
   final StatefulNavigationShell navigationShell;
@@ -28,11 +31,24 @@ class MainScreen extends StatelessWidget {
             initialLocation: index == navigationShell.currentIndex,
           );
         },
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: 'HOME'),
-          BottomNavigationBarItem(icon: Icon(Icons.search),label: 'SHOP'),
-          BottomNavigationBarItem(icon: Icon(Icons.shopping_bag), label: 'CART'),
-          BottomNavigationBarItem(icon: Icon(Icons.person_outline), label: 'PROFILE'),
+        items:  [
+          const BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: 'HOME'),
+          const BottomNavigationBarItem(icon: Icon(Icons.search),label: 'SHOP'),
+          BottomNavigationBarItem(
+            icon: BlocSelector<CartBloc, CartState, int>(
+              selector: (state) => (state is CartLoaded) ? state.items.length : 0 ,
+              builder: (context, count) {
+                return Badge(
+                  label: Text('$count'),
+                  isLabelVisible: count > 0,
+                  backgroundColor: Colors.red,
+                  child: const Icon(Icons.shopping_bag)
+                );
+              },
+            ),
+            label: 'Cart',
+          ),
+          const BottomNavigationBarItem(icon: Icon(Icons.person_outline), label: 'PROFILE'),
         ]
       )
     );

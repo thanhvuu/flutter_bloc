@@ -12,10 +12,10 @@ class ProfileScreen extends StatelessWidget {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
         if (state is Authenticated) {
-          // dã đăng nhậpvà hiển thị màn hình Dashboard cá nhân
+          
           return DashboardView(user: state.user);
-        } else if (state is AuthLoading) {
-          // dang xử lý hiển thị màn hình chờ xoay tròn màu đỏ
+        } else if (state is AuthLoading || state is AuthInitial) {
+          
           return const Scaffold(
             backgroundColor: Colors.black,
             body: Center(
@@ -23,7 +23,7 @@ class ProfileScreen extends StatelessWidget {
             ),
           );
         } else {
-          // chưa đăng nhập nên hiển thị Form Đăng nhập & Đăng ký
+          
           return const LoginView();
         }
       },

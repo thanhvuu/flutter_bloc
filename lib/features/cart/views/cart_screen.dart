@@ -37,11 +37,14 @@ class _CartScreenState extends State<CartScreen> {
               Positioned(
                 top: 8,
                 right: 8,
-                child: BlocBuilder<CartBloc, CartState>(
-                  builder: (context, state) {
-                    int cartCount = 0;
-                    if (state is CartLoaded) cartCount = state.items.length;
-                    
+                child: BlocSelector<CartBloc, CartState, int>(
+                  selector: (state) {
+                    if (state is CartLoaded) {
+                      return state.items.length;
+                    }
+                    return 0;
+                  },
+                  builder: (context, cartCount) {
                     if (cartCount == 0) return const SizedBox();
                     return Container(
                       padding: const EdgeInsets.all(4),
@@ -51,7 +54,11 @@ class _CartScreenState extends State<CartScreen> {
                       ),
                       child: Text(
                         '$cartCount',
-                        style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold),
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     );
                   },

@@ -9,7 +9,8 @@ import 'package:bloc_app_demo/features/cart/bloc/cart_bloc.dart';
 import 'package:bloc_app_demo/features/search/bloc/search_bloc.dart';
 import 'package:bloc_app_demo/features/auth/bloc/auth_bloc.dart';
 import 'package:bloc_app_demo/features/order/bloc/order_bloc.dart';
-
+import 'package:bloc_app_demo/features/network/bloc/network_bloc.dart';
+import 'package:bloc_app_demo/features/network/view/no_network_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -43,9 +44,12 @@ class MyApp extends StatelessWidget {
         BlocProvider<AuthBloc>(
           create: (context) => AuthBloc(authRepository: injection.authRepository),
         ),
-        BlocProvider(
+        BlocProvider<OrderBloc>(
           create: (context) => OrderBloc(orderRepository: injection.orderRepository),
-        )
+        ),
+        BlocProvider<NetworkBloc>(
+          create: (context) => NetworkBloc(networkRepository: injection.networkRepository)..add(NetworkObserve()),
+        ),
       ],
       child: MaterialApp.router(
         title: 'BLoC App Demo',
@@ -58,6 +62,24 @@ class MyApp extends StatelessWidget {
           },
         ),
         routerConfig: AppRouter.router,
+
+        builder: (context, child) {
+          // Thay BlocListener thành BlocBuilder
+          return BlocBuilder<NetworkBloc, NetworkState>(
+            builder: (context, state) {
+              return Stack(
+                children: [
+                  // Lớp dưới cùng: Giao diện app bình thường
+                  child!, 
+                  
+                  // Lớp trên cùng: Nếu BLoC báo mất mạng thì hiện Overlay trùm lên
+                  if (state is NetworkFailure)
+                    const NoNetworkOverlay(),
+                ],
+              );
+            },
+          );
+        },
       ),
     );
   }
