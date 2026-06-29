@@ -7,7 +7,7 @@ import 'package:bloc_app_demo/domain/entities/cart_item.dart';
 import 'package:go_router/go_router.dart';
 
 class ShopScreen extends StatefulWidget {
-  const ShopScreen({Key? key}) : super(key: key);
+  const ShopScreen({super.key});
 
   @override
   State<ShopScreen> createState() => _ShopScreenState();
@@ -118,9 +118,11 @@ class _ShopScreenState extends State<ShopScreen> {
                 itemBuilder: (context, index) {
                   final Product product = products[index];
                   
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+                  return GestureDetector(
+                    onTap: () => context.push('/product_detail', extra: product),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
                       Expanded(
                         child: Container(
                           color: Colors.grey.shade200,
@@ -162,6 +164,7 @@ class _ShopScreenState extends State<ShopScreen> {
                         ],
                       ),
                     ],
+                  ),
                   );
                 },
               );

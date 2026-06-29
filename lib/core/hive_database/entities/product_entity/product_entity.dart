@@ -6,8 +6,7 @@ part 'product_entity.g.dart';
 @HiveType(typeId: 0)
 
 class ProductEntity extends BaseEntity {
-  @HiveField(0)
-  final String id;
+  
 
   @HiveField(1)
   final String name;
@@ -29,14 +28,14 @@ class ProductEntity extends BaseEntity {
   final String category;
 
   ProductEntity({
-    required this.id,
+    required String id,
     required this.name,
     required this.description,
     required this.price,
     required this.imageUrl,
     required this.createdAt,
     required this.category,
-  });
+  }) : super(id: id);
 
   
 }

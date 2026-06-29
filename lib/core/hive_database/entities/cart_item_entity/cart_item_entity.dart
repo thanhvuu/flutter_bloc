@@ -6,9 +6,7 @@ part 'cart_item_entity.g.dart';
 
 @HiveType(typeId: 1)
 class CartItemEntity extends BaseEntity {
-  @HiveField(0)
-  @override
-  final String id;
+ 
 
   @HiveField(1)
   final ProductEntity product;
@@ -17,8 +15,8 @@ class CartItemEntity extends BaseEntity {
   final int quantity;
 
   CartItemEntity({
-    required this.id,
+    required String id,
     required this.product,
     required this.quantity,
-  });
+  }) : super(id: id);
 }

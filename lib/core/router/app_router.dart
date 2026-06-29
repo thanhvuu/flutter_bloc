@@ -5,6 +5,8 @@ import 'package:bloc_app_demo/features/home/views/main_screen.dart';
 import 'package:bloc_app_demo/features/home/views/home_screen.dart';
 import 'package:bloc_app_demo/features/cart/views/cart_screen.dart';
 import 'package:bloc_app_demo/features/search/view/shop_screen.dart';
+import 'package:bloc_app_demo/domain/entities/product.dart';
+import 'package:bloc_app_demo/features/product/views/product_detail_screen.dart';
 
 class AppRouter {
   static final router = GoRouter(
@@ -47,7 +49,14 @@ class AppRouter {
               ]
               )
         ]
-      )
+      ),
+      GoRoute(
+        path: '/product_detail',
+        builder: (context, state) {
+          final product = state.extra as Product;
+          return ProductDetailScreen(product: product);
+        },
+      ),
     ]
   );
 }

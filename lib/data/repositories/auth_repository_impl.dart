@@ -1,3 +1,4 @@
+
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:bloc_app_demo/domain/entities/user.dart';
@@ -8,6 +9,7 @@ class AuthRepositoryImpl implements AuthRepository {
   
   final firebase_auth.FirebaseAuth _firebaseAuth = firebase_auth.FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  
 
     Future<User?> _mapFirebaseUserToEntity(firebase_auth.User? firebaseUser) async {
     if(firebaseUser == null) return null;
@@ -42,6 +44,9 @@ class AuthRepositoryImpl implements AuthRepository {
       return model.toEntity();
     }
   }
+
+
+
   @override  
   Future<User?> login(String email, String password) async {
     try {

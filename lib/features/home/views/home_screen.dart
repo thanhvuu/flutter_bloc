@@ -157,11 +157,13 @@ class HomeScreen extends StatelessWidget {
                         itemBuilder: (context, index) {
                           final product = products[index];
 
-                          return Container(
-                            width: 200,
-                            margin: const EdgeInsets.symmetric(horizontal: 10),
-                            color: const Color(0xFF1A1A1A),
-                            child: Column(
+                          return GestureDetector(
+                            onTap: () => context.push('/product_detail', extra: product),
+                            child: Container(
+                              width: 200,
+                              margin: const EdgeInsets.symmetric(horizontal: 10),
+                              color: const Color(0xFF1A1A1A),
+                              child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Stack(
@@ -228,7 +230,7 @@ class HomeScreen extends StatelessWidget {
                                                 borderRadius: BorderRadius.circular(4),
                                               ),
                                               child: const Row(
-                                                children: const [
+                                                children: [
                                                   Icon(Icons.add_shopping_cart, color: Colors.white, size: 14),
                                                   SizedBox(width: 4),
                                                   Text('ADD', style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold)),
@@ -244,6 +246,7 @@ class HomeScreen extends StatelessWidget {
                                 )
                               ],
                             ),
+                          ),
                           );
                         },
                       ),

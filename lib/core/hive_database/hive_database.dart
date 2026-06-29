@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:bloc_app_demo/core/hive_database/entities/base_entity/base_entity.dart';
 import 'package:bloc_app_demo/core/hive_database/hive_constants.dart';

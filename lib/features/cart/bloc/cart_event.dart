@@ -41,5 +41,6 @@ final class CheckoutCartEvent extends CartEvent {
   final double totalAmount;
   const CheckoutCartEvent(this.items, this.totalAmount);
 
+  @override   
   List<Object?> get props => [items, totalAmount];
 }
