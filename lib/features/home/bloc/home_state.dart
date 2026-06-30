@@ -12,10 +12,15 @@ final class HomeLoading extends HomeState {}
 
 final class HomeLoaded extends HomeState {
   final List<Product> products; 
-  const HomeLoaded(this.products);
+  final String selectedCategory;
+
+
+  const HomeLoaded({required this.products,
+  this.selectedCategory = 'ALL',
+  });
 
   @override  
-  List<Object?> get props => [products];
+  List<Object?> get props => [products, selectedCategory];
 }
 
 final class HomeError extends HomeState {

@@ -1,0 +1,10 @@
+{
+  "profile": {
+    "title": "Cài đặt cá nhân",
+    "personal_info": "Thông tin cá nhân",
+    "address": "Địa chỉ của tôi",
+    "language": "Ngôn ngữ",
+    "english": "Tiếng Anh",
+    "vietnamese": "Tiếng Việt"
+  }
+}

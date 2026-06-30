@@ -9,6 +9,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final List<String> categories = ['ALL', 'Footwear', 'Apparel', 'Nike', 'Adidas'];
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.black,
@@ -104,10 +105,61 @@ class HomeScreen extends StatelessWidget {
                   ],
                 ),
               ),
-                            
-              const SizedBox(height: 30), 
+                
+                const SizedBox(height: 30),
 
-              
+                BlocBuilder<HomeBloc, HomeState>(
+                  builder: (context, state) {
+                    String currentCategory = 'ALL';
+                    if (state is HomeLoaded) {
+                      currentCategory = state.selectedCategory;
+                    }
+
+                    return SizedBox(
+                      height: 35,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        itemCount: categories.length,
+                        itemBuilder: (context,index) {
+                          final category = categories[index];
+                          final bool isSelected = category == currentCategory;
+
+                          return GestureDetector(
+                            onTap: () {
+                              context.read<HomeBloc>().add(ChangeCategoryEvent(category));
+                            },
+
+                            child: Container (
+                              margin: const EdgeInsets.symmetric(horizontal: 5),
+                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                              decoration: BoxDecoration (
+                                color: isSelected ? Colors.red : Colors.transparent,
+                                borderRadius: BorderRadius.circular(20),
+                                border: Border.all(
+                                  color: isSelected ? Colors.red : Colors.grey.shade800,
+                                ),
+                              ),
+                              child: Center (
+                                child: Text(category,
+                                style: TextStyle(
+                                  color: isSelected ? Colors.white : Colors.grey,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                )),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  }
+                  ),
+
+                  
+
+                            
+              const SizedBox(height: 20), 
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
@@ -147,6 +199,9 @@ class HomeScreen extends StatelessWidget {
                   
                   if (state is HomeLoaded) {
                     final products = state.products; 
+                    
+
+                    
 
                     return SizedBox(
                       height: 280,

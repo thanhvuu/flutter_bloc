@@ -9,3 +9,12 @@ sealed class HomeEvent extends Equatable {
 }
 
 final class LoadHomeDataEvent extends HomeEvent {}
+
+final class ChangeCategoryEvent extends HomeEvent {
+  final String category;
+
+  const ChangeCategoryEvent(this.category);
+
+  @override
+  List<Object?> get props => [category];
+}

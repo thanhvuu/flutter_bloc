@@ -1,0 +1,10 @@
+{
+  "profile": {
+    "title": "Profile Settings",
+    "personal_info": "Personal Information",
+    "address": "My Address",
+    "language": "Language",
+    "english": "English",
+    "vietnamese": "Vietnamese"
+  }
+}

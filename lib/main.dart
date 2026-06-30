@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/gestures.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:bloc_app_demo/core/di/injection.dart';
 import 'package:bloc_app_demo/features/home/bloc/home_bloc.dart';
 import 'package:bloc_app_demo/core/router/app_router.dart';
@@ -15,12 +16,15 @@ import 'package:bloc_app_demo/features/network/view/no_network_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  await EasyLocalization.ensureInitialized();
+
   await Firebase.initializeApp();
 
   final injection = Injection();
   await injection.init();
 
-  runApp(MyApp(injection: injection));
+  runApp(
+    MyApp(injection: injection));
 }
 
 
@@ -52,6 +56,13 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp.router(
+
+        localizationsDelegates: context.localizationDelegates,
+        supportedLocales: context.supportedLocales,
+        locale: context.locale,
+
+
+
         title: 'BLoC App Demo',
         scrollBehavior: const MaterialScrollBehavior().copyWith(
           dragDevices: {

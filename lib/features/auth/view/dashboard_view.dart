@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:bloc_app_demo/domain/entities/user.dart';
 import 'package:bloc_app_demo/features/auth/bloc/auth_bloc.dart';
 import 'package:bloc_app_demo/features/order/bloc/order_bloc.dart';
@@ -25,7 +26,7 @@ class _DashboardViewState extends State<DashboardView> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('TÀI KHOẢN CỦA TÔI', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 16)),
+        title: Text('profile.title'.tr(), style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 16)),
         backgroundColor: Colors.white,
         elevation: 0.5,
         actions: [
@@ -81,6 +82,17 @@ class _DashboardViewState extends State<DashboardView> {
                     _buildInfoRow(Icons.phone_android, 'Số điện thoại', widget.user.phone),
                     const SizedBox(height: 12),
                     _buildInfoRow(Icons.location_on_outlined, 'Địa chỉ mặc định', widget.user.address),
+
+                    const SizedBox(height: 12),
+                    InkWell(
+                      onTap: () => _showLanguageBottomSheet(context),
+                      child: _buildInfoRow(
+                        Icons.language,
+                        'profile.language'.tr(),
+                        context.locale.languageCode == 'vi' ? 'profile.vietnamese'.tr() : 'profile.english'.tr(),
+
+                      ),
+                    )
                   ],
                 ),
               ),
@@ -189,4 +201,42 @@ class _DashboardViewState extends State<DashboardView> {
       ],
     );
   }
+}
+
+void _showLanguageBottomSheet(BuildContext context) {
+  showModalBottomSheet(
+    context: context,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+    ),
+    builder: (bottomSheetContext) {
+      return SafeArea(
+        child: Column (
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Text('Chọn ngôn ngữ',style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            ),
+            ListTile(
+              title: const Text('profile.english').tr(),
+              trailing: context.locale.languageCode == 'en' ? const Icon(Icons.check, color: Colors.red) : null,
+              onTap: () {
+                context.setLocale(const Locale('en', 'US'));
+                Navigator.pop(bottomSheetContext);
+              },
+            ),
+            ListTile(
+              title: const Text('profile.vietnamese').tr(),
+              trailing: context.locale.languageCode == 'vi' ? const Icon(Icons.check, color: Colors.red) : null,
+              onTap: () {
+                context.setLocale(const Locale('vi','VN'));
+                Navigator.pop(bottomSheetContext);
+              },
+            )
+          ],
+        )
+      );
+    }
+  );
 }
