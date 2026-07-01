@@ -24,7 +24,13 @@ void main() async {
   await injection.init();
 
   runApp(
-    MyApp(injection: injection));
+    EasyLocalization(
+      supportedLocales: const [Locale('en', 'US'), Locale('vi', 'VN')],
+      path: 'assets/translations',
+      fallbackLocale: const Locale('vi', 'VN'),
+      child: MyApp(injection: injection),
+    ),
+  );
 }
 
 
@@ -81,7 +87,7 @@ class MyApp extends StatelessWidget {
               return Stack(
                 children: [
                   // Lớp dưới cùng: Giao diện app bình thường
-                  child!, 
+                  child ?? const SizedBox.shrink(), 
                   
                   // Lớp trên cùng: Nếu BLoC báo mất mạng thì hiện Overlay trùm lên
                   if (state is NetworkFailure)

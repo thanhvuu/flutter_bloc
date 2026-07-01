@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:bloc_app_demo/features/cart/bloc/cart_bloc.dart';
 
 class CartScreen extends StatefulWidget {
@@ -19,6 +20,7 @@ class _CartScreenState extends State<CartScreen> {
 
   @override
   Widget build(BuildContext context) {
+    context.locale;
     return Scaffold(
       backgroundColor: const Color(0xFFF5F5F5), // Màu nền xám nhạt sang trọng
       appBar: AppBar(
@@ -82,10 +84,10 @@ class _CartScreenState extends State<CartScreen> {
             final items = state.items;
             
             if (items.isEmpty) {
-              return const Center(
+              return  Center(
                 child: Text(
-                  "YOUR CART IS EMPTY", 
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.grey)
+                  'cart.empty'.tr(), 
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.grey)
                 ),
               );
             }
@@ -97,7 +99,7 @@ class _CartScreenState extends State<CartScreen> {
                 children: [
                   // TIÊU ĐỀ YOUR CART
                   Text(
-                    'YOUR CART (${items.length})',
+                    'cart.title'.tr(namedArgs: {'count': items.length.toString()}),
                     style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w900, letterSpacing: 1.2),
                   ),
                   Container(
@@ -166,7 +168,7 @@ class _CartScreenState extends State<CartScreen> {
                                   ),
                                   const SizedBox(height: 4),
                                   // Màu sắc và size đang để tĩnh vì API Product gốc chưa có 2 trường này
-                                  const Text('COLOR: BLACK / WHITE\nSIZE: L', style: TextStyle(color: Colors.grey, fontSize: 10)),
+                                  Text('cart.color_size'.tr(), style: const TextStyle(color: Colors.grey, fontSize: 10)),
                                   const SizedBox(height: 12),
                                   
                                   // NÚT TĂNG GIẢM VÀ NÚT XÓA
@@ -216,17 +218,17 @@ class _CartScreenState extends State<CartScreen> {
                                             onTap: () {
                                               context.read<CartBloc>().add(RemoveFromCartEvent(item.id));
                                             },
-                                            child: const Row(
+                                            child:  Row(
                                               children:  [
-                                                Icon(Icons.delete_outline, size: 16, color: Colors.grey),
-                                                SizedBox(width: 4),
-                                                Text('REMOVE', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold)),
+                                                const Icon(Icons.delete_outline, size: 16, color: Colors.grey),
+                                                const SizedBox(width: 4),
+                                                Text('cart.remove'.tr(), style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold)),
                                               ],
                                             ),
                                           )
                                         ],
                                       )
-                                      ),
+                                      ), 
                                      
                                     ],
                                   )
@@ -250,13 +252,13 @@ class _CartScreenState extends State<CartScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text('ORDER SUMMARY', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16)),
+                        Text('cart.order_summary'.tr(), style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 16)),
                         const SizedBox(height: 16),
-                        _buildSummaryRow('SUBTOTAL', '\$${state.totalAmount.toStringAsFixed(2)}'),
+                        _buildSummaryRow('cart.subtotal'.tr(), '\$${state.totalAmount.toStringAsFixed(2)}'),
                         const SizedBox(height: 8),
-                        _buildSummaryRow('ESTIMATED SHIPPING', '\$12.00'), // Phí ship cố định
+                        _buildSummaryRow('cart.shipping'.tr(), '\$12.00'), // Phí ship cố định
                         const SizedBox(height: 8),
-                        _buildSummaryRow('ESTIMATED TAX', '\$22.24'), // Thuế cố định
+                        _buildSummaryRow('cart.tax'.tr(), '\$22.24'), // Thuế cố định
                         const Padding(
                           padding: EdgeInsets.symmetric(vertical: 16),
                           child: Divider(color: Colors.grey),
@@ -264,23 +266,23 @@ class _CartScreenState extends State<CartScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text('TOTAL', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 20)),
+                            Text('cart.total'.tr(), style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 20)),
                             // Cộng dồn Tiền giày + Ship + Thuế
                             Text('\$${(state.totalAmount + 12.00 + 22.24).toStringAsFixed(2)}', style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 24, color: Colors.red)),
                           ],
                         ),
                         const SizedBox(height: 20),
-                        const Text('PROMO CODE', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold)),
+                        Text('cart.promo_code'.tr(), style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold)),
                         const SizedBox(height: 8),
                         Row(
                           children: [
-                            const Expanded(
+                             Expanded(
                               child: TextField(
                                 decoration: InputDecoration(
-                                  hintText: 'ENTER CODE',
-                                  hintStyle: TextStyle(fontSize: 12),
-                                  border: OutlineInputBorder(borderRadius: BorderRadius.zero),
-                                  contentPadding: EdgeInsets.symmetric(horizontal: 12),
+                                  hintText: 'cart.enter_code'.tr(),
+                                  hintStyle: const TextStyle(fontSize: 12),
+                                  border: const OutlineInputBorder(borderRadius: BorderRadius.zero),
+                                  contentPadding: const EdgeInsets.symmetric(horizontal: 12),
                                 ),
                               ),
                             ),
@@ -289,7 +291,7 @@ class _CartScreenState extends State<CartScreen> {
                               color: Colors.black,
                               child: TextButton(
                                 onPressed: () {},
-                                child: const Text('APPLY', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                                child: Text('cart.apply'.tr(), style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
                               ),
                             )
                           ],
@@ -308,21 +310,21 @@ class _CartScreenState extends State<CartScreen> {
                               context.read<CartBloc>().add(
                                 CheckoutCartEvent(state.items, state.totalAmount + 12.00 + 22.24));
                             },
-                            child:const Row(
+                            child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children:  [
-                                Text('PROCEED TO CHECKOUT', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-                                SizedBox(width: 8),
-                                Icon(Icons.arrow_forward, color: Colors.white, size: 20),
+                                Text('cart.checkout'.tr(), style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                                const SizedBox(width: 8),
+                                const Icon(Icons.arrow_forward, color: Colors.white, size: 20),
                               ],
                             ),
                           ),
                         ),
                         const SizedBox(height: 16),
-                        const Text(
-                          'BY CHECKING OUT, YOU AGREE TO OUR TERMS OF USE AND PRIVACY POLICY. FREE RETURNS ON ALL ELITE MEMBERSHIP ORDERS.',
+                        Text(
+                          'cart.terms'.tr(),
                           textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 8, color: Colors.grey),
+                          style: const TextStyle(fontSize: 8, color: Colors.grey),
                         ),
                         const SizedBox(height: 16),
                         const Row(

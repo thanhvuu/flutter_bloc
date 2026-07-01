@@ -2,9 +2,83 @@
   "profile": {
     "title": "Cài đặt cá nhân",
     "personal_info": "Thông tin cá nhân",
+    "phone": "Số điện thoại",
     "address": "Địa chỉ của tôi",
     "language": "Ngôn ngữ",
+    "order_history": "LỊCH SỬ ĐƠN HÀNG",
+    "no_order_history": "Bạn chưa có đơn hàng nào.",
+    "order": "Đơn hàng {id}",
+    "order_date": "Ngày đặt hàng: {date}",
     "english": "Tiếng Anh",
     "vietnamese": "Tiếng Việt"
+  },
+
+  "navbar": {
+    "home": "Trang chủ",
+    "search": "Tìm kiếm",
+    "cart": "Giỏ hàng",
+    "profile": "Cá nhân"
+  },
+
+  "home": {
+    "banner": "KHAI PHÁ\nTIỀM NĂNG CỦA BẠN",
+    "short_desc": "Kỹ nghệ dành cho những người dẫn đầu. Khám phá\nbộ sưu tập phá vỡ mọi giới hạn và định nghĩa lại hiệu suất.",
+    "shop_now": "Mua ngay",
+    "view_collection": "Xem bộ sưu tập",
+    "all": "Tất cả",
+    "footwear": "Giày dép",
+    "apparel": "Quần áo",
+    "new_arrivals": "Hàng mới về",
+    "see_all": "Xem tất cả",
+    "add_to_cart": "Thêm"
+  },
+  "search": {
+    "hint": "Tìm kiếm thiết bị, đồ thể thao...",
+    "initial": "Nhập tên sản phẩm để tìm kiếm",
+    "empty": "Không tìm thấy sản phẩm nào!",
+    "login_required_title": "Yêu cầu Đăng nhập",
+    "login_required_content": "Bạn cần phải đăng nhập để thêm sản phẩm vào giỏ hàng."
+  },
+  "cart": {
+    "empty": "GIỎ HÀNG CỦA BẠN ĐANG TRỐNG",
+    "title": "GIỎ HÀNG ({count})",
+    "color_size": "MÀU: ĐEN / TRẮNG\nKÍCH CỠ: L",
+    "remove": "XÓA",
+    "order_summary": "TỔNG KẾT ĐƠN HÀNG",
+    "subtotal": "TẠM TÍNH",
+    "shipping": "PHÍ GIAO HÀNG",
+    "tax": "THUẾ DỰ KIẾN",
+    "total": "TỔNG CỘNG",
+    "promo_code": "MÃ KHUYẾN MÃI",
+    "enter_code": "NHẬP MÃ",
+    "apply": "ÁP DỤNG",
+    "checkout": "TIẾN HÀNH THANH TOÁN",
+    "terms": "BẰNG VIỆC THANH TOÁN, BẠN ĐỒNG Ý VỚI CÁC ĐIỀU KHOẢN SỬ DỤNG VÀ CHÍNH SÁCH BẢO MẬT CỦA CHÚNG TÔI. MIỄN PHÍ ĐỔI TRẢ CHO MỌI ĐƠN HÀNG ELITE."
+  },
+  "product_detail": {
+    "select_color": "CHỌN MÀU SẮC",
+    "select_size": "CHỌN KÍCH CỠ",
+    "size_guide": "HƯỚNG DẪN CHỌN SIZE",
+    "add_to_cart": "THÊM VÀO GIỎ",
+    "buy_now": "MUA NGAY",
+    "express_shipping": "GIAO HÀNG TỐC ĐỘ CAO MIỄN PHÍ",
+    "returns": "DÙNG THỬ & ĐỔI TRẢ 30 NGÀY CHO THÀNH VIÊN ELITE",
+    "performance": "THIẾT KẾ CHO HIỆU SUẤT TỐI ĐA",
+    "key_features": "TÍNH NĂNG NỔI BẬT",
+    "feature_1": "Tấm đẩy sợi carbon giúp hoàn trả năng lượng tối đa",
+    "feature_2": "Vùng thông gió cắt laser ở các khu vực tỏa nhiệt cao",
+    "feature_3": "Trọng lượng: 6.8oz (Size 10 Nam)",
+    "tech_specs": "THÔNG SỐ KỸ THUẬT",
+    "offset": "Độ dốc (Offset)",
+    "surface": "Bề mặt",
+    "road_track": "Đường nhựa / Đường chạy",
+    "support": "Độ hỗ trợ",
+    "neutral": "Trung tính",
+    "promo_1": "BỨT PHÁ\nCHUẨN XÁC",
+    "promo_2": "CHUẨN MỰC MỚI CỦA TỐC ĐỘ"
+  },
+  "common": {
+    "cancel": "HỦY",
+    "login_now": "ĐĂNG NHẬP NGAY"
   }
 }

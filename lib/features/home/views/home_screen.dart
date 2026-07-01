@@ -1,14 +1,20 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bloc_app_demo/features/home/bloc/home_bloc.dart';
 import 'package:bloc_app_demo/features/cart/bloc/cart_bloc.dart';
 import 'package:bloc_app_demo/domain/entities/cart_item.dart';
 import 'package:go_router/go_router.dart';
+
+
+
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    context.locale;
+
     final List<String> categories = ['ALL', 'Footwear', 'Apparel', 'Nike', 'Adidas'];
     return Scaffold(
         appBar: AppBar(
@@ -24,7 +30,7 @@ class HomeScreen extends StatelessWidget {
           listener: (context, state) {
             if (state is CartRequireAuth) {
               _showLoginRequiredDialog(context);
-            }
+            } 
           },
           child: SingleChildScrollView(
             child: Column(
@@ -50,9 +56,9 @@ class HomeScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     
-                    const Text(
-                      'UNLEASH YOUR\nPOTENTIAL',
-                      style: TextStyle(
+                     Text(
+                      'home.banner'.tr(),
+                      style: const TextStyle(
                         color: Colors.red,
                         fontSize: 32,
                         fontWeight: FontWeight.w900,
@@ -62,9 +68,9 @@ class HomeScreen extends StatelessWidget {
                     const SizedBox(height: 12),
                     
                     
-                    const Text(
-                      'Engineered for the elite. Discover the\ncollection designed to push boundaries and\nredefine performance.',
-                      style: TextStyle(
+                     Text(
+                      'home.short_desc'.tr(),
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 14,
                       ),
@@ -84,7 +90,7 @@ class HomeScreen extends StatelessWidget {
                             shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero), 
                             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                           ),
-                          child: const Text('SHOP NOW', style: TextStyle(fontWeight: FontWeight.bold)),
+                          child: Text('home.shop_now'.tr(), style: const TextStyle(fontWeight: FontWeight.bold)),
                         ),
                         const SizedBox(width: 10),
                         
@@ -97,7 +103,7 @@ class HomeScreen extends StatelessWidget {
                             shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
                             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                           ),
-                          child: const Text('VIEW COLLECTION', style: TextStyle(fontWeight: FontWeight.bold)),
+                          child: Text('home.view_collection'.tr(), style: const TextStyle(fontWeight: FontWeight.bold)),
                         ),
                       ],
                     ),
@@ -114,7 +120,6 @@ class HomeScreen extends StatelessWidget {
                     if (state is HomeLoaded) {
                       currentCategory = state.selectedCategory;
                     }
-
                     return SizedBox(
                       height: 35,
                       child: ListView.builder(
@@ -124,6 +129,11 @@ class HomeScreen extends StatelessWidget {
                         itemBuilder: (context,index) {
                           final category = categories[index];
                           final bool isSelected = category == currentCategory;
+
+                          String displayName = category;
+                          if(category == 'ALL') {displayName = 'home.all'.tr();}
+                          else if(category == 'Footwear') {displayName = 'home.footwear'.tr();}
+                          else if(category == 'Apparel') {displayName = 'home.apparel'.tr();}
 
                           return GestureDetector(
                             onTap: () {
@@ -141,7 +151,7 @@ class HomeScreen extends StatelessWidget {
                                 ),
                               ),
                               child: Center (
-                                child: Text(category,
+                                child: Text(displayName,
                                 style: TextStyle(
                                   color: isSelected ? Colors.white : Colors.grey,
                                   fontWeight: FontWeight.bold,
@@ -155,7 +165,7 @@ class HomeScreen extends StatelessWidget {
                     );
                   }
                   ),
-
+ 
                   
 
                             
@@ -165,13 +175,13 @@ class HomeScreen extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
-                      'NEW ARRIVALS',
-                      style: TextStyle(color: Colors.red, fontSize: 20, fontWeight: FontWeight.bold),
+                     Text(
+                      'home.new_arrivals'.tr(),
+                      style: const TextStyle(color: Colors.red, fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     TextButton(
                       onPressed: () {},
-                      child: const Text('SEE ALL', style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
+                      child: Text('home.see_all'.tr(), style: const TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
                     ),
                   ],
                 ),
@@ -284,11 +294,11 @@ class HomeScreen extends StatelessWidget {
                                                 color: Colors.red,
                                                 borderRadius: BorderRadius.circular(4),
                                               ),
-                                              child: const Row(
+                                              child: Row(
                                                 children: [
-                                                  Icon(Icons.add_shopping_cart, color: Colors.white, size: 14),
-                                                  SizedBox(width: 4),
-                                                  Text('ADD', style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold)),
+                                                  const Icon(Icons.add_shopping_cart, color: Colors.white, size: 14),
+                                                  const SizedBox(width: 4),
+                                                  Text('home.add_to_cart'.tr(), style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold)),
                                                 ],
                                               ),
                                             ),

@@ -2,6 +2,7 @@ import 'package:bloc_app_demo/features/cart/bloc/cart_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 
 class MainScreen extends StatelessWidget {
@@ -32,8 +33,8 @@ class MainScreen extends StatelessWidget {
           );
         },
         items:  [
-          const BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: 'HOME'),
-          const BottomNavigationBarItem(icon: Icon(Icons.search),label: 'SHOP'),
+           BottomNavigationBarItem(icon: const Icon(Icons.home_outlined), label: 'navbar.home'.tr(context: context)),
+           BottomNavigationBarItem(icon: const Icon(Icons.search),label: 'navbar.search'.tr(context: context)),
           BottomNavigationBarItem(
             icon: BlocSelector<CartBloc, CartState, int>(
               selector: (state) => (state is CartLoaded) ? state.items.length : 0 ,
@@ -46,9 +47,9 @@ class MainScreen extends StatelessWidget {
                 );
               },
             ),
-            label: 'Cart',
+            label: 'navbar.cart'.tr(context: context),
           ),
-          const BottomNavigationBarItem(icon: Icon(Icons.person_outline), label: 'PROFILE'),
+           BottomNavigationBarItem(icon: const Icon(Icons.person_outline), label: 'navbar.profile'.tr(context: context)),
         ]
       )
     );

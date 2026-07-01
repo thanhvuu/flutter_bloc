@@ -1,3 +1,5 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -79,9 +81,9 @@ class _DashboardViewState extends State<DashboardView> {
                       ],
                     ),
                     const Divider(height: 32),
-                    _buildInfoRow(Icons.phone_android, 'Số điện thoại', widget.user.phone),
+                    _buildInfoRow(Icons.phone_android, 'profile.phone'.tr(), widget.user.phone),
                     const SizedBox(height: 12),
-                    _buildInfoRow(Icons.location_on_outlined, 'Địa chỉ mặc định', widget.user.address),
+                    _buildInfoRow(Icons.location_on_outlined, 'profile.address'.tr(), widget.user.address),
 
                     const SizedBox(height: 12),
                     InkWell(
@@ -102,9 +104,9 @@ class _DashboardViewState extends State<DashboardView> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
-                  'LỊCH SỬ ĐƠN HÀNG',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, letterSpacing: 1.2),
+                 Text(
+                  'profile.order_history'.tr(),
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16, letterSpacing: 1.2),
                 ),
                 IconButton(
                   icon: const Icon(Icons.refresh, color: Colors.black),
@@ -136,7 +138,7 @@ class _DashboardViewState extends State<DashboardView> {
                           children: [
                             Icon(Icons.history, size: 48, color: Colors.grey.shade300),
                             const SizedBox(height: 8),
-                            Text('Bạn chưa có đơn hàng nào.', style: TextStyle(color: Colors.grey.shade500)),
+                            Text('profile.no_order_history'.tr(), style:  TextStyle(color: Colors.grey.shade500)),
                           ],
                         ),
                       ),
@@ -161,8 +163,8 @@ class _DashboardViewState extends State<DashboardView> {
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: ListTile(
-                          title: Text('Đơn hàng ${order.displayId}', style: const TextStyle(fontWeight: FontWeight.bold)),
-                          subtitle: Text('Ngày đặt: ${order.displayDate}'),
+                          title: Text('profile.order'.tr(namedArgs: {'id': order.displayId.toString()}), style: const TextStyle(fontWeight: FontWeight.bold)),
+                          subtitle: Text('profile.order_date'.tr(namedArgs: {'date': order.displayDate})),
                           trailing: Text(
                             '\$${total.toStringAsFixed(2)}',
                             style: const TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
@@ -214,9 +216,9 @@ void _showLanguageBottomSheet(BuildContext context) {
         child: Column (
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Text('Chọn ngôn ngữ',style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+             Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text('profile.language'.tr(),style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             ),
             ListTile(
               title: const Text('profile.english').tr(),

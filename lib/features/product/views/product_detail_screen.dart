@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:bloc_app_demo/domain/entities/product.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   final Product product;
@@ -21,6 +22,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    context.locale;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -108,7 +110,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('SELECT COLOR', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+        Text('product_detail.select_color'.tr(), style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
         const SizedBox(height: 12),
         Row(
           children: List.generate(_colors.length, (index) {
@@ -138,8 +140,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text('SELECT SIZE', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
-            Text('SIZE GUIDE', style: TextStyle(fontSize: 12, color: Colors.grey.shade600, decoration: TextDecoration.underline)),
+            Text('product_detail.select_size'.tr(), style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+            Text('product_detail.size_guide'.tr(), style: TextStyle(fontSize: 12, color: Colors.grey.shade600, decoration: TextDecoration.underline)),
           ],
         ),
         const SizedBox(height: 12),
@@ -187,7 +189,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
             elevation: 0,
           ),
-          child: const Text('ADD TO CART', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+          child: Text('product_detail.add_to_cart'.tr(), style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
         ),
         const SizedBox(height: 12),
         OutlinedButton(
@@ -197,20 +199,20 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             side: const BorderSide(color: Colors.black, width: 1.5),
             shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
           ),
-          child: const Text('BUY NOW', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+          child: Text('product_detail.buy_now'.tr(), style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
         ),
       ],
     );
   }
 
   Widget _buildShippingInfo() {
-    return const Column(
+    return Column(
       children: [
         Row(
           children: [
             Icon(Icons.local_shipping_outlined, size: 16, color: Colors.black54),
             SizedBox(width: 12),
-            Text('COMPLIMENTARY EXPRESS SHIPPING', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Colors.black54)),
+            Text('product_detail.express_shipping'.tr(), style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Colors.black54)),
           ],
         ),
         SizedBox(height: 12),
@@ -218,7 +220,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           children: [
             Icon(Icons.assignment_return_outlined, size: 16, color: Colors.black54),
             SizedBox(width: 12),
-            Text('30-DAY ELITE TRIALS & RETURNS', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Colors.black54)),
+            Text('product_detail.returns'.tr(), style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Colors.black54)),
           ],
         ),
       ],
@@ -229,7 +231,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('PERFORMANCE ENGINEERED', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900)),
+        Text('product_detail.performance'.tr(), style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900)),
         const SizedBox(height: 12),
         Text(
           widget.product.description, 
@@ -241,15 +243,15 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
   Widget _buildKeyFeatures() {
     final features = [
-      'Carbon-fiber propulsion plate for maximum energy return',
-      'Laser-cut ventilation zones in high-heat areas',
-      'Weight: 6.8oz (Men\'s Size 10)',
+      'product_detail.feature_1'.tr(),
+      'product_detail.feature_2'.tr(),
+      'product_detail.feature_3'.tr(),
     ];
     
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('KEY FEATURES', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+        Text('product_detail.key_features'.tr(), style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
         const Divider(color: Colors.black, thickness: 1),
         const SizedBox(height: 8),
         ...features.map((e) => Padding(
@@ -270,11 +272,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('TECHNICAL SPECS', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+        Text('product_detail.tech_specs'.tr(), style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
         const Divider(color: Colors.black, thickness: 1),
-        _buildSpecRow('Offset', '8mm'),
-        _buildSpecRow('Surface', 'Road / Track'),
-        _buildSpecRow('Support', 'Neutral'),
+        _buildSpecRow('product_detail.offset'.tr(), '8mm'),
+        _buildSpecRow('product_detail.surface'.tr(), 'product_detail.road_track'.tr()),
+        _buildSpecRow('product_detail.support'.tr(), 'product_detail.neutral'.tr()),
       ],
     );
   }
@@ -312,18 +314,18 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               )
             ),
           ),
-          const Column(
+          Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'UNLEASH\nPRECISION',
+                'product_detail.promo_1'.tr(),
                 textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.white, fontSize: 32, fontWeight: FontWeight.w900, fontStyle: FontStyle.italic, letterSpacing: 2),
+                style: const TextStyle(color: Colors.white, fontSize: 32, fontWeight: FontWeight.w900, fontStyle: FontStyle.italic, letterSpacing: 2),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Text(
-                'THE NEW STANDARD OF SPEED',
-                style: TextStyle(color: Colors.white70, fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 3),
+                'product_detail.promo_2'.tr(),
+                style: const TextStyle(color: Colors.white70, fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 3),
               ),
             ],
           )

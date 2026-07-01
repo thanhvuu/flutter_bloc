@@ -2,9 +2,83 @@
   "profile": {
     "title": "Profile Settings",
     "personal_info": "Personal Information",
+    "phone": "Phone Number",
     "address": "My Address",
     "language": "Language",
+    "order_history": "ORDER HISTORY",
+    "no_order_history": "You have no order history.",
+    "order": "Order {id}",
+    "order_date": "Order Date: {date}",
     "english": "English",
     "vietnamese": "Vietnamese"
-  }
+  },
+
+    "navbar": {
+        "home": "HOME",
+        "search": "SEARCH",
+        "cart": "CART",
+        "profile": "PROFILE"
+    },
+
+    "home": {
+        "banner": "UNLEASH YOUR\nPOTENTIAL",
+        "short_desc": "Engineered for the elite. Discover the\ncollection designed to push boundaries and\nredefine performance.",
+        "shop_now": "Shop Now",
+        "view_collection": "View Collection",
+        "all": "All",
+        "footwear": "Footwear",
+        "apparel": "Apparel",
+        "new_arrivals": "New Arrivals",
+        "see_all": "See All",
+        "add_to_cart": "Add"
+    },
+    "search": {
+        "hint": "Search for equipment, sportswear...",
+        "initial": "Enter product name to search",
+        "empty": "No products found!",
+        "login_required_title": "Login Required",
+        "login_required_content": "You need to login to add products to the cart."
+    },
+    "cart": {
+        "empty": "YOUR CART IS EMPTY",
+        "title": "YOUR CART ({count})",
+        "color_size": "COLOR: BLACK / WHITE\nSIZE: L",
+        "remove": "REMOVE",
+        "order_summary": "ORDER SUMMARY",
+        "subtotal": "SUBTOTAL",
+        "shipping": "ESTIMATED SHIPPING",
+        "tax": "ESTIMATED TAX",
+        "total": "TOTAL",
+        "promo_code": "PROMO CODE",
+        "enter_code": "ENTER CODE",
+        "apply": "APPLY",
+        "checkout": "PROCEED TO CHECKOUT",
+        "terms": "BY CHECKING OUT, YOU AGREE TO OUR TERMS OF USE AND PRIVACY POLICY. FREE RETURNS ON ALL ELITE MEMBERSHIP ORDERS."
+    },
+    "product_detail": {
+        "select_color": "SELECT COLOR",
+        "select_size": "SELECT SIZE",
+        "size_guide": "SIZE GUIDE",
+        "add_to_cart": "ADD TO CART",
+        "buy_now": "BUY NOW",
+        "express_shipping": "COMPLIMENTARY EXPRESS SHIPPING",
+        "returns": "30-DAY ELITE TRIALS & RETURNS",
+        "performance": "PERFORMANCE ENGINEERED",
+        "key_features": "KEY FEATURES",
+        "feature_1": "Carbon-fiber propulsion plate for maximum energy return",
+        "feature_2": "Laser-cut ventilation zones in high-heat areas",
+        "feature_3": "Weight: 6.8oz (Men's Size 10)",
+        "tech_specs": "TECHNICAL SPECS",
+        "offset": "Offset",
+        "surface": "Surface",
+        "road_track": "Road / Track",
+        "support": "Support",
+        "neutral": "Neutral",
+        "promo_1": "UNLEASH\nPRECISION",
+        "promo_2": "THE NEW STANDARD OF SPEED"
+    },
+    "common": {
+        "cancel": "CANCEL",
+        "login_now": "LOGIN NOW"
+    }
 }

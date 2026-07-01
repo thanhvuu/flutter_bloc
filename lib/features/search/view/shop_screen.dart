@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:bloc_app_demo/features/search/bloc/search_bloc.dart';
 import 'package:bloc_app_demo/domain/entities/product.dart';
 import 'package:bloc_app_demo/features/cart/bloc/cart_bloc.dart';
@@ -24,6 +25,7 @@ class _ShopScreenState extends State<ShopScreen> {
 
   @override
   Widget build(BuildContext context) {
+    context.locale;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -39,7 +41,7 @@ class _ShopScreenState extends State<ShopScreen> {
             controller: _searchController,
             textInputAction: TextInputAction.search,
             decoration: InputDecoration(
-              hintText: 'Tìm kiếm thiết bị, đồ thể thao...',
+              hintText: 'search.hint'.tr(),
               hintStyle: TextStyle(color: Colors.grey.shade500, fontSize: 14),
               prefixIcon: const Icon(Icons.search, color: Colors.black),
               border: InputBorder.none,
@@ -70,13 +72,13 @@ class _ShopScreenState extends State<ShopScreen> {
         child: BlocBuilder<SearchBloc, SearchState>(
           builder: (context, state) {
             if (state is SearchInitial) {
-              return const Center(
+              return  Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.shopping_bag_outlined, size: 60, color: Colors.grey),
-                    SizedBox(height: 16),
-                    Text('Nhập tên sản phẩm để tìm kiếm', style: TextStyle(color: Colors.grey)),
+                    const Icon(Icons.shopping_bag_outlined, size: 60, color: Colors.grey),
+                    const SizedBox(height: 16),
+                    Text('search.initial'.tr(), style: const TextStyle(color: Colors.grey)),
                   ],
                 ),
               );
@@ -89,10 +91,10 @@ class _ShopScreenState extends State<ShopScreen> {
             }
 
             if (state is SearchEmpty) {
-              return const Center(
+              return  Center(
                 child: Text(
-                  'Không tìm thấy sản phẩm nào!',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  'search.empty'.tr(),
+                  style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
               );
             }
@@ -183,12 +185,12 @@ class _ShopScreenState extends State<ShopScreen> {
       context: context,
       builder: (BuildContext dialogContext) {
         return AlertDialog(
-          title: const Text('Yêu cầu Đăng nhập', style: TextStyle(fontWeight: FontWeight.bold)),
-          content: const Text('Bạn cần phải đăng nhập để thêm sản phẩm vào giỏ hàng.'),
+          title: Text('search.login_required_title'.tr(), style: const TextStyle(fontWeight: FontWeight.bold)),
+          content: Text('search.login_required_content'.tr()),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(dialogContext),
-              child: const Text('HỦY', style: TextStyle(color: Colors.grey)),
+              child: Text('common.cancel'.tr(), style: const TextStyle(color: Colors.grey)),
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
@@ -198,7 +200,7 @@ class _ShopScreenState extends State<ShopScreen> {
                 // Điều hướng sang Tab PROFILE (Index 3 của StatefulNavigationShell)
                 StatefulNavigationShell.of(context).goBranch(3);
               },
-              child: const Text('ĐĂNG NHẬP NGAY', style: TextStyle(color: Colors.white)),
+              child: Text('common.login_now'.tr(), style: const TextStyle(color: Colors.white)),
             ),
           ],
         );
