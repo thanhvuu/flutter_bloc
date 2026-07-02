@@ -50,6 +50,9 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         } else {
           await _cartRepository.addToCart(event.item);
         }
+
+        emit(CartItemAddedSuccess());
+
         add(LoadCartEvent()); 
       } catch (e) {
         emit(CartError('Không thể thêm vào giỏ: ${e.toString()}'));

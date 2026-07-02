@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:bloc_app_demo/domain/entities/product.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:bloc_app_demo/features/cart/bloc/cart_bloc.dart';
+import 'package:bloc_app_demo/domain/entities/cart_item.dart';
+import 'package:go_router/go_router.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class ProductDetailScreen extends StatefulWidget {
@@ -35,7 +39,24 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.w900, letterSpacing: 1.5, fontSize: 18),
         ),
       ),
-      body: SingleChildScrollView(
+
+       body: BlocListener<CartBloc, CartState>(
+        listener: (context, state) {
+          if (state is CartRequireAuth) {
+            // Chưa đăng nhập -> Hiện Dialog
+            _showLoginRequiredDialog(context);
+          } else if (state is CartItemAddedSuccess) {
+            // Thêm thành công -> Hiện SnackBar xanh lá báo hiệu
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Đã thêm sản phẩm vào giỏ hàng!', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                backgroundColor: Colors.green,
+                duration: Duration(seconds: 2),
+              ),
+            );
+          }
+        },
+      child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -68,6 +89,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           ],
         ),
       ),
+
+    ),
     );
   }
 
@@ -182,7 +205,14 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         ElevatedButton(
-          onPressed: () {}, 
+          onPressed: () {
+            final cartItem = CartItem (
+              id: widget.product.id,
+              product: widget.product,
+              quantity: 1,
+            );
+            context.read<CartBloc>().add(AddToCartEvent(cartItem));
+          }, 
           style: ElevatedButton.styleFrom(
             backgroundColor: _primaryRed,
             padding: const EdgeInsets.symmetric(vertical: 16),
@@ -210,16 +240,16 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       children: [
         Row(
           children: [
-            Icon(Icons.local_shipping_outlined, size: 16, color: Colors.black54),
-            SizedBox(width: 12),
+            const Icon(Icons.local_shipping_outlined, size: 16, color: Colors.black54),
+            const SizedBox(width: 12),
             Text('product_detail.express_shipping'.tr(), style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Colors.black54)),
           ],
         ),
-        SizedBox(height: 12),
+        const SizedBox(height: 12),
         Row(
           children: [
-            Icon(Icons.assignment_return_outlined, size: 16, color: Colors.black54),
-            SizedBox(width: 12),
+            const Icon(Icons.assignment_return_outlined, size: 16, color: Colors.black54),
+            const SizedBox(width: 12),
             Text('product_detail.returns'.tr(), style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Colors.black54)),
           ],
         ),
@@ -331,6 +361,33 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           )
         ],
       ),
+    );
+  }
+
+  void _showLoginRequiredDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        return AlertDialog(
+          title: const Text('Yêu cầu Đăng nhập', style: TextStyle(fontWeight: FontWeight.bold)),
+          content: const Text('Bạn cần phải đăng nhập để thêm sản phẩm vào giỏ hàng.'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(dialogContext),
+              child: const Text('HỦY', style: TextStyle(color: Colors.grey)),
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+              onPressed: () {
+                Navigator.pop(dialogContext); 
+                context.pop(); 
+                StatefulNavigationShell.of(context).goBranch(3); 
+              },
+              child: const Text('ĐĂNG NHẬP NGAY', style: TextStyle(color: Colors.white)),
+            ),
+          ],
+        );
+      },
     );
   }
 }
