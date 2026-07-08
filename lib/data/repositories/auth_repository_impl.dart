@@ -1,4 +1,6 @@
-
+import 'package:fpdart/fpdart.dart';
+import 'package:bloc_app_demo/core/errors/failures.dart';
+import 'package:bloc_app_demo/core/utils/firebase_error_handler.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:bloc_app_demo/domain/entities/user.dart';
@@ -48,21 +50,27 @@ class AuthRepositoryImpl implements AuthRepository {
 
 
   @override  
-  Future<User?> login(String email, String password) async {
+  Future<Either<Failure,User>> login(String email, String password) async {
     try {
       final credential = await _firebaseAuth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
-
-      return await _mapFirebaseUserToEntity(credential.user);
+      
+      final userEntity = await _mapFirebaseUserToEntity(credential.user);
+      if(userEntity != null) {
+        return Right(userEntity);
+      } else {
+        return const Left(AuthFailure("Không thể lấy thông tin tài khoản!"));
+      }
     } catch (e) {
-      rethrow;
+      final errorMsg = FirebaseErrorHandler.parseError(e);
+      return Left(AuthFailure(errorMsg));
     }
   }
 
   @override  
-  Future<User?> signUp({
+  Future<Either<Failure,User>> signUp({
     required String email,
     required String password,
     required String name,
@@ -84,21 +92,41 @@ class AuthRepositoryImpl implements AuthRepository {
 
       await _firestore.collection('user').doc(uid).set(model.toJson());
 
-      return model.toEntity();
+      return Right(model.toEntity());
     } catch (e) {
-      rethrow;
+      final errorMsg = FirebaseErrorHandler.parseError(e);
+      return Left(AuthFailure(errorMsg));
     }
   }
 
   @override  
-  Future<void> logout() async {
+  Future<Either<Failure,void>> logout() async {
+    try {
     await _firebaseAuth.signOut();
+    return const Right(null);
+
+    } catch (e){
+      return Left(AuthFailure("Lỗi khi đăng xuất: ${e.toString()}"));
+    }
   }
 
   @override  
-  Future<User?> getUserProfile() async {
+  Future<Either<Failure,User>> getUserProfile() async {
+    try {
     final firebaseUser = _firebaseAuth.currentUser;
-    return await _mapFirebaseUserToEntity(firebaseUser);
+    if(firebaseUser == null){
+      return const Left(AuthFailure("Người dùng chưa đăng nhập"));
+    }
+
+    final userEntity = await _mapFirebaseUserToEntity(firebaseUser);
+    if(userEntity != null) {
+      return Right(userEntity);
+    } else {
+      return const Left(AuthFailure("Không có thông tin tài khoản"));
+    } 
+    } catch (e) {
+      return Left(AuthFailure(e.toString()));
+    }
   }
 
   @override  

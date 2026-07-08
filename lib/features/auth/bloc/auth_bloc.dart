@@ -3,7 +3,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:bloc_app_demo/domain/entities/user.dart';
 import 'package:bloc_app_demo/domain/repositories/auth_repository.dart';
-import 'package:bloc_app_demo/core/utils/firebase_error_handler.dart';
+
 
 
 part 'auth_event.dart';
@@ -40,47 +40,57 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Future<void> _onLoginRequested(LoginRequestedEvent event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
-    try {
-      final user = await _authRepository.login(event.email, event.password);
-      if (user != null) {
-        emit(Authenticated(user));
-      } else {
+
+    final result = await _authRepository.login(event.email, event.password);
+
+    result.fold(
+      (failure) {
+        emit(AuthError(failure.message));
         emit(Unauthenticated());
-      }
-    } catch (e) {
-      emit(AuthError(FirebaseErrorHandler.parseError(e)));
-      emit(Unauthenticated());
-    }
+      },
+      (user) {
+        emit(Authenticated(user));
+      },
+    );
   }
 
   Future<void> _onSignUpRequested(SignUpRequestedEvent event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
-    try {
-      final user = await _authRepository.signUp(
+
+      final result = await _authRepository.signUp(
         email: event.email,
         password: event.password,
         name: event.name,
         phone: event.phone,
         address: event.address,
       );
-      if (user != null) {
-        emit(Authenticated(user));
-      } else {
-        emit(Unauthenticated());
-      }
-    } catch (e) {
-      emit(AuthError(FirebaseErrorHandler.parseError(e)));
-      emit(Unauthenticated());
-    }
+
+       result.fold(
+        (failure) {
+          emit(AuthError(failure.message));
+          emit(Unauthenticated());
+        },
+        (user) {
+          emit(Authenticated(user));
+        }
+      );
+     
   }
 
   Future<void> _onLogoutRequested(LogoutRequestedEvent event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
-    try {
-      await _authRepository.logout();
-    } catch (e) {
-      emit(AuthError(e.toString()));
-    }
+    
+      final result = await _authRepository.logout();
+
+      result.fold(
+        (failure) {
+          emit(AuthError(failure.message));
+        },
+        (_) {
+
+        }
+      );
+   
   }
 
   @override

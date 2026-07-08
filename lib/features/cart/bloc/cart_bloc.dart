@@ -30,15 +30,20 @@ class CartBloc extends Bloc<CartEvent, CartState> {
 
     on<AddToCartEvent>((event, emit) async {
       try {
-        
-        final currentUser = await _authRepository.getUserProfile();
-        
-        if (currentUser == null) {
+        final profileResult = await _authRepository.getUserProfile();
+
+        final currentUser = profileResult.fold(
+          (failure) => null,
+          (user) => user,
+        );
+
+        if(currentUser == null) {
           emit(CartRequireAuth(DateTime.now().millisecondsSinceEpoch));
           final currentItems = await _cartRepository.getCartItems();
           emit(CartLoaded(currentItems));
           return;
         }
+        
 
         
         final currentItems = await _cartRepository.getCartItems();
@@ -76,8 +81,14 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     on<CheckoutCartEvent>((event, emit) async {
       try {
         emit(CartLoading()); 
-        final currentUser = await _authRepository.getUserProfile();
-        if (currentUser == null) {
+        final profileResult = await _authRepository.getUserProfile();
+
+        final currentUser = profileResult.fold(
+          (failure) => null,
+          (user) => user,
+        );
+
+        if(currentUser == null) {
           emit(CartRequireAuth(DateTime.now().millisecondsSinceEpoch));
           final currentItems = await _cartRepository.getCartItems();
           emit(CartLoaded(currentItems));

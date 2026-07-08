@@ -1,9 +1,11 @@
+import 'package:fpdart/fpdart.dart';
+import 'package:bloc_app_demo/core/errors/failures.dart';
 import 'package:bloc_app_demo/domain/entities/user.dart';
 
 abstract class AuthRepository {
-  Future<User?> login(String email, String password);
+  Future<Either<Failure,User>> login(String email, String password);
 
-  Future<User?> signUp({
+  Future<Either<Failure,User>> signUp({
     required String email,
     required String password,
     required String name,
@@ -11,9 +13,9 @@ abstract class AuthRepository {
     required String address,
   });
 
-  Future<void> logout();
+  Future<Either<Failure,void>> logout();
 
-  Future<User?> getUserProfile();
+  Future<Either<Failure,User>> getUserProfile();
 
   Stream<User?> get authStateChanges;
 }
