@@ -3,7 +3,6 @@ import 'package:bloc_app_demo/domain/entities/product.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bloc_app_demo/features/cart/bloc/cart_bloc.dart';
 import 'package:bloc_app_demo/domain/entities/cart_item.dart';
-import 'package:go_router/go_router.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class ProductDetailScreen extends StatefulWidget {
@@ -42,10 +41,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
        body: BlocListener<CartBloc, CartState>(
         listener: (context, state) {
-          if (state is CartRequireAuth) {
-            // Chưa đăng nhập -> Hiện Dialog
-            _showLoginRequiredDialog(context);
-          } else if (state is CartItemAddedSuccess) {
+          
+            if (state is CartItemAddedSuccess) {
             // Thêm thành công -> Hiện SnackBar xanh lá báo hiệu
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
@@ -364,30 +361,5 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     );
   }
 
-  void _showLoginRequiredDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext dialogContext) {
-        return AlertDialog(
-          title: const Text('Yêu cầu Đăng nhập', style: TextStyle(fontWeight: FontWeight.bold)),
-          content: const Text('Bạn cần phải đăng nhập để thêm sản phẩm vào giỏ hàng.'),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(dialogContext),
-              child: const Text('HỦY', style: TextStyle(color: Colors.grey)),
-            ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-              onPressed: () {
-                Navigator.pop(dialogContext); 
-                context.pop(); 
-                StatefulNavigationShell.of(context).goBranch(3); 
-              },
-              child: const Text('ĐĂNG NHẬP NGAY', style: TextStyle(color: Colors.white)),
-            ),
-          ],
-        );
-      },
-    );
-  }
+  
 }

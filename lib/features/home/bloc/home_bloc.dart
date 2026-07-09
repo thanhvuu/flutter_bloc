@@ -14,12 +14,14 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc(this._productRepository) : super(HomeInitial()) {
     on<LoadHomeDataEvent>((event, emit) async {
       emit(HomeLoading());
-      try {
-        _allProducts = await _productRepository.getProducts();
-        emit(HomeLoaded(products: _allProducts, selectedCategory: 'ALL'));
-      } catch (e) {
-        emit(const HomeError('Lỗi khi tải dữ liệu'));
-      }
+      final result = await _productRepository.getProducts();
+      result.fold(
+        (failure) => emit(HomeError(failure.message)),
+        (products) {
+          _allProducts = products;
+          emit(HomeLoaded(products: _allProducts, selectedCategory: 'ALL'));
+        },
+      );
     });
 
     on<ChangeCategoryEvent>((event, emit) async {

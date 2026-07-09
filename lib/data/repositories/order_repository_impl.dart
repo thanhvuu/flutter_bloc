@@ -1,3 +1,5 @@
+import 'package:fpdart/fpdart.dart';
+import 'package:bloc_app_demo/core/errors/failures.dart';
 import 'package:bloc_app_demo/domain/entities/order.dart';
 import 'package:bloc_app_demo/domain/repositories/order_repository.dart';
 import 'package:bloc_app_demo/data/models/order_model.dart';
@@ -10,7 +12,7 @@ class OrderRepositoryImpl implements OrderRepository {
   OrderRepositoryImpl({required this.restClient});
 
   @override  
-  Future<void> createOrder(AppOrder order) async {
+  Future<Either<Failure,void>> createOrder(AppOrder order) async {
     try{
       final model = OrderModel(
         id: order.id,
@@ -34,19 +36,21 @@ class OrderRepositoryImpl implements OrderRepository {
       );
 
       await restClient.createOrder(model.toJson());
+      return const Right(null);
     } catch (e) {
-      rethrow;
+      return const Left(ServerFailure());
     }
   }
 
   @override  
-  Future<List<AppOrder>> getUserOrders(String userId) async {
+  Future<Either<Failure,List<AppOrder>>> getUserOrders(String userId) async {
     try{
       final models = await restClient.getOrders(userId);
       models.sort((a, b) => b.createdAt.compareTo(a.createdAt));
-      return models.map((model) => model.toEntity()).toList();
+      final orders = models.map((model) => model.toEntity()).toList();
+      return Right(orders);
     } catch(e) {
-      rethrow;
+      return const Left(ServerFailure());
     }
   }
 }

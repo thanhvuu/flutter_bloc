@@ -62,14 +62,8 @@ class _ShopScreenState extends State<ShopScreen> {
       ),
 
       // Bọc BlocListener ở đây để lắng nghe phản hồi từ CartBloc
-      body: BlocListener<CartBloc, CartState>(
-        listener: (context, state) {
-          if (state is CartRequireAuth) {
-            // Khi CartBloc phát trạng thái yêu cầu auth -> View chỉ làm việc của View là hiện Dialog
-            _showLoginRequiredDialog(context);
-          }
-        },
-        child: BlocBuilder<SearchBloc, SearchState>(
+      
+        body: BlocBuilder<SearchBloc, SearchState>(
           builder: (context, state) {
             if (state is SearchInitial) {
               return  Center(
@@ -175,36 +169,10 @@ class _ShopScreenState extends State<ShopScreen> {
             return const SizedBox.shrink();
           },
         ),
-      ),
+      
     );
   }
 
   // Hàm hiển thị Dialog cảnh báo và chuyển tab
-  void _showLoginRequiredDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext dialogContext) {
-        return AlertDialog(
-          title: Text('search.login_required_title'.tr(), style: const TextStyle(fontWeight: FontWeight.bold)),
-          content: Text('search.login_required_content'.tr()),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(dialogContext),
-              child: Text('common.cancel'.tr(), style: const TextStyle(color: Colors.grey)),
-            ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-              onPressed: () {
-                Navigator.pop(dialogContext); // Đóng Dialog
-                
-                // Điều hướng sang Tab PROFILE (Index 3 của StatefulNavigationShell)
-                StatefulNavigationShell.of(context).goBranch(3);
-              },
-              child: Text('common.login_now'.tr(), style: const TextStyle(color: Colors.white)),
-            ),
-          ],
-        );
-      },
-    );
-  }
+  
 }

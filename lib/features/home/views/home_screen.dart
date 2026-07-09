@@ -26,13 +26,9 @@ class HomeScreen extends StatelessWidget {
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
           ),
         ),
-        body:  BlocListener<CartBloc, CartState>(
-          listener: (context, state) {
-            if (state is CartRequireAuth) {
-              _showLoginRequiredDialog(context);
-            } 
-          },
-          child: SingleChildScrollView(
+        
+         
+          body: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -329,7 +325,7 @@ class HomeScreen extends StatelessWidget {
             ],
           ),
         ),
-      ),
+      
     );
   }
 

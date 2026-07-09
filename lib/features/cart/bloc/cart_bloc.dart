@@ -104,8 +104,19 @@ class CartBloc extends Bloc<CartEvent, CartState> {
           createdAt: DateTime.now(),
         );
 
-        await _orderRepository.createOrder(order);
-        await _cartRepository.clearCart();
+        final orderResult = await _orderRepository.createOrder(order);
+        await orderResult.fold(
+          (failure) async {
+            emit(CartError(failure.message));
+            final currentItems = await _cartRepository.getCartItems();
+            emit(CartLoaded(currentItems));
+          },
+          (_) async {
+            await _cartRepository.clearCart();
+          }
+        );
+
+        
         add(LoadCartEvent()); 
       } catch (e) {
         emit(CartError('cart error ${e.toString()}'));

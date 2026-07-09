@@ -13,7 +13,14 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context){
-    return Scaffold(
+    return BlocListener<CartBloc, CartState>(
+      listener: (context, state) {
+        if(state is CartRequireAuth) {
+          _showLoginRequiredDialog(context);
+        }
+      },
+    
+    child: Scaffold(
       body: navigationShell,
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
@@ -52,6 +59,39 @@ class MainScreen extends StatelessWidget {
            BottomNavigationBarItem(icon: const Icon(Icons.person_outline), label: 'navbar.profile'.tr(context: context)),
         ]
       )
+    )
     );
+  }
+
+  void _showLoginRequiredDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        return AlertDialog(
+          title: Text('search.login_required_title'.tr(), style: const TextStyle(fontWeight: FontWeight.bold)),
+          content: Text('search.login_required_content'.tr()),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(dialogContext), 
+              child: Text('common.cancel'.tr(), style: const TextStyle(color: Colors.grey)),
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                onPressed: () {
+                  Navigator.pop(dialogContext);
+
+                  if (context.canPop()) {
+                    context.pop();
+                  }
+
+                  navigationShell.goBranch(3);
+                },
+                child: Text('common.login_now'.tr(),style: const TextStyle(color: Colors.white),
+                ),
+              )
+          ],
+        );
+      }
+       );
   }
 }

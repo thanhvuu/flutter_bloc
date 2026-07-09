@@ -43,16 +43,16 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     }
 
     emit(SearchLoading());
-    try {
-      final results = await repository.searchProducts(keyword);
-
-      if (results.isEmpty) {
-        emit(SearchEmpty());
-      } else {
-        emit(SearchLoaded(results));
-      }
-    } catch (e) {
-      emit(const SearchError('Có lỗi xảy ra khi tìm kiếm.'));
-    }
+    final result = await repository.searchProducts(keyword);
+    result.fold(
+      (failure) => emit(SearchError(failure.message)),
+      (results) {
+        if (results.isEmpty) {
+          emit(SearchEmpty());
+        } else {
+          emit(SearchLoaded(results));
+        }
+      },
+    );
   }
 }
