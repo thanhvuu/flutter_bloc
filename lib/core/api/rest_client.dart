@@ -10,14 +10,14 @@ abstract class RestClient {
 
   @GET('/products')
   Future<List<ProductModel>> getOnlineProducts(
-      //   {
+         {
       //   @Path('serial') required String deviceSerial,
       //   @Query('SearchText') required String searchText,
       //   @Query('PaginationType') required int paginationType,
-      //   @Query('Page') required int page,
-      //   @Query('Amount') required int amount,
+         @Query('Page') required  int page,
+         @Query('Limit') required int limit,
       //   @CancelRequest() CancelToken? cancelToken,
-      // }
+       }
       );
 
   @POST('/orders')

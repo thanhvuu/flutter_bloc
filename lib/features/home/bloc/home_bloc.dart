@@ -10,18 +10,49 @@ part 'home_state.dart';
 class HomeBloc extends Bloc<HomeEvent, HomeState> {  
   final ProductRepository _productRepository;  
   List<Product> _allProducts = [];
+  int _currentPage = 1;
+  final int _limit = 10;
+  bool _hasReachedMax = false;
 
   HomeBloc(this._productRepository) : super(HomeInitial()) {
     on<LoadHomeDataEvent>((event, emit) async {
       emit(HomeLoading());
-      final result = await _productRepository.getProducts();
+      _currentPage = 1;
+      _hasReachedMax = false;
+      _allProducts.clear();
+      final result = await _productRepository.getProducts(page: _currentPage, limit: _limit);
       result.fold(
         (failure) => emit(HomeError(failure.message)),
         (products) {
           _allProducts = products;
-          emit(HomeLoaded(products: _allProducts, selectedCategory: 'ALL'));
+          _hasReachedMax = products.length < _limit;
+          emit(HomeLoaded(products: _allProducts, selectedCategory: 'ALL', hasReachedMax: _hasReachedMax));
         },
       );
+    });
+
+    on<LoadMoreHomeDataEvent>((event,emit) async {
+      final currentState = state;
+      if(currentState is HomeLoaded && !_hasReachedMax) {
+        _currentPage++;
+        final result = await _productRepository.getProducts(page: _currentPage, limit: _limit);
+        result.fold(
+          (failure) => emit(HomeError(failure.message)),
+          (newProducts) {
+            if(newProducts.isEmpty) {
+              _hasReachedMax = true;
+            } else {
+              _allProducts.addAll(newProducts);
+              _hasReachedMax = newProducts.length < _limit;
+            }
+            emit(HomeLoaded(
+              products: _allProducts,
+              selectedCategory: currentState.selectedCategory,
+              hasReachedMax: _hasReachedMax
+            ));
+          }
+        );
+      }
     });
 
     on<ChangeCategoryEvent>((event, emit) async {

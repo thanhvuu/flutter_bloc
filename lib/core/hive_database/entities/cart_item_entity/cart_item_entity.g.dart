@@ -27,12 +27,12 @@ class CartItemEntityAdapter extends TypeAdapter<CartItemEntity> {
   void write(BinaryWriter writer, CartItemEntity obj) {
     writer
       ..writeByte(3)
-      ..writeByte(0)
-      ..write(obj.id)
       ..writeByte(1)
       ..write(obj.product)
       ..writeByte(2)
-      ..write(obj.quantity);
+      ..write(obj.quantity)
+      ..writeByte(0)
+      ..write(obj.id);
   }
 
   @override

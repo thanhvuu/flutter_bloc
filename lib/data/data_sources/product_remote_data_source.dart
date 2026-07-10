@@ -8,14 +8,14 @@ class ProductRemoteDataSource {
 
   ProductRemoteDataSource({required this.restClient});
 
-  Future<List<ProductModel>> getProducts() async {
+  Future<List<ProductModel>> getProducts({required int page, required int limit}) async {
     try{
-    final dtoList = await restClient.getOnlineProducts();
+    final dtoList = await restClient.getOnlineProducts(page: page, limit: limit);
     return dtoList; 
-    }on DioException {
-      throw ServerException();
+    }on DioException catch (e) {
+      throw ServerException('Lỗi API: ${e.message}');
     } catch(e) {
-      throw ServerException ();
+      throw ServerException ('Lỗi hệ thống không xác định: $e');
     }
   }
 }

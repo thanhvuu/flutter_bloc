@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:bloc_app_demo/core/errors/failures.dart';
 import 'package:bloc_app_demo/domain/entities/product.dart';
@@ -16,10 +17,10 @@ class ProductRepositoryImpl implements ProductRepository {
   });
 
   @override
-  Future<Either<Failure, List<Product>>> getProducts() async {
+  Future<Either<Failure, List<Product>>> getProducts({required int page, required int limit}) async {
     try {
       //call api
-      final remoteModels = await remoteDataSource.getProducts();
+      final remoteModels = await remoteDataSource.getProducts(page: page, limit: limit);
 
       //map remote models to hive entities and cache them
       final hiveEntities = remoteModels.map((model) => ProductEntity(
@@ -60,7 +61,7 @@ class ProductRepositoryImpl implements ProductRepository {
   @override  
   Future<Either<Failure, List<Product>>> searchProducts(String keywords) async {
     await Future.delayed(const Duration(seconds: 3));
-    final result = await getProducts();
+    final result = await getProducts(page: 1, limit: 10);
     return result.fold(
       (failure) => Left(failure),
       (allProducts) {

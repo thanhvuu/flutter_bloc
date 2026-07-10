@@ -22,9 +22,15 @@ class _RestClient implements RestClient {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<List<ProductModel>> getOnlineProducts() async {
+  Future<List<ProductModel>> getOnlineProducts({
+    required int page,
+    required int limit,
+  }) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'Page': page,
+      r'Limit': limit,
+    };
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<List<ProductModel>>(Options(

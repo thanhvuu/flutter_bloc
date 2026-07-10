@@ -8,9 +8,29 @@ import 'package:go_router/go_router.dart';
 
 
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
-
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+class _HomeScreenState extends State<HomeScreen> {
+ 
+  final ScrollController _scrollController = ScrollController();
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+  }
+  void _onScroll() {
+    if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 200) {
+      context.read<HomeBloc>().add(LoadMoreHomeDataEvent());
+    }
+  }
+  @override
+  void dispose() {
+    _scrollController.dispose(); 
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     context.locale;
@@ -29,6 +49,7 @@ class HomeScreen extends StatelessWidget {
         
          
           body: SingleChildScrollView(
+             controller: _scrollController,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

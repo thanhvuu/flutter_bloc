@@ -10,6 +10,8 @@ sealed class HomeEvent extends Equatable {
 
 final class LoadHomeDataEvent extends HomeEvent {}
 
+final class LoadMoreHomeDataEvent extends HomeEvent{}
+
 final class ChangeCategoryEvent extends HomeEvent {
   final String category;
 

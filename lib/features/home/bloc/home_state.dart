@@ -13,10 +13,12 @@ final class HomeLoading extends HomeState {}
 final class HomeLoaded extends HomeState {
   final List<Product> products; 
   final String selectedCategory;
+  final bool hasReachedMax;
 
 
   const HomeLoaded({required this.products,
   this.selectedCategory = 'ALL',
+  this.hasReachedMax = false,
   });
 
   @override  
