@@ -28,8 +28,8 @@ class _RestClient implements RestClient {
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
-      r'Page': page,
-      r'Limit': limit,
+      r'page': page,
+      r'limit': limit,
     };
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;

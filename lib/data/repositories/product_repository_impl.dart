@@ -1,4 +1,3 @@
-import 'package:flutter/widgets.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:bloc_app_demo/core/errors/failures.dart';
 import 'package:bloc_app_demo/domain/entities/product.dart';

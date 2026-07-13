@@ -3,12 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:bloc_app_demo/features/search/bloc/search_bloc.dart';
 import 'package:bloc_app_demo/domain/entities/product.dart';
-import 'package:bloc_app_demo/features/cart/bloc/cart_bloc.dart';
-import 'package:bloc_app_demo/domain/entities/cart_item.dart';
-import 'package:go_router/go_router.dart';
+import 'package:bloc_app_demo/core/widgets/product_card.dart';
+
 
 class ShopScreen extends StatefulWidget {
-  const ShopScreen({super.key});
+  final String? initialCategory; 
+  const ShopScreen({super.key, this.initialCategory});
 
   @override
   State<ShopScreen> createState() => _ShopScreenState();
@@ -18,6 +18,26 @@ class _ShopScreenState extends State<ShopScreen> {
   final TextEditingController _searchController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    _loadProducts();
+  }
+
+  // Khi GoRouter thay đổi query parameter nhưng không hủy Widget,
+  // didUpdateWidget sẽ chạy giúp cập nhật bộ lọc mới
+  @override
+  void didUpdateWidget(covariant ShopScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.initialCategory != oldWidget.initialCategory) {
+      _loadProducts();
+    }
+  }
+
+  void _loadProducts() {
+    context.read<SearchBloc>().add(LoadProductsEvent(category: widget.initialCategory));
+  }
+
+  @override
   void dispose() {
     _searchController.dispose();
     super.dispose();
@@ -25,7 +45,8 @@ class _ShopScreenState extends State<ShopScreen> {
 
   @override
   Widget build(BuildContext context) {
-    context.locale;
+    final List<String> categories = ['ALL', 'Footwear', 'Apparel', 'Running', 'Training', 'Basketball'];
+    
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -60,119 +81,104 @@ class _ShopScreenState extends State<ShopScreen> {
           ),
         ),
       ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // 1. THANH LỌC DANH MỤC CHUẨN DESIGN
+          const SizedBox(height: 10),
+          BlocBuilder<SearchBloc, SearchState>(
+            builder: (context, state) {
+              String activeCategory = 'ALL';
+              if (state is SearchLoaded) {
+                activeCategory = state.selectedCategory;
+              }
+              return SizedBox(
+                height: 35,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  itemCount: categories.length,
+                  itemBuilder: (context, index) {
+                    final cat = categories[index];
+                    final bool isSelected = cat.toLowerCase() == activeCategory.toLowerCase();
 
-      // Bọc BlocListener ở đây để lắng nghe phản hồi từ CartBloc
-      
-        body: BlocBuilder<SearchBloc, SearchState>(
-          builder: (context, state) {
-            if (state is SearchInitial) {
-              return  Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(Icons.shopping_bag_outlined, size: 60, color: Colors.grey),
-                    const SizedBox(height: 16),
-                    Text('search.initial'.tr(), style: const TextStyle(color: Colors.grey)),
-                  ],
-                ),
-              );
-            }
+                    String displayName = cat;
+                    if (cat == 'ALL') { displayName = 'home.all'.tr();}
+                    else if (cat == 'Footwear') {displayName = 'home.footwear'.tr();}
+                    else if (cat == 'Apparel') { displayName = 'home.apparel'.tr();}
 
-            if (state is SearchLoading) {
-              return const Center(
-                child: CircularProgressIndicator(color: Colors.black),
-              );
-            }
-
-            if (state is SearchEmpty) {
-              return  Center(
-                child: Text(
-                  'search.empty'.tr(),
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-              );
-            }
-
-            if (state is SearchError) {
-              return Center(
-                child: Text(state.message, style: const TextStyle(color: Colors.red)),
-              );
-            }
-
-            if (state is SearchLoaded) {
-              final products = state.results;
-              return GridView.builder(
-                padding: const EdgeInsets.all(16.0),
-                keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,           
-                  childAspectRatio: 0.6,       
-                  crossAxisSpacing: 16,
-                  mainAxisSpacing: 24,
-                ),
-                itemCount: products.length,
-                itemBuilder: (context, index) {
-                  final Product product = products[index];
-                  
-                  return GestureDetector(
-                    onTap: () => context.push('/product_detail', extra: product),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                      Expanded(
-                        child: Container(
-                          color: Colors.grey.shade200,
+                    return GestureDetector(
+                      onTap: () {
+                        context.read<SearchBloc>().add(LoadProductsEvent(category: cat));
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 5),
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        decoration: BoxDecoration(
+                          color: isSelected ? Colors.red : Colors.transparent,
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(color: isSelected ? Colors.red : Colors.grey.shade300),
+                        ),
+                        child: Center(
+                          child: Text(
+                            displayName,
+                            style: TextStyle(
+                              color: isSelected ? Colors.white : Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
+                            ),
+                          ),
                         ),
                       ),
-                      const SizedBox(height: 12),
-                      Text(
-                        product.name,
-                        style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 13),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      const SizedBox(height: 2),
-                      Text(
-                        product.category,
-                        style: TextStyle(color: Colors.grey.shade600, fontSize: 9),
-                      ),
-                      const SizedBox(height: 6),
-                      // Hiển thị giá tiền và nút thêm sản phẩm vào giỏ
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            '\$${product.price.toStringAsFixed(2)}',
-                            style: const TextStyle(color: Colors.red, fontWeight: FontWeight.bold, fontSize: 14),
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.add_shopping_cart, color: Colors.black, size: 20),
-                            onPressed: () {
-                              // View chỉ gửi event yêu cầu thêm hàng đi, không tự kiểm tra Auth
-                              final cartItem = CartItem(
-                                id: product.id, 
-                                product: product,
-                                quantity: 1,
-                              );
-                              context.read<CartBloc>().add(AddToCartEvent(cartItem));
-                            },
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  );
-                },
+                    );
+                  },
+                ),
               );
-            }
+            },
+          ),
+          const SizedBox(height: 15),
+          
+          // 2. PHẦN HIỂN THỊ KẾT QUẢ SẢN PHẨM
+          Expanded(
+            child: BlocBuilder<SearchBloc, SearchState>(
+              builder: (context, state) {
+                if (state is SearchLoading) {
+                  return const Center(child: CircularProgressIndicator(color: Colors.black));
+                }
 
-            return const SizedBox.shrink();
-          },
-        ),
-      
+                if (state is SearchEmpty) {
+                  return Center(child: Text('search.empty'.tr(), style: const TextStyle(fontWeight: FontWeight.bold)));
+                }
+
+                if (state is SearchError) {
+                  return Center(child: Text(state.message, style: const TextStyle(color: Colors.red)));
+                }
+
+                if (state is SearchLoaded) {
+                  final products = state.results;
+                  return GridView.builder(
+                    padding: const EdgeInsets.all(16.0),
+                    keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,           
+                      childAspectRatio: 0.6,       
+                      crossAxisSpacing: 16,
+                      mainAxisSpacing: 24,
+                    ),
+                    itemCount: products.length,
+                    itemBuilder: (context, index) {
+                      final Product product = products[index];
+                      return ProductCard(product: product); // Sử dụng ProductCard dùng chung
+                    },
+                  );
+                }
+
+                return const SizedBox.shrink();
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
-
-  // Hàm hiển thị Dialog cảnh báo và chuyển tab
-  
 }

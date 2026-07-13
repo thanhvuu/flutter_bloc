@@ -15,11 +15,12 @@ final class SearchEmpty extends SearchState {}
 
 final class SearchLoaded extends SearchState {
   final List<Product> results;
+  final String selectedCategory;
 
-  const SearchLoaded(this.results);
+  const SearchLoaded(this.results, {this.selectedCategory = 'ALL'});
 
   @override  
-  List<Object?> get props => [results];
+  List<Object?> get props => [results, selectedCategory];
 
 }
 
@@ -31,3 +32,4 @@ final class SearchError extends SearchState {
   @override  
   List<Object?> get props => [message];
 }
+

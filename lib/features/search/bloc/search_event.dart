@@ -17,3 +17,12 @@ final class SearchKeywordChanged extends SearchEvent {
 }
 
 final class ClearSearch extends SearchEvent{}
+
+final class LoadProductsEvent extends SearchEvent{
+  final String? category;
+
+  const LoadProductsEvent({this.category});
+
+  @override  
+  List<Object?> get props => [category];
+}

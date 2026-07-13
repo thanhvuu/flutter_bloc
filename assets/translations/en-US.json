@@ -30,7 +30,17 @@
         "apparel": "Apparel",
         "new_arrivals": "New Arrivals",
         "see_all": "See All",
-        "add_to_cart": "Add"
+        "add_to_cart": "Add",
+        "shop_by_category": "SHOP BY CATEGORY",
+        "explore": "EXPLORE",
+        "shop_collection": "SHOP COLLECTION",
+        "limited_edition": "LIMITED EDITION",
+        "discover_more": "DISCOVER MORE",
+        "join_the_elite": "JOIN THE ELITE",
+        "newsletter_desc": "Early access to launches and member-only service.",
+        "enter_email": "ENTER YOUR EMAIL",
+        "join_now": "JOIN NOW",
+        "define_standard": "Defining the standard for performance apparel since 2026."
     },
     "search": {
         "hint": "Search for equipment, sportswear...",

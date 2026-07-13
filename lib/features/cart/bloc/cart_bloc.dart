@@ -22,7 +22,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       emit(CartLoading());
       try {
         final items = await _cartRepository.getCartItems();
-        emit(CartLoaded(items));
+        emit(_createCartLoadedState(items));
       } catch (e) {
         emit(CartError('cart error ${e.toString()}'));
       }
@@ -40,7 +40,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         if(currentUser == null) {
           emit(CartRequireAuth(DateTime.now().millisecondsSinceEpoch));
           final currentItems = await _cartRepository.getCartItems();
-          emit(CartLoaded(currentItems));
+          emit(_createCartLoadedState(currentItems));
           return;
         }
         
@@ -91,7 +91,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         if(currentUser == null) {
           emit(CartRequireAuth(DateTime.now().millisecondsSinceEpoch));
           final currentItems = await _cartRepository.getCartItems();
-          emit(CartLoaded(currentItems));
+          emit(_createCartLoadedState(currentItems));
           return;
         }
 
@@ -109,7 +109,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
           (failure) async {
             emit(CartError(failure.message));
             final currentItems = await _cartRepository.getCartItems();
-            emit(CartLoaded(currentItems));
+            emit(_createCartLoadedState(currentItems));
           },
           (_) async {
             await _cartRepository.clearCart();
@@ -131,5 +131,27 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         emit(CartError('cart error: ${e.toString()}'));
       }
     });
+  }
+
+    
+  CartLoaded _createCartLoadedState(List<CartItem> items) {
+    // 1. Tính tổng tiền hàng gốc (subtotal)
+    final subtotal = items.fold<double>(0.0, (sum, item) => sum + item.totalPrice);
+    
+    // 2. Định nghĩa các loại phí (Logic nghiệp vụ nằm ở đây)
+    // Nếu giỏ hàng rỗng thì phí ship và thuế bằng 0, ngược lại thì áp dụng phí cố định
+    final shippingFee = items.isEmpty ? 0.0 : 12.00;
+    final tax = items.isEmpty ? 0.0 : 22.24;
+    
+    // 3. Tính tổng tiền cuối cùng
+    final total = subtotal + shippingFee + tax;
+
+    return CartLoaded(
+      items: items,
+      subtotal: subtotal,
+      shippingFee: shippingFee,
+      tax: tax,
+      total: total,
+    );
   }
 }

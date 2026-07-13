@@ -16,15 +16,22 @@ final class CartItemAddedSuccess extends CartState{}
 
 final class CartLoaded extends CartState {
   final List<CartItem> items;
+  final double subtotal;
+  final double shippingFee;
+  final double tax;
+  final double total;
   
-  double get totalAmount {
-    return items.fold(0, (sum, item) => sum + item.totalPrice);
-  }
 
-  const CartLoaded(this.items);
+  const CartLoaded({ 
+    required this.items,
+    required this.subtotal,
+    required this.shippingFee,
+    required this.tax,
+    required this.total,
+  });
 
   @override  
-  List<Object?> get props => [items];
+  List<Object?> get props => [items, subtotal, shippingFee, tax, total];
 }
 
 final class CartError extends CartState {
