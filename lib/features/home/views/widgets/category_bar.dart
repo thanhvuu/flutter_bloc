@@ -9,7 +9,7 @@ class CategoryBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<String> categories = ['ALL', 'Footwear', 'Apparel', 'Nike', 'Adidas'];
+    final List<String> categories = ['ALL', 'Footwear', 'Apparel', 'Running', 'Training', 'Basketball'];
 
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
@@ -35,6 +35,12 @@ class CategoryBar extends StatelessWidget {
                 displayName = 'home.footwear'.tr();
               } else if (category == 'Apparel') {
                 displayName = 'home.apparel'.tr();
+              } else if (category == 'Running') {
+                displayName = 'home.running'.tr();
+              } else if (category == 'Training') {
+                displayName = 'home.training'.tr();
+              } else if (category == 'Basketball') {
+                displayName = 'home.basketball'.tr();
               }
 
               return GestureDetector(

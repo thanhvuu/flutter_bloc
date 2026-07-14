@@ -18,7 +18,12 @@ class ProductCard extends StatelessWidget {
       child: Container(
         width: 200,
         margin: const EdgeInsets.symmetric(horizontal: 10),
+        decoration: BoxDecoration (
         color: const Color(0xFF1A1A1A),
+        borderRadius: BorderRadius.circular(20),
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -114,6 +119,7 @@ class ProductCard extends StatelessWidget {
               ),
             )
           ],
+        ),
         ),
       ),
     );

@@ -5,9 +5,8 @@ import 'package:bloc_app_demo/features/search/bloc/search_bloc.dart';
 import 'package:bloc_app_demo/domain/entities/product.dart';
 import 'package:bloc_app_demo/core/widgets/product_card.dart';
 
-
 class ShopScreen extends StatefulWidget {
-  final String? initialCategory; 
+  final String? initialCategory;
   const ShopScreen({super.key, this.initialCategory});
 
   @override
@@ -23,8 +22,6 @@ class _ShopScreenState extends State<ShopScreen> {
     _loadProducts();
   }
 
-  // Khi GoRouter thay đổi query parameter nhưng không hủy Widget,
-  // didUpdateWidget sẽ chạy giúp cập nhật bộ lọc mới
   @override
   void didUpdateWidget(covariant ShopScreen oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -84,14 +81,13 @@ class _ShopScreenState extends State<ShopScreen> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // 1. THANH LỌC DANH MỤC CHUẨN DESIGN
+          // 1. THANH LỌC DANH MỤC
           const SizedBox(height: 10),
           BlocBuilder<SearchBloc, SearchState>(
             builder: (context, state) {
-              String activeCategory = 'ALL';
-              if (state is SearchLoaded) {
-                activeCategory = state.selectedCategory;
-              }
+              // Lấy trực tiếp từ state cha, bất kể đang Loading, Empty hay Loaded
+              final activeCategory = state.selectedCategory; 
+
               return SizedBox(
                 height: 35,
                 child: ListView.builder(
@@ -103,9 +99,20 @@ class _ShopScreenState extends State<ShopScreen> {
                     final bool isSelected = cat.toLowerCase() == activeCategory.toLowerCase();
 
                     String displayName = cat;
-                    if (cat == 'ALL') { displayName = 'home.all'.tr();}
-                    else if (cat == 'Footwear') {displayName = 'home.footwear'.tr();}
-                    else if (cat == 'Apparel') { displayName = 'home.apparel'.tr();}
+                   if (cat == 'ALL') {
+                displayName = 'home.all'.tr();
+              } else if (cat == 'Footwear') {
+                displayName = 'home.footwear'.tr();
+              } else if (cat == 'Apparel') {
+                displayName = 'home.apparel'.tr();
+              } else if (cat == 'Running') {
+                displayName = 'home.running'.tr();
+              } else if (cat == 'Training') {
+                displayName = 'home.training'.tr();
+              } else if (cat == 'Basketball') {
+                displayName = 'home.basketball'.tr();
+              }
+
 
                     return GestureDetector(
                       onTap: () {
@@ -138,7 +145,7 @@ class _ShopScreenState extends State<ShopScreen> {
           ),
           const SizedBox(height: 15),
           
-          // 2. PHẦN HIỂN THỊ KẾT QUẢ SẢN PHẨM
+          // 2. HIỂN THỊ DANH SÁCH SẢN PHẨM
           Expanded(
             child: BlocBuilder<SearchBloc, SearchState>(
               builder: (context, state) {
@@ -147,7 +154,12 @@ class _ShopScreenState extends State<ShopScreen> {
                 }
 
                 if (state is SearchEmpty) {
-                  return Center(child: Text('search.empty'.tr(), style: const TextStyle(fontWeight: FontWeight.bold)));
+                  return Center(
+                    child: Text(
+                      'search.empty'.tr(), 
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  );
                 }
 
                 if (state is SearchError) {
@@ -168,7 +180,7 @@ class _ShopScreenState extends State<ShopScreen> {
                     itemCount: products.length,
                     itemBuilder: (context, index) {
                       final Product product = products[index];
-                      return ProductCard(product: product); // Sử dụng ProductCard dùng chung
+                      return ProductCard(product: product); 
                     },
                   );
                 }

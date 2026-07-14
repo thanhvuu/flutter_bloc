@@ -16,23 +16,21 @@ EventTransformer<E> debounceAndRestartable<E>(Duration duration) {
 
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
   final ProductRepository repository;
-  List<Product> _allProducts = []; // Cache lưu toàn bộ sản phẩm gốc
+  List<Product> _allProducts = []; // Bộ nhớ cache lưu sản phẩm gốc
   String _currentCategory = 'ALL';
   String _currentKeyword = '';
 
-  SearchBloc({required this.repository}) : super(SearchInitial()) {
+  SearchBloc({required this.repository}) : super( const SearchInitial()) {
     
-    // 1. Xử lý tải sản phẩm theo danh mục (hoặc lấy tất cả)
+    // 1. Xử lý tải dữ liệu theo danh mục
     on<LoadProductsEvent>((event, emit) async {
-      emit(SearchLoading());
-      
       _currentCategory = event.category ?? 'ALL';
-
-      // Nếu chưa có cache, gọi API lấy danh sách gốc
+      emit(SearchLoading(selectedCategory: _currentCategory)); // Truyền danh mục vào Loading
+      
       if (_allProducts.isEmpty) {
         final result = await repository.getProducts(page: 1, limit: 100);
         result.fold(
-          (failure) => emit(SearchError(failure.message)),
+          (failure) => emit(SearchError(failure.message, selectedCategory: _currentCategory)),
           (products) {
             _allProducts = products;
             _emitFilteredProducts(emit);
@@ -43,24 +41,23 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       }
     });
 
-    // 2. Xử lý gõ tìm kiếm
+    // 2. Xử lý khi người dùng gõ tìm kiếm
     on<SearchKeywordChanged>((event, emit) async {
       _currentKeyword = event.keyword.trim();
-      emit(SearchLoading());
+      emit(SearchLoading(selectedCategory: _currentCategory)); // Truyền danh mục vào Loading
       
-      // Đợi debounce
       await Future.delayed(const Duration(milliseconds: 300));
       _emitFilteredProducts(emit);
     }, transformer: debounceAndRestartable(const Duration(milliseconds: 300)));
 
-    // 3. Xóa tìm kiếm
+    // 3. Xử lý khi xóa trắng ô tìm kiếm
     on<ClearSearch>((event, emit) {
       _currentKeyword = '';
       _emitFilteredProducts(emit);
     });
   }
 
-  // Hàm helper lọc sản phẩm theo cả danh mục + từ khóa
+  // Hàm helper tính toán lọc sản phẩm theo cả danh mục + từ khóa
   void _emitFilteredProducts(Emitter<SearchState> emit) {
     List<Product> temp = List.from(_allProducts);
     
@@ -76,9 +73,9 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     }
 
     if (temp.isEmpty) {
-      emit(SearchEmpty());
+      emit(SearchEmpty(selectedCategory: _currentCategory)); // Truyền danh mục vào Empty
     } else {
-      emit(SearchLoaded(temp, selectedCategory: _currentCategory));
+      emit(SearchLoaded(temp, selectedCategory: _currentCategory)); // Truyền danh mục vào Loaded
     }
   }
 }

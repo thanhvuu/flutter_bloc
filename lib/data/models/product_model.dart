@@ -11,6 +11,8 @@ class ProductModel {
   final dynamic price;
   final String? category;
   final String? imageUrl;
+  final List<String>? colors;
+  final List<String>? sizes;
   
   @JsonKey(fromJson: _timestampToDateTime)
   final DateTime? createdAt;
@@ -23,6 +25,8 @@ class ProductModel {
     this.category,
     this.imageUrl,
     this.createdAt,
+    this.colors,
+    this.sizes,
   });
 
   factory ProductModel.fromJson(Map<String, dynamic> json) => _$ProductModelFromJson(json);
@@ -49,6 +53,8 @@ class ProductModel {
       category: category ?? 'Unknown',
       imageUrl: imageUrl ?? '',
       createdAt: createdAt ?? DateTime.now(),
+      colors: colors ?? [],
+      sizes: sizes ?? [],
     );
   }
 }

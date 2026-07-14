@@ -27,6 +27,12 @@ class ProductEntity extends BaseEntity {
   @HiveField(6)
   final String category;
 
+  @HiveField(7, defaultValue: [])
+  final List<String> colors;
+
+  @HiveField(8, defaultValue: [])
+  final List<String> sizes;
+
   ProductEntity({
     required String id,
     required this.name,
@@ -35,6 +41,8 @@ class ProductEntity extends BaseEntity {
     required this.imageUrl,
     required this.createdAt,
     required this.category,
+    required this.colors,
+    required this.sizes,
   }) : super(id: id);
 
   

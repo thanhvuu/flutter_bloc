@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -56,31 +55,7 @@ class CartSummary extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 20),
-          Text('cart.promo_code'.tr(), style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold)),
-          const SizedBox(height: 8),
-          Row(
-            children: [
-              Expanded(
-                child: TextField(
-                  decoration: InputDecoration(
-                    hintText: 'cart.enter_code'.tr(),
-                    hintStyle: const TextStyle(fontSize: 12),
-                    border: const OutlineInputBorder(borderRadius: BorderRadius.zero),
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 12),
-                  ),
-                ),
-              ),
-              Container(
-                height: 48,
-                color: Colors.black,
-                child: TextButton(
-                  onPressed: () {},
-                  child: Text('cart.apply'.tr(), style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-                ),
-              )
-            ],
-          ),
-          const SizedBox(height: 20),
+          
           SizedBox(
             width: double.infinity,
             height: 50,

@@ -14,6 +14,10 @@ ProductModel _$ProductModelFromJson(Map<String, dynamic> json) => ProductModel(
       category: json['category'] as String?,
       imageUrl: json['imageUrl'] as String?,
       createdAt: ProductModel._timestampToDateTime(json['createdAt']),
+      colors:
+          (json['colors'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      sizes:
+          (json['sizes'] as List<dynamic>?)?.map((e) => e as String).toList(),
     );
 
 Map<String, dynamic> _$ProductModelToJson(ProductModel instance) =>
@@ -24,5 +28,7 @@ Map<String, dynamic> _$ProductModelToJson(ProductModel instance) =>
       'price': instance.price,
       'category': instance.category,
       'imageUrl': instance.imageUrl,
+      'colors': instance.colors,
+      'sizes': instance.sizes,
       'createdAt': instance.createdAt?.toIso8601String(),
     };

@@ -29,6 +29,8 @@ class CartRepositoryImpl implements CartRepository {
         imageUrl: entity.product.imageUrl,
         createdAt: entity.product.createdAt,
         category: entity.product.category,
+        colors: entity.product.colors,
+        sizes: entity.product.sizes,
       ),
     )).toList();
   }
@@ -47,6 +49,8 @@ class CartRepositoryImpl implements CartRepository {
         imageUrl: item.product.imageUrl,
         createdAt: item.product.createdAt,
         category: item.product.category,
+        colors: item.product.colors,
+        sizes: item.product.sizes,
       ),
     );
     await localDataSource.saveCartItem(hiveEntity);

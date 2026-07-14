@@ -30,6 +30,8 @@ class ProductRepositoryImpl implements ProductRepository {
         category: model.category ?? 'Unknown',
         imageUrl: model.imageUrl ?? '',
         createdAt: model.createdAt ?? DateTime.now(),
+        colors: model.colors ?? [],
+        sizes: model.sizes ?? [],
       )).toList();
       await localDataSource.cacheProducts(hiveEntities);
 
@@ -49,6 +51,8 @@ class ProductRepositoryImpl implements ProductRepository {
           imageUrl: entity.imageUrl,
           createdAt: entity.createdAt,
           category: entity.category,
+          colors: entity.colors,
+          sizes: entity.sizes,
         )).toList();
         return Right(products);
       } catch (cacheError) {
