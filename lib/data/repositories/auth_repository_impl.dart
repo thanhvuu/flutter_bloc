@@ -2,6 +2,7 @@ import 'package:fpdart/fpdart.dart';
 import 'package:bloc_app_demo/core/errors/failures.dart';
 import 'package:bloc_app_demo/core/utils/firebase_error_handler.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:bloc_app_demo/domain/entities/user.dart';
 import 'package:bloc_app_demo/domain/repositories/auth_repository.dart';
@@ -29,7 +30,6 @@ class AuthRepositoryImpl implements AuthRepository {
     }
 
     if(doc.exists) {
-      // Gắn thêm id vào Map data vì Firebase thường không lưu id ở trong document field
       final data = doc.data()!;
       data['id'] = firebaseUser.uid; 
       
@@ -132,5 +132,36 @@ class AuthRepositoryImpl implements AuthRepository {
   @override  
   Stream<User?> get authStateChanges {
     return  _firebaseAuth.authStateChanges().asyncMap(_mapFirebaseUserToEntity);
+  }
+
+
+    @override
+  Future<Either<Failure, User>> signInWithGoogle() async {
+    try {
+      final GoogleSignIn googleSignIn = GoogleSignIn();
+      final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+
+      if (googleUser == null) {
+        return const Left(AuthFailure("Đăng nhập Google bị hủy"));
+      }
+
+      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+      final credential = firebase_auth.GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      
+      final authResult = await _firebaseAuth.signInWithCredential(credential);
+      final userEntity = await _mapFirebaseUserToEntity(authResult.user);
+      
+      if (userEntity != null) {
+        return Right(userEntity);
+      } else {
+        return const Left(AuthFailure("Lỗi khi đồng bộ dữ liệu người dùng"));
+      }
+    } catch (e) {
+      return Left(AuthFailure(FirebaseErrorHandler.parseError(e)));
+    }
   }
 }

@@ -18,4 +18,8 @@ abstract class AuthRepository {
   Future<Either<Failure,User>> getUserProfile();
 
   Stream<User?> get authStateChanges;
+
+  Future<Either<Failure, User>> signInWithGoogle();
+
+
 }

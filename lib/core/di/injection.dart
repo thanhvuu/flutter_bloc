@@ -1,4 +1,3 @@
-
 import 'package:dio/dio.dart';
 import 'package:bloc_app_demo/core/api/rest_client.dart';
 import 'package:bloc_app_demo/core/constants/api_constants.dart';
