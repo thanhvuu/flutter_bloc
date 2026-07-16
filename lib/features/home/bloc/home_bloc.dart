@@ -26,7 +26,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         (products) {
           _allProducts = products;
           _hasReachedMax = products.length < _limit;
-          emit(HomeLoaded(products: _allProducts, selectedCategory: 'ALL', hasReachedMax: _hasReachedMax));
+          emit(HomeLoaded(products: List.from(_allProducts), selectedCategory: 'ALL', hasReachedMax: _hasReachedMax));
         },
       );
     });
@@ -46,7 +46,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
               _hasReachedMax = newProducts.length < _limit;
             }
             emit(HomeLoaded(
-              products: _allProducts,
+              products: List.from(_allProducts),
               selectedCategory: currentState.selectedCategory,
               hasReachedMax: _hasReachedMax
             ));
@@ -65,8 +65,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       }
 
       emit(HomeLoaded(
-        products: filteredProducts,
+        products: List.from(filteredProducts),
         selectedCategory: event.category,
+        hasReachedMax: _hasReachedMax
       ));
     });
   }

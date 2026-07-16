@@ -22,7 +22,7 @@ final class HomeLoaded extends HomeState {
   });
 
   @override  
-  List<Object?> get props => [products, selectedCategory];
+  List<Object?> get props => [products, selectedCategory,hasReachedMax];
 }
 
 final class HomeError extends HomeState {

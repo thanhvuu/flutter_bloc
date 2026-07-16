@@ -5,8 +5,33 @@ import 'package:go_router/go_router.dart';
 import 'package:bloc_app_demo/features/home/bloc/home_bloc.dart';
 import 'package:bloc_app_demo/core/widgets/product_card.dart';
 
-class NewArrivalsSection extends StatelessWidget {
+class NewArrivalsSection extends StatefulWidget {
   const NewArrivalsSection({super.key});
+
+  @override
+  State<NewArrivalsSection> createState() => _NewArrivalsSectionState();
+}
+
+class _NewArrivalsSectionState extends State<NewArrivalsSection> {
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+  }
+
+  void _onScroll() {
+    if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 50) {
+      context.read<HomeBloc>().add(LoadMoreHomeDataEvent());
+    }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,17 +84,24 @@ class NewArrivalsSection extends StatelessWidget {
               return SizedBox(
                 height: 280,
                 child: ListView.builder(
+                  controller: _scrollController, 
                   scrollDirection: Axis.horizontal,
                   padding: const EdgeInsets.symmetric(horizontal: 10),
-                  itemCount: products.length,
+                  itemCount: products.length + (state.hasReachedMax ? 0 : 1), 
                   itemBuilder: (context, index) {
-                    final product = products[index];
-                    return ProductCard(product: product); 
+                    if (index >= products.length) {
+                      return const Center(
+                        child: Padding(
+                          padding: EdgeInsets.all(20.0),
+                          child: CircularProgressIndicator(color: Colors.red),
+                        ),
+                      );
+                    }
+                    return ProductCard(product: products[index]); 
                   },
                 ),
               );
             }
-
             return const SizedBox(height: 280);
           },
         ),

@@ -18,9 +18,7 @@ class ProductRepositoryImpl implements ProductRepository {
   @override
   Future<Either<Failure, List<Product>>> getProducts({required int page, required int limit}) async {
     try {
-      //call api
       final remoteModels = await remoteDataSource.getProducts(page: page, limit: limit);
-
       //map remote models to hive entities and cache them
       final hiveEntities = remoteModels.map((model) => ProductEntity(
         id: model.id.toString(),

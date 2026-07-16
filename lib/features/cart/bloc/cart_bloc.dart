@@ -135,15 +135,9 @@ class CartBloc extends Bloc<CartEvent, CartState> {
 
     
   CartLoaded _createCartLoadedState(List<CartItem> items) {
-    // 1. Tính tổng tiền hàng gốc (subtotal)
     final subtotal = items.fold<double>(0.0, (sum, item) => sum + item.totalPrice);
-    
-    // 2. Định nghĩa các loại phí (Logic nghiệp vụ nằm ở đây)
-    // Nếu giỏ hàng rỗng thì phí ship và thuế bằng 0, ngược lại thì áp dụng phí cố định
     final shippingFee = items.isEmpty ? 0.0 : 12.00;
     final tax = items.isEmpty ? 0.0 : 22.24;
-    
-    // 3. Tính tổng tiền cuối cùng
     final total = subtotal + shippingFee + tax;
 
     return CartLoaded(

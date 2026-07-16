@@ -189,9 +189,7 @@ class _LoginViewState extends State<LoginView> {
                     const SizedBox(height: 24),
                     OutlinedButton.icon(
                       onPressed: () {
-                        context
-                            .read<AuthBloc>()
-                            .add(GoogleSignInRequestedEvent());
+                        context.read<AuthBloc>().add(GoogleSignInRequestedEvent());
                       },
                       icon: Image.network(
                         'https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png',
