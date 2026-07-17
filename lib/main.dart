@@ -1,3 +1,4 @@
+import 'package:bloc_app_demo/core/utils/app_bloc_observe.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/gestures.dart';
@@ -19,7 +20,7 @@ void main() async {
   await EasyLocalization.ensureInitialized();
 
   await Firebase.initializeApp();
-
+  Bloc.observer = AppBlocObserver();
   final injection = Injection();
   await injection.init();
 

@@ -20,6 +20,13 @@ abstract class RestClient {
        }
       );
 
+  @GET('/products')
+  Future<List<ProductModel>> searchOnlineProducts(
+    @Query('search') String keyword,
+    @Query('page') int page,
+    @Query('limit') int limit,
+  );
+
   @POST('/orders')
   Future<void> createOrder(
     @Body() Map<String, dynamic> body

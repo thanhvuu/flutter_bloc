@@ -1,3 +1,4 @@
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'widgets/home_banner.dart';
@@ -23,18 +24,18 @@ class HomeScreen extends StatelessWidget {
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
       ),
-      body: const SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             HomeBanner(),
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
             CategoryBar(),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             NewArrivalsSection(),
-            SizedBox(height: 40),
+            const SizedBox(height: 40),
             ShopByCategory(),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
           ],
         ),
       ),

@@ -67,6 +67,7 @@ class UserProfileCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale;
     return Card(
       elevation: 0,
       color: Colors.grey.shade50,

@@ -9,6 +9,7 @@ class CategoryBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale;
     final List<String> categories = ['ALL', 'Footwear', 'Apparel', 'Running', 'Training', 'Basketball'];
 
     return BlocBuilder<HomeBloc, HomeState>(

@@ -6,6 +6,7 @@ class ProductKeyFeatures extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale;
     final features = [
       'product_detail.feature_1'.tr(),
       'product_detail.feature_2'.tr(),

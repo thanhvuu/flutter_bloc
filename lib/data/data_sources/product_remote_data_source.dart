@@ -18,4 +18,15 @@ class ProductRemoteDataSource {
       throw ServerException ('Lỗi hệ thống không xác định: $e');
     }
   }
+
+  Future<List<ProductModel>> searchProducts(String keyword, {int page = 1, int limit = 10}) async {
+    try {
+      final dtoList = await restClient.searchOnlineProducts(keyword, page, limit);
+      return dtoList;
+    } on DioException catch (e) {
+      throw ServerException('Lỗi API Tìm kiếm: ${e.message}');
+    } catch (e) {
+      throw ServerException('Lỗi hệ thống khi tìm kiếm: $e');
+    }
+  }
 }

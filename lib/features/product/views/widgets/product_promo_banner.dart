@@ -6,6 +6,7 @@ class ProductPromoBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale;
     return Container(
       height: 400,
       width: double.infinity,

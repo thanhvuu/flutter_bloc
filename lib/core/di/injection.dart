@@ -32,6 +32,11 @@ class Injection {
       connectTimeout: const Duration(milliseconds: ApiConstants.connectTimeout),
       receiveTimeout: const Duration(milliseconds: ApiConstants.receiveTimeout),
     );
+    dio.interceptors.add(LogInterceptor(
+      requestBody: true,
+      responseBody: true,
+      logPrint: (object) => developer.log('⚡ [API] $object'),
+    ))
     final restClient = RestClient(dio, baseUrl: ApiConstants.baseUrl);
 
     // Data Sources

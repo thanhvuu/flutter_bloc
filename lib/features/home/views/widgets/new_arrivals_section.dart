@@ -35,6 +35,7 @@ class _NewArrivalsSectionState extends State<NewArrivalsSection> {
 
   @override
   Widget build(BuildContext context) {
+    context.locale;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

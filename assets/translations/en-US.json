@@ -1,17 +1,17 @@
 {
-  "profile": {
-    "title": "Profile Settings",
-    "personal_info": "Personal Information",
-    "phone": "Phone Number",
-    "address": "My Address",
-    "language": "Language",
-    "order_history": "ORDER HISTORY",
-    "no_order_history": "You have no order history.",
-    "order": "Order {id}",
-    "order_date": "Order Date: {date}",
-    "english": "English",
-    "vietnamese": "Vietnamese"
-  },
+    "profile": {
+        "title": "Profile Settings",
+        "personal_info": "Personal Information",
+        "phone": "Phone Number",
+        "address": "My Address",
+        "language": "Language",
+        "order_history": "ORDER HISTORY",
+        "no_order_history": "You have no order history.",
+        "order": "Order {id}",
+        "order_date": "Order Date: {date}",
+        "english": "English",
+        "vietnamese": "Vietnamese"
+    },
 
     "navbar": {
         "home": "HOME",
@@ -36,14 +36,11 @@
         "add_to_cart": "Add",
         "shop_by_category": "SHOP BY CATEGORY",
         "explore": "EXPLORE",
-        "shop_collection": "SHOP COLLECTION",
-        "limited_edition": "LIMITED EDITION",
-        "discover_more": "DISCOVER MORE",
-        "join_the_elite": "JOIN THE ELITE",
-        "newsletter_desc": "Early access to launches and member-only service.",
-        "enter_email": "ENTER YOUR EMAIL",
-        "join_now": "JOIN NOW",
-        "define_standard": "Defining the standard for performance apparel since 2026."
+        "running_banner": "RUNNING",
+        "training_banner": "TRAINING",
+        "basketball_banner": "BASKETBALL",
+        "shop_collection": "SHOP COLLECTION"
+
     },
     "search": {
         "hint": "Search for equipment, sportswear...",

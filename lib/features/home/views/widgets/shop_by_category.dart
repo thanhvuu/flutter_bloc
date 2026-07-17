@@ -8,6 +8,7 @@ class ShopByCategory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale;
     return Column(
       children: [
         Center(
@@ -25,14 +26,14 @@ class ShopByCategory extends StatelessWidget {
         
         // RUNNING Card
         _buildCategoryCard(
-          title: 'RUNNING',
+          title: 'home.running_banner'.tr(),
           imageUrl: 'https://images.pexels.com/photos/3760259/pexels-photo-3760259.jpeg?auto=compress&cs=tinysrgb&w=800',
           onTap: () => context.go('/shop?category=Running'),
         ),
         
         // TRAINING Card
         _buildCategoryCard(
-          title: 'TRAINING',
+          title: 'home.training_banner'.tr(),
           imageUrl: 'https://images.pexels.com/photos/414029/pexels-photo-414029.jpeg?auto=compress&cs=tinysrgb&w=800',
           onTap: () => context.go('/shop?category=Training'),
         ),
@@ -122,9 +123,9 @@ class ShopByCategory extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const Text(
-            'BASKETBALL',
-            style: TextStyle(
+           Text(
+            'home.basketball_banner'.tr(),
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 28,
               fontWeight: FontWeight.bold,

@@ -37,9 +37,10 @@ class ProductRepositoryImpl implements ProductRepository {
       final products = remoteModels.map((m) => m.toEntity()).toList();
       return Right(products);
 
-    } catch (e) {
+    } catch (e, stackTrace) {
       //not call api, get cached data
-      try {
+        developer.log('❌ [ProductRepository] getProducts Error: $e', error: e, stackTrace: stackTrace);      
+        try {
         final cachedEntities = localDataSource.getCachedProducts();
         final products = cachedEntities.map((entity) => Product(
           id: entity.id,
@@ -61,17 +62,12 @@ class ProductRepositoryImpl implements ProductRepository {
 
   @override  
   Future<Either<Failure, List<Product>>> searchProducts(String keywords) async {
-    await Future.delayed(const Duration(seconds: 3));
-    final result = await getProducts(page: 1, limit: 10);
-    return result.fold(
-      (failure) => Left(failure),
-      (allProducts) {
-        final lowerKeyword = keywords.toLowerCase();
-        final filtered = allProducts.where((product) {
-          return product.name.toLowerCase().contains(lowerKeyword);
-        }).toList();
-        return Right(filtered);
-      },
-    );
+    try {
+      final remoteModels = await remoteDataSource.searchProducts(keywords, page: 1, limit: 20);
+      final products = remoteModels.map((m) => m.toEntity()).toList();
+      return Right(products);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
   }
 }

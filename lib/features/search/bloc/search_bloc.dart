@@ -18,7 +18,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   final ProductRepository repository;
   List<Product> _allProducts = []; 
   String _currentCategory = 'ALL';
-  String _currentKeyword = '';
+  String _currentKeyword= '' ;
 
   SearchBloc({required this.repository}) : super( const SearchInitial()) {
     

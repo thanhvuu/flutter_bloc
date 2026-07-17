@@ -36,14 +36,11 @@
     "add_to_cart": "Thêm",
     "shop_by_category": "DANH MỤC SẢN PHẨM",
     "explore": "KHÁM PHÁ",
-    "shop_collection": "XEM BỘ SƯU TẬP",
-    "limited_edition": "PHIÊN BẢN GIỚI HẠN",
-    "discover_more": "KHÁM PHÁ THÊM",
-    "join_the_elite": "GIA NHẬP NHÓM ELITE",
-    "newsletter_desc": "Nhận quyền truy cập sớm vào các bộ sưu tập mới và dịch vụ đặc quyền cho thành viên.",
-    "enter_email": "NHẬP EMAIL CỦA BẠN",
-    "join_now": "THAM GIA NGAY",
-    "define_standard": "Định nghĩa chuẩn mực trang phục hiệu suất cao từ năm 2026."
+    "running_banner": "CHẠY BỘ",
+    "training_banner": "TẬP LUYỆN",
+    "basketball_banner": "BÓNG RỔ",
+    "shop_collection": "XEM BỘ SƯU TẬP"
+    
   },
   "search": {
     "hint": "Tìm kiếm thiết bị, đồ thể thao...",

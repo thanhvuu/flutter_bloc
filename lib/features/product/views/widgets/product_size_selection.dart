@@ -10,6 +10,7 @@ class ProductSizeSelection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.locale;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
