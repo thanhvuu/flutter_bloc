@@ -1,4 +1,5 @@
 import 'package:fpdart/fpdart.dart';
+import 'dart:developer' as developer;
 import 'package:bloc_app_demo/core/errors/failures.dart';
 import 'package:bloc_app_demo/domain/entities/product.dart';
 import 'package:bloc_app_demo/domain/repositories/product_repository.dart';

@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'dart:developer' as developer;
 import 'package:bloc_app_demo/core/api/rest_client.dart';
 import 'package:bloc_app_demo/core/constants/api_constants.dart';
 import 'package:bloc_app_demo/core/hive_database/hive_database.dart';
@@ -36,7 +37,7 @@ class Injection {
       requestBody: true,
       responseBody: true,
       logPrint: (object) => developer.log('⚡ [API] $object'),
-    ))
+    ));
     final restClient = RestClient(dio, baseUrl: ApiConstants.baseUrl);
 
     // Data Sources
