@@ -15,6 +15,7 @@ class ShopScreen extends StatefulWidget {
 
 class _ShopScreenState extends State<ShopScreen> {
   final TextEditingController _searchController = TextEditingController();
+  final List<String> categories = ['ALL', 'Footwear', 'Apparel', 'Running', 'Training', 'Basketball'];
 
   @override
   void initState() {
@@ -41,9 +42,7 @@ class _ShopScreenState extends State<ShopScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final List<String> categories = ['ALL', 'Footwear', 'Apparel', 'Running', 'Training', 'Basketball'];
-    
+  Widget build(BuildContext context) {    
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(

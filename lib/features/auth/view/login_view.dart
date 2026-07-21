@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:easy_localization/easy_localization.dart'; 
 import 'package:bloc_app_demo/features/auth/bloc/auth_bloc.dart';
 import 'package:bloc_app_demo/features/auth/view/widgets/auth_text_field.dart';
 
@@ -51,6 +52,8 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
+    context.locale; 
+
     return Scaffold(
       backgroundColor: Colors.black,
       body: BlocListener<AuthBloc, AuthState>(
@@ -58,8 +61,7 @@ class _LoginViewState extends State<LoginView> {
           if (state is AuthError) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text(state.message,
-                    style: const TextStyle(color: Colors.white)),
+                content: Text(state.message, style: const TextStyle(color: Colors.white)),
                 backgroundColor: Colors.red,
               ),
             );
@@ -75,13 +77,10 @@ class _LoginViewState extends State<LoginView> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    const Icon(Icons.shopping_bag_outlined,
-                        size: 80, color: Colors.red),
+                    const Icon(Icons.shopping_bag_outlined, size: 80, color: Colors.red),
                     const SizedBox(height: 16),
                     Text(
-                      _isSignUpMode
-                          ? 'TẠO TÀI KHOẢN MỚI'
-                          : 'ĐĂNG NHẬP HỆ THỐNG',
+                      _isSignUpMode ? 'auth.signup_title'.tr() : 'auth.login_title'.tr(),
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         color: Colors.white,
@@ -93,56 +92,55 @@ class _LoginViewState extends State<LoginView> {
                     const SizedBox(height: 32),
                     AuthTextField(
                       controller: _emailController,
-                      labelText: 'Email Address',
+                      labelText: 'auth.email'.tr(),
                       icon: Icons.email_outlined,
                       validator: (v) => (v == null || !v.contains('@'))
-                          ? 'Vui lòng nhập Email hợp lệ'
+                          ? 'auth.invalid_email'.tr()
                           : null,
                     ),
                     const SizedBox(height: 16),
                     AuthTextField(
                       controller: _passwordController,
-                      labelText: 'Password',
+                      labelText: 'auth.password'.tr(),
                       icon: Icons.lock_outline,
                       obscureText: true,
                       validator: (v) => (v == null || v.length < 6)
-                          ? 'Mật khẩu tối thiểu 6 ký tự'
+                          ? 'auth.invalid_password'.tr()
                           : null,
                     ),
                     if (_isSignUpMode) ...[
                       const SizedBox(height: 16),
                       AuthTextField(
                         controller: _nameController,
-                        labelText: 'Họ và Tên',
+                        labelText: 'auth.full_name'.tr(),
                         icon: Icons.person_outline,
                         validator: (v) => (v == null || v.isEmpty)
-                            ? 'Vui lòng nhập họ tên'
+                            ? 'auth.enter_name'.tr()
                             : null,
                       ),
                       const SizedBox(height: 16),
                       AuthTextField(
                         controller: _phoneController,
-                        labelText: 'Số điện thoại',
+                        labelText: 'auth.phone_number'.tr(),
                         icon: Icons.phone_android,
                         keyboardType: TextInputType.phone,
                         validator: (v) => (v == null || v.isEmpty)
-                            ? 'Vui lòng nhập số điện thoại'
+                            ? 'auth.enter_phone'.tr()
                             : null,
                       ),
                       const SizedBox(height: 16),
                       AuthTextField(
                         controller: _addressController,
-                        labelText: 'Địa chỉ giao hàng',
+                        labelText: 'auth.shipping_address'.tr(),
                         icon: Icons.location_on_outlined,
                         validator: (v) => (v == null || v.isEmpty)
-                            ? 'Vui lòng nhập địa chỉ'
+                            ? 'auth.enter_address'.tr()
                             : null,
                       ),
                     ],
                     const SizedBox(height: 32),
                     if (state is AuthLoading)
-                      const Center(
-                          child: CircularProgressIndicator(color: Colors.red))
+                      const Center(child: CircularProgressIndicator(color: Colors.red))
                     else
                       ElevatedButton(
                         onPressed: _submitForm,
@@ -150,13 +148,11 @@ class _LoginViewState extends State<LoginView> {
                           backgroundColor: Colors.red,
                           foregroundColor: Colors.white,
                           padding: const EdgeInsets.symmetric(vertical: 16),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8)),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                         ),
                         child: Text(
-                          _isSignUpMode ? 'ĐĂNG KÝ NGAY' : 'ĐĂNG NHẬP',
-                          style: const TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold),
+                          _isSignUpMode ? 'auth.signup_btn'.tr() : 'auth.login_btn'.tr(),
+                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                         ),
                       ),
                     const SizedBox(height: 16),
@@ -168,8 +164,8 @@ class _LoginViewState extends State<LoginView> {
                       },
                       child: Text(
                         _isSignUpMode
-                            ? 'Đã có tài khoản? Đăng nhập'
-                            : 'Chưa có tài khoản? Đăng ký ngay',
+                            ? 'auth.already_have_account'.tr()
+                            : 'auth.dont_have_account'.tr(),
                         style: const TextStyle(color: Colors.grey),
                       ),
                     ),
@@ -179,9 +175,10 @@ class _LoginViewState extends State<LoginView> {
                         const Expanded(child: Divider(color: Colors.grey)),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16),
-                          child: Text('HOẶC',
-                              style: TextStyle(
-                                  color: Colors.grey.shade600, fontSize: 12)),
+                          child: Text(
+                            'auth.or'.tr(),
+                            style: TextStyle(color: Colors.grey.shade600, fontSize: 12),
+                          ),
                         ),
                         const Expanded(child: Divider(color: Colors.grey)),
                       ],
@@ -195,18 +192,17 @@ class _LoginViewState extends State<LoginView> {
                         'https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png',
                         height: 24,
                         errorBuilder: (context, error, stackTrace) {
-                          
-                          return const Icon(Icons.g_mobiledata,
-                              color: Colors.white, size: 36);
+                          return const Icon(Icons.g_mobiledata, color: Colors.white, size: 36);
                         },
                       ),
-                      label: const Text('Tiếp tục với Google',
-                          style: TextStyle(color: Colors.white, fontSize: 16)),
+                      label: Text(
+                        'auth.google_signin'.tr(),
+                        style: const TextStyle(color: Colors.white, fontSize: 16),
+                      ),
                       style: OutlinedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 12),
                         side: const BorderSide(color: Colors.grey),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8)),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                       ),
                     ),
                   ],

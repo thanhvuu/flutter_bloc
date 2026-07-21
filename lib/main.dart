@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/gestures.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:bloc_app_demo/core/di/injection.dart';
 import 'package:bloc_app_demo/features/home/bloc/home_bloc.dart';
 import 'package:bloc_app_demo/core/router/app_router.dart';
@@ -18,6 +19,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await EasyLocalization.ensureInitialized();
+  Stripe.publishableKey = 'pk_test_51TvUAzCaQ5qjnc7OfVJKtWrMeJdnrKMezq9LeM5NlD0XjV0u0ZFP2tQrHuJioS41DLfadPWimYibPjnhKgl9s62I00sf4Tobow';
 
   await Firebase.initializeApp();
   Bloc.observer = AppBlocObserver();

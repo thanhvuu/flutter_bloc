@@ -43,6 +43,8 @@ class ProductRepositoryImpl implements ProductRepository {
         developer.log('❌ [ProductRepository] getProducts Error: $e', error: e, stackTrace: stackTrace);      
         try {
         final cachedEntities = localDataSource.getCachedProducts();
+
+        if(cachedEntities.isNotEmpty){
         final products = cachedEntities.map((entity) => Product(
           id: entity.id,
           name: entity.name,
@@ -55,6 +57,9 @@ class ProductRepositoryImpl implements ProductRepository {
           sizes: entity.sizes,
         )).toList();
         return Right(products);
+        }
+        //nếu user mở app lần đầu(chưa có sản phẩm nào lưu trong Hive) mà mất kết nối thì sẽ lỗi
+        return Left(ServerFailure(e.toString()));
       } catch (cacheError) {
         return Left(ServerFailure(e.toString()));
       }

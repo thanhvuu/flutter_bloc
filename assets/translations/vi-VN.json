@@ -90,5 +90,27 @@
   "common": {
     "cancel": "HỦY",
     "login_now": "ĐĂNG NHẬP NGAY"
+  },
+
+  "auth": {
+    "login_title": "ĐĂNG NHẬP HỆ THỐNG",
+    "signup_title": "TẠO TÀI KHOẢN MỚI",
+    "email": "Địa chỉ Email",
+    "password": "Mật khẩu",
+    "full_name": "Họ và Tên",
+    "phone_number": "Số điện thoại",
+    "shipping_address": "Địa chỉ giao hàng",
+    "invalid_email": "Vui lòng nhập Email hợp lệ",
+    "invalid_password": "Mật khẩu tối thiểu 6 ký tự",
+    "enter_name": "Vui lòng nhập họ tên",
+    "enter_phone": "Vui lòng nhập số điện thoại",
+    "enter_address": "Vui lòng nhập địa chỉ",
+    "login_btn": "ĐĂNG NHẬP",
+    "signup_btn": "ĐĂNG KÝ NGAY",
+    "already_have_account": "Đã có tài khoản? Đăng nhập",
+    "dont_have_account": "Chưa có tài khoản? Đăng ký ngay",
+    "or": "HOẶC",
+    "google_signin": "Tiếp tục với Google"
   }
+
 }

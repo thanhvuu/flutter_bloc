@@ -1,8 +1,5 @@
-import 'dart:ui';
-
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
 import 'package:equatable/equatable.dart';
 import 'package:bloc_app_demo/domain/entities/product.dart';
 
@@ -18,7 +15,6 @@ class ProductDetailBloc extends Bloc<ProductDetailEvent, ProductDetailState> {
 
   
 
-  /// Parse mã hex "#C00010" → Flutter Color
   static Color _parseHexColor(String hexString) {
     try {
       final buffer = StringBuffer();

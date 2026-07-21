@@ -14,8 +14,8 @@ abstract class RestClient {
       //   @Path('serial') required String deviceSerial,
       //   @Query('SearchText') required String searchText,
       //   @Query('PaginationType') required int paginationType,
-         @Query('page') required  int page,
-         @Query('limit') required int limit,
+          @Query('page') required  int page,
+          @Query('limit') required int limit,
       //   @CancelRequest() CancelToken? cancelToken,
        }
       );
