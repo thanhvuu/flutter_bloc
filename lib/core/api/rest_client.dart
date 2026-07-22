@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:bloc_app_demo/data/models/product_model.dart';
 import 'package:bloc_app_demo/data/models/order_model.dart';
 import 'package:retrofit/retrofit.dart';
+
 part 'rest_client.g.dart';
 
 @RestApi()

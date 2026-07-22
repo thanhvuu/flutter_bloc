@@ -6,11 +6,16 @@ import 'package:bloc_app_demo/features/cart/views/cart_screen.dart';
 import 'package:bloc_app_demo/features/search/view/shop_screen.dart';
 import 'package:bloc_app_demo/domain/entities/product.dart';
 import 'package:bloc_app_demo/features/product/views/product_detail_screen.dart';
+import 'package:bloc_app_demo/features/payment/views/checkout_screen.dart';
 
 class AppRouter {
   static final router = GoRouter(
     initialLocation: '/home',
     routes: [
+      GoRoute(
+        path: '/',
+        redirect: (context, state) => '/home',
+      ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
           return MainScreen(navigationShell: navigationShell);
@@ -56,6 +61,11 @@ class AppRouter {
           return ProductDetailScreen(product: product);
         },
       ),
+      GoRoute(
+        path: '/checkout',
+        builder: (context,state) => const CheckoutScreen(),
+        
+         )
     ]
   );
 }

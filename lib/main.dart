@@ -14,6 +14,7 @@ import 'package:bloc_app_demo/features/auth/bloc/auth_bloc.dart';
 import 'package:bloc_app_demo/features/order/bloc/order_bloc.dart';
 import 'package:bloc_app_demo/features/network/bloc/network_bloc.dart';
 import 'package:bloc_app_demo/features/network/view/no_network_screen.dart';
+import 'package:bloc_app_demo/features/payment/bloc/payment_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -62,6 +63,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<NetworkBloc>(
           create: (context) => NetworkBloc(networkRepository: injection.networkRepository)..add(NetworkObserve()),
+        ),
+        BlocProvider<PaymentBloc>(
+          create: (context) => PaymentBloc(paymentRepository: injection.paymentRepository),
         ),
       ],
       child: MaterialApp.router(
