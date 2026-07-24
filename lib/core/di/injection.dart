@@ -45,11 +45,11 @@ class Injection {
     final stripeClient = StripeClient(dio, baseUrl: ApiStripe.baseUrl);
 
     // Data Sources
-    final cartRemoteDataSource = CartRemoteDataSource(restClient: restClient);
     final remoteDataSource = ProductRemoteDataSource(restClient: restClient);
     final localDataSource = ProductLocalDataSource(productDao: ProductDao());
+    final cartRemoteDataSource = CartRemoteDataSource(restClient: restClient);
     final cartLocalDataSource = CartLocalDataSource(cartDao: CartDao());
-
+    
     // Repository
     productRepository = ProductRepositoryImpl(
       remoteDataSource: remoteDataSource,

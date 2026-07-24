@@ -88,15 +88,11 @@ class MyApp extends StatelessWidget {
         routerConfig: AppRouter.router,
 
         builder: (context, child) {
-          // Thay BlocListener thành BlocBuilder
           return BlocBuilder<NetworkBloc, NetworkState>(
             builder: (context, state) {
               return Stack(
                 children: [
-                  // Lớp dưới cùng: Giao diện app bình thường
                   child ?? const SizedBox.shrink(), 
-                  
-                  // Lớp trên cùng: Nếu BLoC báo mất mạng thì hiện Overlay trùm lên
                   if (state is NetworkFailure)
                     const NoNetworkOverlay(),
                 ],

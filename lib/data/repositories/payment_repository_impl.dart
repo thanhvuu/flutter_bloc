@@ -19,9 +19,9 @@ class PaymentRepositoryImpl implements PaymentRepository {
   }) async {
     try {
       final amountInCents = (totalAmount * 100).toInt().toString();
-
       final response = await _stripeClient.createPaymentIntent('Bearer $_secretKey', amountInCents, currency, 'card');
       final clientSecret = response.data['client_secret'] as String?;
+      
       if(clientSecret == null) {
         return  const Left(ServerFailure('không thể tạo mã thanh toán từ stripe'));
       }
