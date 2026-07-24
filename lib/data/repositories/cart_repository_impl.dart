@@ -1,4 +1,3 @@
-import 'package:bloc_app_demo/data/data_sources/cart_remote_data_source.dart';
 import 'package:bloc_app_demo/domain/entities/product.dart';
 import 'package:bloc_app_demo/domain/entities/cart_item.dart';
 import 'package:bloc_app_demo/domain/repositories/cart_repository.dart';
@@ -8,10 +7,10 @@ import 'package:bloc_app_demo/core/hive_database/entities/product_entity/product
 
 class CartRepositoryImpl implements CartRepository {
   final CartLocalDataSource localDataSource;
-  final CartRemoteDataSource remoteDataSource;
+ 
   
 
-  CartRepositoryImpl({required this.localDataSource, required this.remoteDataSource});
+  CartRepositoryImpl({required this.localDataSource});
 
   @override
   Future<List<CartItem>> getCartItems() async {
@@ -63,20 +62,6 @@ class CartRepositoryImpl implements CartRepository {
 
   @override
   Future<void> clearCart() async {
-    await localDataSource.clearCart();
-  }
-
-  @override  
-  Future<void> checkoutCart(List<CartItem> items, double totalAmount) async {
-    final orderItems = items.map((item) => {
-       "productId": item.product.id,
-      "name": item.product.name,
-      "price": item.product.price,
-      "quantity": item.quantity,
-    }).toList();
-
-    await remoteDataSource.postOrder(orderItems, totalAmount);
-
     await localDataSource.clearCart();
   }
 }

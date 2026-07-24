@@ -46,7 +46,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           final cartState = context.read<CartBloc>().state;
           if (cartState is CartLoaded) {
             context.read<CartBloc>().add(
-                  CheckoutCartEvent(cartState.items, cartState.total),
+                  CheckoutCartEvent(cartState.items, cartState.total,status: 'PAID'),
                 );
           }
 
@@ -133,7 +133,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     total: cartState.total,
                     selectedMethod: _selectedPaymentMethod,
                     onCodSelected: () {
-                      context.read<CartBloc>().add(CheckoutCartEvent(cartState.items, cartState.total));
+                      context.read<CartBloc>().add(CheckoutCartEvent(cartState.items, cartState.total, status: 'UNPAID'));
 
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                         content: Text('Đặt hàng thành công'),

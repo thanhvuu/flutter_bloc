@@ -5,5 +5,4 @@ abstract class CartRepository {
   Future<void> addToCart(CartItem item);
   Future<void> removeFromCart(String itemId);
   Future<void> clearCart();
-  Future<void> checkoutCart(List<CartItem> items,double totalAmount);
 }

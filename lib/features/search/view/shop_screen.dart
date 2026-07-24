@@ -80,13 +80,10 @@ class _ShopScreenState extends State<ShopScreen> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // 1. THANH LỌC DANH MỤC
           const SizedBox(height: 10),
           BlocBuilder<SearchBloc, SearchState>(
             builder: (context, state) {
-              // Lấy trực tiếp từ state cha, bất kể đang Loading, Empty hay Loaded
               final activeCategory = state.selectedCategory; 
-
               return SizedBox(
                 height: 35,
                 child: ListView.builder(
@@ -98,7 +95,7 @@ class _ShopScreenState extends State<ShopScreen> {
                     final bool isSelected = cat.toLowerCase() == activeCategory.toLowerCase();
 
                     String displayName = cat;
-                   if (cat == 'ALL') {
+                if (cat == 'ALL') {
                 displayName = 'home.all'.tr();
               } else if (cat == 'Footwear') {
                 displayName = 'home.footwear'.tr();

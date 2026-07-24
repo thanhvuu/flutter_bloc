@@ -46,7 +46,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       _currentKeyword = event.keyword.trim();
       emit(SearchLoading(selectedCategory: _currentCategory)); 
       
-      await Future.delayed(const Duration(milliseconds: 300));
       _emitFilteredProducts(emit);
     }, transformer: debounceAndRestartable(const Duration(milliseconds: 300)));
 

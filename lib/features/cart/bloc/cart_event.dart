@@ -39,8 +39,11 @@ final class UpdateCartQuantityEvent extends CartEvent {
 final class CheckoutCartEvent extends CartEvent {
   final List<CartItem> items;
   final double totalAmount;
-  const CheckoutCartEvent(this.items, this.totalAmount);
+  final String status;
+  
+
+  const CheckoutCartEvent(this.items, this.totalAmount, {this.status = 'PENDING'});
 
   @override   
-  List<Object?> get props => [items, totalAmount];
+  List<Object?> get props => [items, totalAmount, status];
 }

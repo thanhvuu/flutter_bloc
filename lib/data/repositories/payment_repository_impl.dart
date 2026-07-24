@@ -39,6 +39,9 @@ class PaymentRepositoryImpl implements PaymentRepository {
       return const Right(unit);
     } on StripeException catch(e) {
       developer.log('Stripe Exception: ${e.error.localizedMessage}');
+      if(e.error.code == FailureCode.Canceled){
+        return const Left(ServerFailure('Hủy thanh toán.'));
+      }
       return Left(ServerFailure(e.toString()));
     } catch (e) {
       developer.log('Error: $e');

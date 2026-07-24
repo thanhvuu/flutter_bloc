@@ -1,19 +1,20 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:bloc_app_demo/core/errors/failures.dart';
+import 'package:bloc_app_demo/core/errors/exception.dart';
 import 'package:bloc_app_demo/domain/entities/order.dart';
 import 'package:bloc_app_demo/domain/repositories/order_repository.dart';
 import 'package:bloc_app_demo/data/models/order_model.dart';
 import 'package:bloc_app_demo/data/models/product_model.dart';
-import 'package:bloc_app_demo/core/api/rest_client.dart';
+import 'package:bloc_app_demo/data/data_sources/order_remote_data_source.dart';
 
 class OrderRepositoryImpl implements OrderRepository {
-  final RestClient restClient;
+  final OrderRemoteDataSource remoteDataSource;
 
-  OrderRepositoryImpl({required this.restClient});
+  OrderRepositoryImpl({required this.remoteDataSource});
 
   @override  
-  Future<Either<Failure,void>> createOrder(AppOrder order) async {
-    try{
+  Future<Either<Failure, void>> createOrder(AppOrder order) async {
+    try {
       final model = OrderModel(
         id: order.id,
         userId: order.userId,
@@ -35,22 +36,26 @@ class OrderRepositoryImpl implements OrderRepository {
         createdAt: order.createdAt,
       );
 
-      await restClient.createOrder(model.toJson());
+      await remoteDataSource.createOrder(model);
       return const Right(null);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message ?? 'lỗi máy chủ không xác định'));
     } catch (e) {
-      return const Left(ServerFailure());
+      return Left(ServerFailure(e.toString()));
     }
   }
 
   @override  
-  Future<Either<Failure,List<AppOrder>>> getUserOrders(String userId) async {
-    try{
-      final models = await restClient.getOrders(userId);
+  Future<Either<Failure, List<AppOrder>>> getUserOrders(String userId) async {
+    try {
+      final models = await remoteDataSource.getUserOrders(userId);
       models.sort((a, b) => b.createdAt.compareTo(a.createdAt));
       final orders = models.map((model) => model.toEntity()).toList();
       return Right(orders);
-    } catch(e) {
-      return const Left(ServerFailure());
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message ?? 'lỗi máy chủ không xác định'));
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
     }
   }
 }

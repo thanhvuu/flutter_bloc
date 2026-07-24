@@ -6,7 +6,7 @@ import 'package:bloc_app_demo/core/constants/api_constants.dart';
 import 'package:bloc_app_demo/core/hive_database/hive_database.dart';
 import 'package:bloc_app_demo/core/hive_database/daos/cart_dao.dart';
 import 'package:bloc_app_demo/data/data_sources/cart_local_data_source.dart';
-import 'package:bloc_app_demo/data/data_sources/cart_remote_data_source.dart';
+import 'package:bloc_app_demo/data/data_sources/order_remote_data_source.dart';
 import 'package:bloc_app_demo/core/hive_database/daos/product_dao.dart';
 import 'package:bloc_app_demo/data/data_sources/product_remote_data_source.dart';
 import 'package:bloc_app_demo/data/data_sources/product_local_data_source.dart';
@@ -47,9 +47,10 @@ class Injection {
     // Data Sources
     final remoteDataSource = ProductRemoteDataSource(restClient: restClient);
     final localDataSource = ProductLocalDataSource(productDao: ProductDao());
-    final cartRemoteDataSource = CartRemoteDataSource(restClient: restClient);
     final cartLocalDataSource = CartLocalDataSource(cartDao: CartDao());
+    final orderRemoteDataSource = OrderRemoteDataSource(restClient: restClient);
     
+
     // Repository
     productRepository = ProductRepositoryImpl(
       remoteDataSource: remoteDataSource,
@@ -57,11 +58,10 @@ class Injection {
     );
     cartRepository = CartRepositoryImpl(
       localDataSource: cartLocalDataSource,
-      remoteDataSource: cartRemoteDataSource,
     );
     authRepository = AuthRepositoryImpl();
-    orderRepository = OrderRepositoryImpl(restClient: restClient);
     networkRepository = NetworkRepositoryImpl();
     paymentRepository = PaymentRepositoryImpl(stripeClient: stripeClient);
+    orderRepository = OrderRepositoryImpl(remoteDataSource: orderRemoteDataSource);
   }
 }

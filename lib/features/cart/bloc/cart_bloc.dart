@@ -100,7 +100,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
           userId: currentUser.id,
           items: event.items,
           totalAmount: event.totalAmount,
-          status: 'PENDING',
+          status: event.status,
           createdAt: DateTime.now(),
         );
 
