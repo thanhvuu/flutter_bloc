@@ -67,6 +67,9 @@ class MyApp extends StatelessWidget {
         BlocProvider<PaymentBloc>(
           create: (context) => PaymentBloc(paymentRepository: injection.paymentRepository),
         ),
+        BlocProvider(
+          create: (context) => LocationCubit(repository: Injection().locationRepository),
+),
       ],
       child: MaterialApp.router(
 
