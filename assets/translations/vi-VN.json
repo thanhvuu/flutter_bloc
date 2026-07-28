@@ -9,6 +9,15 @@
     "no_order_history": "Bạn chưa có đơn hàng nào.",
     "order": "Đơn hàng {id}",
     "order_date": "Ngày đặt hàng: {date}",
+    "elite_athlete": "ELITE ATHLETE",
+    "my_orders": "ĐƠN HÀNG CỦA TÔI",
+    "settings_menu": "CÀI ĐẶT",
+    "logout": "ĐĂNG XUẤT",
+    "full_name": "Họ và Tên",
+    "email_label": "Gmail / Email",
+    "phone_number": "Số điện thoại",
+    "shipping_address": "Địa chỉ giao hàng",
+    "na": "Chưa có",
     "english": "Tiếng Anh",
     "vietnamese": "Tiếng Việt"
   },
@@ -85,7 +94,8 @@
     "support": "Độ hỗ trợ",
     "neutral": "Trung tính",
     "promo_1": "BỨT PHÁ\nCHUẨN XÁC",
-    "promo_2": "CHUẨN MỰC MỚI CỦA TỐC ĐỘ"
+    "promo_2": "CHUẨN MỰC MỚI CỦA TỐC ĐỘ",
+    "added_to_cart_success": "Đã thêm sản phẩm vào giỏ hàng!"
   },
   "common": {
     "cancel": "HỦY",
@@ -111,6 +121,22 @@
     "dont_have_account": "Chưa có tài khoản? Đăng ký ngay",
     "or": "HOẶC",
     "google_signin": "Tiếp tục với Google"
+  },
+  "settings": {
+    "language": "Ngôn ngữ",
+    "dark_mode": "Chế độ tối"
+  },
+  "payment": {
+    "success": " Thanh toán & Đặt hàng thành công!",
+    "error": " Lỗi: {msg}",
+    "address_auto_success": "Đã tự động lấy địa chỉ thành công!",
+    "order_success": "Đặt hàng thành công",
+    "order_summary": "TỔNG KẾT ĐƠN HÀNG",
+    "qty": "SL: {qty}",
+    "total": "TỔNG CỘNG",
+    "method": "PHƯƠNG THỨC THANH TOÁN",
+    "credit_card": "THẺ TÍN DỤNG / GHI NỢ",
+    "cod": "THANH TOÁN KHI NHẬN HÀNG (COD)",
+    "shipping_info": "THÔNG TIN GIAO HÀNG"
   }
-
 }

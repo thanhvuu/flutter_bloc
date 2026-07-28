@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
+
 
 class PaymentMethodSection extends StatelessWidget {
   final String selectedMethod;
@@ -21,11 +23,11 @@ class PaymentMethodSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Row(
+           Row(
             children: [
-              Icon(Icons.payment, size: 20),
-              SizedBox(width: 8),
-              Text('PAYMENT METHOD', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 14)),
+              const Icon(Icons.payment, size: 20),
+              const SizedBox(width: 8),
+              Text('payment.method'.tr(), style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 14)),
             ],
           ),
           const SizedBox(height: 16),
@@ -45,7 +47,7 @@ class PaymentMethodSection extends StatelessWidget {
                     selectedMethod == 'stripe'? Icons.radio_button_checked : Icons.radio_button_off,
                     size: 18),
                   const SizedBox(width: 12),
-                  const Text('CREDIT / DEBIT CARD', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
+                  Text('payment.credit_card'.tr(), style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
                   const Spacer(),
                   const Icon(Icons.credit_card, size: 20),
                 ],
@@ -72,7 +74,7 @@ class PaymentMethodSection extends StatelessWidget {
                     size: 18,
                   ),
                   const SizedBox(width: 12 ),
-                  const Text('CASH ON DELIVERY (COD)', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
+                  Text('payment.cod'.tr(), style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
                   const Spacer(),
                   const Icon(Icons.local_shipping, size: 20,),
                 ],

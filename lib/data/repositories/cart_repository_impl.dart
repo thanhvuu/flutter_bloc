@@ -1,7 +1,7 @@
 import 'package:bloc_app_demo/domain/entities/product.dart';
 import 'package:bloc_app_demo/domain/entities/cart_item.dart';
 import 'package:bloc_app_demo/domain/repositories/cart_repository.dart';
-import 'package:bloc_app_demo/data/data_sources/cart_local_data_source.dart';
+import 'package:bloc_app_demo/data/data_sources/interfaces/cart_local_data_source.dart';
 import 'package:bloc_app_demo/core/hive_database/entities/cart_item_entity/cart_item_entity.dart';
 import 'package:bloc_app_demo/core/hive_database/entities/product_entity/product_entity.dart';
 

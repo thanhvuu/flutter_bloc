@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:bloc_app_demo/domain/entities/cart_item.dart';
 
 class OrderSummarySection extends StatelessWidget {
@@ -25,7 +26,7 @@ class OrderSummarySection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('ORDER SUMMARY', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 16)),
+          Text('payment.order_summary'.tr(), style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 16)),
           const Divider(color: Colors.grey),
           const SizedBox(height: 8),
           ...items.map((item) => Padding(
@@ -48,7 +49,7 @@ class OrderSummarySection extends StatelessWidget {
                             item.product.name.toUpperCase(),
                             style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12),
                           ),
-                          Text('Qty: ${item.quantity}', style: const TextStyle(color: Colors.grey, fontSize: 11)),
+                          Text('payment.qty'.tr(namedArgs: {'qty': item.quantity.toString()}), style: const TextStyle(color: Colors.grey, fontSize: 11)),
                         ],
                       ),
                     ),
@@ -60,14 +61,14 @@ class OrderSummarySection extends StatelessWidget {
                 ),
               )),
           const Divider(color: Colors.grey),
-          _buildDarkRow('SUBTOTAL', '\$${subtotal.toStringAsFixed(2)}'),
-          _buildDarkRow('SHIPPING', '\$${shipping.toStringAsFixed(2)}'),
-          _buildDarkRow('TAX', '\$${tax.toStringAsFixed(2)}'),
+          _buildDarkRow('cart.subtotal'.tr(), '\$${subtotal.toStringAsFixed(2)}'),
+          _buildDarkRow('cart.shipping'.tr(), '\$${shipping.toStringAsFixed(2)}'),
+          _buildDarkRow('cart.tax'.tr(), '\$${tax.toStringAsFixed(2)}'),
           const Divider(color: Colors.grey),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text('TOTAL', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 18)),
+              Text('payment.total'.tr(), style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 18)),
               Text('\$${total.toStringAsFixed(2)}', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 22)),
             ],
           ),

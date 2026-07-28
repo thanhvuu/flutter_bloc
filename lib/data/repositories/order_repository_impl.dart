@@ -5,7 +5,7 @@ import 'package:bloc_app_demo/domain/entities/order.dart';
 import 'package:bloc_app_demo/domain/repositories/order_repository.dart';
 import 'package:bloc_app_demo/data/models/order_model.dart';
 import 'package:bloc_app_demo/data/models/product_model.dart';
-import 'package:bloc_app_demo/data/data_sources/order_remote_data_source.dart';
+import 'package:bloc_app_demo/data/data_sources/interfaces/order_remote_data_source.dart';
 
 class OrderRepositoryImpl implements OrderRepository {
   final OrderRemoteDataSource remoteDataSource;

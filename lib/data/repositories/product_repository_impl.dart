@@ -3,8 +3,8 @@ import 'dart:developer' as developer;
 import 'package:bloc_app_demo/core/errors/failures.dart';
 import 'package:bloc_app_demo/domain/entities/product.dart';
 import 'package:bloc_app_demo/domain/repositories/product_repository.dart';
-import 'package:bloc_app_demo/data/data_sources/product_remote_data_source.dart';
-import 'package:bloc_app_demo/data/data_sources/product_local_data_source.dart';
+import 'package:bloc_app_demo/data/data_sources/interfaces/product_remote_data_source.dart';
+import 'package:bloc_app_demo/data/data_sources/interfaces/product_local_data_source.dart';
 import 'package:bloc_app_demo/core/hive_database/entities/product_entity/product_entity.dart';
 
 class ProductRepositoryImpl implements ProductRepository {

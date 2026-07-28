@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:bloc_app_demo/domain/repositories/location_repository.dart';
 
+
 part 'location_state.dart';
 
 class LocationCubit extends Cubit<LocationState> {
@@ -18,7 +19,7 @@ class LocationCubit extends Cubit<LocationState> {
     
         result.fold(
       (failure) => emit(LocationError(failure.message)),
-      (location) => emit(LocationSuccess("${location.latitude}, ${location.longtitude}")),
+      (address) => emit(LocationSuccess(address)),
     );
   }
 }

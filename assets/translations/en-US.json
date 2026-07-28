@@ -9,6 +9,15 @@
         "no_order_history": "You have no order history.",
         "order": "Order {id}",
         "order_date": "Order Date: {date}",
+        "elite_athlete": "ELITE ATHLETE",
+        "my_orders": "MY ORDERS",
+        "settings_menu": "SETTINGS",
+        "logout": "LOGOUT",
+        "full_name": "Full Name",
+        "email_label": "Gmail / Email",
+        "phone_number": "Phone Number",
+        "shipping_address": "Shipping Address",
+        "na": "N/A",
         "english": "English",
         "vietnamese": "Vietnamese"
     },
@@ -85,7 +94,8 @@
         "support": "Support",
         "neutral": "Neutral",
         "promo_1": "UNLEASH\nPRECISION",
-        "promo_2": "THE NEW STANDARD OF SPEED"
+        "promo_2": "THE NEW STANDARD OF SPEED",
+        "added_to_cart_success": "Successfully added product to cart!"
     },
     "common": {
         "cancel": "CANCEL",
@@ -111,8 +121,22 @@
     "dont_have_account": "Don't have an account? Register now",
     "or": "OR",
     "google_signin": "Continue with Google"
+  },
+  "settings": {
+    "language": "Language",
+    "dark_mode": "Dark Mode"
+  },
+  "payment": {
+    "success": "Payment & Order Successful!",
+    "error": "Error: {msg}",
+    "address_auto_success": "Successfully retrieved address automatically!",
+    "order_success": "Order Successful",
+    "order_summary": "ORDER SUMMARY",
+    "qty": "Qty: {qty}",
+    "total": "TOTAL",
+    "method": "PAYMENT METHOD",
+    "credit_card": "CREDIT / DEBIT CARD",
+    "cod": "CASH ON DELIVERY (COD)",
+    "shipping_info": "SHIPPING INFORMATION"
   }
-  
-  
-
 }

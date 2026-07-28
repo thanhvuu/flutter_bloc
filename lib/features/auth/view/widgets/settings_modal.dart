@@ -44,6 +44,7 @@ class _SettingsModalState extends State<SettingsModal> {
 
   @override
   Widget build(BuildContext context) {
+    context.locale;
     return Padding(
       padding: const EdgeInsets.all(24.0),
       child: Column(
@@ -58,13 +59,13 @@ class _SettingsModalState extends State<SettingsModal> {
           ListTile(
             contentPadding: EdgeInsets.zero,
             leading: const Icon(Icons.language, color: Colors.black),
-            title: const Text('Language', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+            title: Text('settings.language'.tr(), style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
             trailing: DropdownButton<String>(
               value: context.locale.languageCode,
               underline: const SizedBox(),
-              items: const [
-                DropdownMenuItem(value: 'vi', child: Text('Tiếng Việt')),
-                DropdownMenuItem(value: 'en', child: Text('English')),
+              items:  [
+                DropdownMenuItem(value: 'vi', child: Text('profile.vietnamese'.tr())),
+                DropdownMenuItem(value: 'en', child: Text('profile.english'.tr())),
               ],
               onChanged: (langCode) {
                 if (langCode != null) {
@@ -78,7 +79,7 @@ class _SettingsModalState extends State<SettingsModal> {
           SwitchListTile(
             contentPadding: EdgeInsets.zero,
             secondary: Icon(_isDarkMode ? Icons.dark_mode : Icons.light_mode, color: Colors.black),
-            title: const Text('Dark Mode', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+            title: Text('settings.dark_mode'.tr(), style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
             value: _isDarkMode,
             activeColor: Colors.black,
             onChanged: (val) {

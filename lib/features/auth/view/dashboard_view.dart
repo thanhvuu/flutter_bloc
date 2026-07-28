@@ -32,9 +32,9 @@ class _DashboardViewState extends State<DashboardView> {
     return Scaffold(
       backgroundColor: const Color(0xFFF9F9F9),
       appBar: AppBar(
-        title: const Text(
-          'ELITE ATHLETE',
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.w900, letterSpacing: 1),
+        title: Text(
+          'profile.elite_athlete'.tr(),
+          style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w900, letterSpacing: 1),
         ),
         centerTitle: true,
       ),
@@ -59,19 +59,19 @@ class _DashboardViewState extends State<DashboardView> {
 
             // 1. MY ORDERS
             ProfileMenuItem(
-              title: 'MY ORDERS',
+              title: 'profile.my_orders'.tr(),
               onTap: () => MyOrdersModal.show(context, widget.user.id),
             ),
 
             // 2. PERSONAL INFORMATION
             ProfileMenuItem(
-              title: 'PERSONAL INFORMATION',
+              title: 'profile.personal_info'.tr().toUpperCase(),
               onTap: () => PersonalInfoModal.show(context, widget.user),
             ),
 
             // 3. SETTINGS
             ProfileMenuItem(
-              title: 'SETTINGS',
+              title: 'profile.settings_menu'.tr(),
               onTap: () => SettingsModal.show(
                 context,
                 isDarkMode: _isDarkMode,
@@ -94,9 +94,9 @@ class _DashboardViewState extends State<DashboardView> {
                 onPressed: () {
                   context.read<AuthBloc>().add(LogoutRequestedEvent());
                 },
-                child: const Text(
-                  'LOGOUT',
-                  style: TextStyle(
+                child: Text(
+                  'profile.logout'.tr(),
+                  style: const TextStyle(
                     color: Colors.black87,
                     fontWeight: FontWeight.w900,
                     fontSize: 13,

@@ -50,9 +50,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           listener: (context, state) {
             if (state is CartItemAddedSuccess) {
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Đã thêm sản phẩm vào giỏ hàng!',
-                      style: TextStyle(
+                SnackBar(
+                  content: Text('product_detail.added_to_cart_success'.tr(),
+                      style: const TextStyle(
                           color: Colors.white, fontWeight: FontWeight.bold)),
                   backgroundColor: Colors.green,
                   duration: Duration(seconds: 2),

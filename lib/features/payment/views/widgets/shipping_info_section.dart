@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
+
 
 class ShippingInfoSection extends StatelessWidget {
   final TextEditingController firstNameController;
@@ -34,12 +36,12 @@ class ShippingInfoSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Row(
+           Row(
             children: [
-              Icon(Icons.local_shipping_outlined, size: 20),
-              SizedBox(width: 8),
-              Text('SHIPPING INFORMATION',
-                  style: TextStyle(fontWeight: FontWeight.w900, fontSize: 14)),
+              const Icon(Icons.local_shipping_outlined, size: 20),
+              const SizedBox(width: 8),
+              Text('payment.shipping_info'.tr(),
+                  style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 14)),
             ],
           ),
           const SizedBox(height: 16),

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:bloc_app_demo/features/cart/bloc/cart_bloc.dart';
 import 'package:bloc_app_demo/features/payment/bloc/payment_bloc.dart';
-import 'widgets/shipping_info_section.dart';
-import 'widgets/payment_method_section.dart';
-import 'widgets/order_summary_section.dart';
-import 'widgets/place_order_button.dart';
+import 'package:bloc_app_demo/core/blocs/location/cubit/location_cubit.dart';
+import 'package:bloc_app_demo/features/payment/views/widgets/shipping_info_section.dart';
+import 'package:bloc_app_demo/features/payment/views/widgets/payment_method_section.dart';
+import 'package:bloc_app_demo/features/payment/views/widgets/order_summary_section.dart';
+import 'package:bloc_app_demo/features/payment/views/widgets/place_order_button.dart';
 
 class CheckoutScreen extends StatefulWidget {
   const CheckoutScreen({super.key});
@@ -46,13 +48,14 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           final cartState = context.read<CartBloc>().state;
           if (cartState is CartLoaded) {
             context.read<CartBloc>().add(
-                  CheckoutCartEvent(cartState.items, cartState.total,status: 'PAID'),
+                  CheckoutCartEvent(cartState.items, cartState.total,
+                      status: 'PAID'),
                 );
           }
 
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text(' Thanh toán & Đặt hàng thành công!'),
+            SnackBar(
+              content: Text('payment.success'.tr()),
               backgroundColor: Colors.green,
             ),
           );
@@ -60,7 +63,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         } else if (paymentState is PaymentFailure) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(' Lỗi: ${paymentState.message}'),
+              content: Text('payment.error'.tr(namedArgs: {'msg': paymentState.message})),
               backgroundColor: Colors.red,
             ),
           );
@@ -84,7 +87,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         body: BlocBuilder<CartBloc, CartState>(
           builder: (context, cartState) {
             if (cartState is! CartLoaded) {
-              return const Center(child: CircularProgressIndicator(color: Colors.red));
+              return const Center(
+                  child: CircularProgressIndicator(color: Colors.red));
             }
 
             return SingleChildScrollView(
@@ -94,27 +98,57 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 children: [
                   const Text(
                     'CHECKOUT',
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.w900, letterSpacing: 1.2),
+                    style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w900,
+                        letterSpacing: 1.2),
                   ),
                   const Divider(thickness: 2, color: Colors.black),
                   const SizedBox(height: 16),
 
                   // 1 SHIPPING INFORMATION
-                  ShippingInfoSection(
-                    firstNameController: _firstNameController,
-                    lastNameController: _lastNameController,
-                    addressLine1Controller: _addressLine1Controller,
-                    addressLine2Controller: _addressLine2Controller,
-                    cityController: _cityController,
-                    zipCodeController: _zipCodeController,
-                    phoneController: _phoneController,
+                  BlocConsumer<LocationCubit, LocationState>(
+                    listener: (context, locationState) {
+                      if (locationState is LocationSuccess) {
+                        _addressLine1Controller.text = locationState.address;
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('payment.address_auto_success'.tr()),
+                            backgroundColor: Colors.green,
+                          ),
+                        );
+                      } else if (locationState is LocationError) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(locationState.message),
+                            backgroundColor: Colors.red,
+                          ),
+                        );
+                      }
+                    },
+                    builder: (context, locationState) {
+                      return ShippingInfoSection(
+                        firstNameController: _firstNameController,
+                        lastNameController: _lastNameController,
+                        addressLine1Controller: _addressLine1Controller,
+                        addressLine2Controller: _addressLine2Controller,
+                        cityController: _cityController,
+                        zipCodeController: _zipCodeController,
+                        phoneController: _phoneController,
+                        isLocationLoading: locationState is LocationLoading,
+                        onGetLocation: () {
+                          context.read<LocationCubit>().fetchLocation();
+                        },
+                      );
+                    },
                   ),
                   const SizedBox(height: 20),
 
                   // 2SECTION: PAYMENT METHOD
                   PaymentMethodSection(
                     selectedMethod: _selectedPaymentMethod,
-                    onMethodChanged: (method) => setState(() => _selectedPaymentMethod = method),
+                    onMethodChanged: (method) =>
+                        setState(() => _selectedPaymentMethod = method),
                   ),
                   const SizedBox(height: 20),
 
@@ -133,10 +167,12 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     total: cartState.total,
                     selectedMethod: _selectedPaymentMethod,
                     onCodSelected: () {
-                      context.read<CartBloc>().add(CheckoutCartEvent(cartState.items, cartState.total, status: 'UNPAID'));
+                      context.read<CartBloc>().add(CheckoutCartEvent(
+                          cartState.items, cartState.total,
+                          status: 'UNPAID'));
 
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text('Đặt hàng thành công'),
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text('payment.order_success'.tr()),
                         backgroundColor: Colors.green,
                       ));
                       context.go('/home');

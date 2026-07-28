@@ -1,4 +1,3 @@
-import 'package:bloc_app_demo/core/utils/app_bloc_observe.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/gestures.dart';
@@ -15,6 +14,8 @@ import 'package:bloc_app_demo/features/order/bloc/order_bloc.dart';
 import 'package:bloc_app_demo/features/network/bloc/network_bloc.dart';
 import 'package:bloc_app_demo/features/network/view/no_network_screen.dart';
 import 'package:bloc_app_demo/features/payment/bloc/payment_bloc.dart';
+import 'package:bloc_app_demo/core/blocs/location/cubit/location_cubit.dart';
+import 'package:bloc_app_demo/core/utils/app_bloc_observe.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -68,7 +69,7 @@ class MyApp extends StatelessWidget {
           create: (context) => PaymentBloc(paymentRepository: injection.paymentRepository),
         ),
         BlocProvider(
-          create: (context) => LocationCubit(repository: Injection().locationRepository),
+          create: (context) => LocationCubit(repository: injection.locationRepository),
 ),
       ],
       child: MaterialApp.router(

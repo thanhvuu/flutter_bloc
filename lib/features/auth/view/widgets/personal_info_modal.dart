@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:bloc_app_demo/domain/entities/user.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class PersonalInfoModal extends StatelessWidget {
   final User user;
@@ -19,24 +20,25 @@ class PersonalInfoModal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     return Padding(
       padding: const EdgeInsets.all(24.0),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'PERSONAL INFORMATION',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900, letterSpacing: 1.2),
+          Text(
+            'profile.personal_info'.tr().toUpperCase(),
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900, letterSpacing: 1.2),
           ),
           const Divider(thickness: 1.5, height: 24),
-          _buildInfoItem(Icons.person, 'Full Name', user.name),
+          _buildInfoItem(Icons.person, 'profile.full_name'.tr(), user.name),
           const SizedBox(height: 12),
-          _buildInfoItem(Icons.email, 'Gmail / Email', user.email),
+          _buildInfoItem(Icons.email, 'profile.email_label'.tr(), user.email),
           const SizedBox(height: 12),
-          _buildInfoItem(Icons.phone, 'Phone Number', user.phone.isEmpty ? 'N/A' : user.phone),
+          _buildInfoItem(Icons.phone, 'profile.phone_number'.tr(), user.phone.isEmpty ? 'profile.na'.tr() : user.phone),
           const SizedBox(height: 12),
-          _buildInfoItem(Icons.location_on, 'Shipping Address', user.address.isEmpty ? 'N/A' : user.address),
+          _buildInfoItem(Icons.location_on, 'profile.shipping_address'.tr(), user.address.isEmpty ? 'profile.na'.tr() : user.address),
           const SizedBox(height: 16),
         ],
       ),

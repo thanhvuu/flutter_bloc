@@ -10,12 +10,12 @@ sealed class LocationState extends Equatable {
 final class LocationInitial extends LocationState {}
 final class LocationLoading extends LocationState {}
 final class LocationSuccess extends LocationState {
-  final String coordinates;
+  final String address;
   
-  const LocationSuccess(this.coordinates);
+  const LocationSuccess(this.address);
   
   @override
-  List<Object?> get props => [coordinates];
+  List<Object?> get props => [address];
 }
 
 final class LocationError extends LocationState {
