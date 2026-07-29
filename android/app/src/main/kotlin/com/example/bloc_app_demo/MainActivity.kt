@@ -27,13 +27,13 @@ class MainActivity : FlutterFragmentActivity() {
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CHANNEL).setMethodCallHandler { call, result ->
             if (call.method == "getCurrentLocation") {
 
-                // 1. Kiểm tra quyền
+                
                 if (ActivityCompat.checkSelfPermission(
                         this,
                         Manifest.permission.ACCESS_FINE_LOCATION
                     ) != PackageManager.PERMISSION_GRANTED
                 ) {
-                    // Yêu cầu hệ điều hành hiện Popup xin quyền
+                    
                     ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 100)
                     result.error("PERMISSION_DENIED", "Bạn chưa cấp quyền truy cập vị trí", null)
                     return@setMethodCallHandler
