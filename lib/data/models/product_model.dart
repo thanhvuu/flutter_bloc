@@ -43,7 +43,7 @@ class ProductModel {
     return null;
   }
 
-  // Chuyển từ Model (API) → Entity thuần (BLoC dùng)
+  // Chuyển từ Model (API) → Entity thuần
   Product toEntity() {
     return Product(
       id: id.toString(),

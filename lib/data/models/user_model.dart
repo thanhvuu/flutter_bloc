@@ -1,4 +1,3 @@
-
 import 'package:bloc_app_demo/domain/entities/user.dart';
 import 'package:json_annotation/json_annotation.dart';
 
