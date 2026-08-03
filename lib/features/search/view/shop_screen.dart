@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -15,11 +16,13 @@ class ShopScreen extends StatefulWidget {
 
 class _ShopScreenState extends State<ShopScreen> {
   final TextEditingController _searchController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
   final List<String> categories = ['ALL', 'Footwear', 'Apparel', 'Running', 'Training', 'Basketball'];
 
   @override
   void initState() {
     super.initState();
+    _scrollController.addListener(_onScroll);
     _loadProducts();
   }
 
@@ -38,7 +41,21 @@ class _ShopScreenState extends State<ShopScreen> {
   @override
   void dispose() {
     _searchController.dispose();
+    _scrollController.dispose();
     super.dispose();
+  }
+
+  void _onScroll() {
+    if (_isBottom) {
+      context.read<SearchBloc>().add(LoadMoreProductsEvent());
+    }
+  }
+
+  bool get _isBottom{
+    if(!_scrollController.hasClients) return false;
+    final maxScroll = _scrollController.position.maxScrollExtent;
+    final currentScroll = _scrollController.offset;
+    return currentScroll >= (maxScroll * 0.85);//cuộn 85% trang
   }
 
   @override
@@ -164,7 +181,12 @@ class _ShopScreenState extends State<ShopScreen> {
 
                 if (state is SearchLoaded) {
                   final products = state.results;
-                  return GridView.builder(
+
+                  return Column(
+                    children: [
+                      Expanded(
+                  child: GridView.builder(
+                    controller: _scrollController,
                     padding: const EdgeInsets.all(16.0),
                     keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
                     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -178,6 +200,20 @@ class _ShopScreenState extends State<ShopScreen> {
                       final Product product = products[index];
                       return ProductCard(product: product); 
                     },
+                  ),
+                      ),
+
+                      if (state.isFetchingMore)
+                          const Padding(
+                            padding: EdgeInsets.symmetric(vertical: 12),
+                            child: Center(
+                              child: Center(
+                                child: CircularProgressIndicator(color: Colors.red, strokeWidth: 2.5,),
+                              )
+                            ),
+                          )
+
+                    ]
                   );
                 }
 

@@ -22,11 +22,13 @@ final class SearchEmpty extends SearchState {
 
 final class SearchLoaded extends SearchState {
   final List<Product> results;
+  final bool hasReachedMax;
+  final bool isFetchingMore;
 
-  const SearchLoaded(this.results, {super.selectedCategory = 'ALL'});
+  const SearchLoaded(this.results, {super.selectedCategory = 'ALL',this.hasReachedMax=false, this.isFetchingMore= false});
 
   @override  
-  List<Object?> get props => [results, selectedCategory];
+  List<Object?> get props => [results, selectedCategory, hasReachedMax, isFetchingMore];
 
 }
 

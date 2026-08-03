@@ -27,34 +27,29 @@ class _FilterParam{
   });
 }
 
- List<Product> _filterProductsTask(_FilterParam param) {
-  List<Product> temp = List.from(param.products);
-
-  if(param.category != 'ALL') {
-    final lowerCategory = param.category.toLowerCase();
-    temp = temp.where((p) => p.category.toLowerCase() == lowerCategory).toList();
-  }
-  if(param.keyword.isNotEmpty) {
-    final lowerKeyword = param.keyword.toLowerCase();
-    temp = temp.where((p) => p.name.toLowerCase().contains(lowerKeyword)).toList();
-  }
-  return temp;
-}
 
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
   final ProductRepository repository;
   List<Product> _allProducts = []; 
   String _currentCategory = 'ALL';
   String _currentKeyword= '' ;
+  int _currentPage = 1;
+  final int  _pageLimit = 20;
+  bool _hasReachedMax = false;
+  bool _isFetchingMore = false;
 
   SearchBloc({required this.repository}) : super(const SearchInitial()) {
   
   on<LoadProductsEvent>((event, emit) async {
     _currentCategory = event.category ?? 'ALL';
+    _currentPage = 1;
+    _hasReachedMax = false;
+    _allProducts.clear();
+
     emit(SearchLoading(selectedCategory: _currentCategory)); 
     
     if (_allProducts.isEmpty) {
-      final result = await repository.getProducts(page: 1, limit: 100);
+      final result = await repository.getProducts(page: _currentPage, limit: _pageLimit);
       
       
       await result.fold(
@@ -63,12 +58,48 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         },
         (products) async {
           _allProducts = products;
+          if(products.length < _pageLimit) {
+            _hasReachedMax = true;
+          }
           await _emitFilteredProducts(emit);
         },
       );
     } else {
       await _emitFilteredProducts(emit);
     }
+  });
+
+  on<LoadMoreProductsEvent>((event,emit) async {
+    if(_hasReachedMax || _isFetchingMore) return;
+
+    _isFetchingMore = true;
+
+    if (state is SearchLoaded){
+      final currentLoaded = state as SearchLoaded;
+      emit(SearchLoaded(
+        currentLoaded.results,
+        selectedCategory: _currentCategory,
+        hasReachedMax: _hasReachedMax,
+        isFetchingMore: true,
+      ));
+    }
+
+    _currentPage ++;
+    final result = await repository.getProducts(page: _currentPage, limit: _pageLimit);
+
+    await result.fold(
+      (failure) async{
+        _isFetchingMore = false;
+      },
+      (newProducts) async {
+        _isFetchingMore = false;
+        if( newProducts.isEmpty || newProducts.length < _pageLimit) {
+          _hasReachedMax = true;
+        }
+        _allProducts.addAll(newProducts);
+        await _emitFilteredProducts(emit);
+      }
+    );
   });
 
   on<SearchKeywordChanged>((event, emit) async {
@@ -82,6 +113,20 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     _currentKeyword = '';
     await _emitFilteredProducts(emit);
   });
+}
+
+static List<Product> _filterProductsTask(_FilterParam param) {
+  List<Product> temp = List.from(param.products);
+
+  if(param.category != 'ALL') {
+    final lowerCategory = param.category.toLowerCase();
+    temp = temp.where((p) => p.category.toLowerCase() == lowerCategory).toList();
+  }
+  if(param.keyword.isNotEmpty) {
+    final lowerKeyword = param.keyword.toLowerCase();
+    temp = temp.where((p) => p.name.toLowerCase().contains(lowerKeyword)).toList();
+  }
+  return temp;
 }
 
   

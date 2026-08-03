@@ -26,3 +26,5 @@ final class LoadProductsEvent extends SearchEvent{
   @override  
   List<Object?> get props => [category];
 }
+
+final class LoadMoreProductsEvent extends SearchEvent {}
