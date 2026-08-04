@@ -55,7 +55,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       style: const TextStyle(
                           color: Colors.white, fontWeight: FontWeight.bold)),
                   backgroundColor: Colors.green,
-                  duration: Duration(seconds: 2),
+                  duration: const Duration(seconds: 2),
                 ),
               );
             }

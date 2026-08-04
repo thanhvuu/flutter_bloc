@@ -12,9 +12,9 @@ final class ProductDetailInitial extends ProductDetailState {}
 
 final class ProductDetailLoaded extends ProductDetailState {
   final Product product;
-  final List<Color> colors;           // Danh sách Color đã parse từ hex
-  final List<String> sizes;           // Danh sách size
-  final List<bool> sizeAvailability;  // Trạng thái còn hàng của từng size
+  final List<Color> colors;           
+  final List<String> sizes;         
+  final List<bool> sizeAvailability;
   final int selectedColorIndex;
   final int selectedSizeIndex;
 
@@ -26,12 +26,10 @@ final class ProductDetailLoaded extends ProductDetailState {
     this.selectedColorIndex = 0,
     this.selectedSizeIndex = 0,
   });
-
-  /// Getter tiện ích lấy size/color đang chọn
+ 
   String get selectedSize => sizes.isNotEmpty ? sizes[selectedSizeIndex] : '';
   Color get selectedColor => colors.isNotEmpty ? colors[selectedColorIndex] : const Color(0xFF000000);
 
-  /// copyWith để BLoC emit state mới khi chỉ đổi 1 thuộc tính
   ProductDetailLoaded copyWith({
     int? selectedColorIndex,
     int? selectedSizeIndex,

@@ -19,11 +19,17 @@ class _FilterParam{
   final List<Product> products;
   final String category;
   final String keyword;
+  final double minPrice;
+  final double maxPrice;
+  final ProductSortOption sortOption;
 
   _FilterParam({
     required this.products,
     required this.category,
     required this.keyword,
+    required this.minPrice,
+    required this.maxPrice,
+    required this.sortOption,
   });
 }
 
@@ -37,6 +43,9 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   final int  _pageLimit = 20;
   bool _hasReachedMax = false;
   bool _isFetchingMore = false;
+  double _minPrice = 0;
+  double _maxPrice = 1000;
+  ProductSortOption _sortOption = ProductSortOption.none;
 
   SearchBloc({required this.repository}) : super(const SearchInitial()) {
   
@@ -109,6 +118,17 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     await _emitFilteredProducts(emit);
   }, transformer: debounceAndRestartable(const Duration(milliseconds: 300)));
 
+  on<FilterPriceChanged>((event, emit) async {
+    _minPrice = event.minPrice;
+    _maxPrice = event.maxPrice;
+    await _emitFilteredProducts(emit);
+  });
+
+  on<SortOptionChanged>((event, emit) async {
+    _sortOption = event.sortOption;
+    await _emitFilteredProducts(emit);
+  });
+
   on<ClearSearch>((event, emit) async {
     _currentKeyword = '';
     await _emitFilteredProducts(emit);
@@ -126,14 +146,25 @@ static List<Product> _filterProductsTask(_FilterParam param) {
     final lowerKeyword = param.keyword.toLowerCase();
     temp = temp.where((p) => p.name.toLowerCase().contains(lowerKeyword)).toList();
   }
+  temp = temp.where((p) => p.price >= param.minPrice && p.price <= param.maxPrice).toList();
+  if(param.sortOption == ProductSortOption.priceLowToHigh){
+    temp.sort((a,b) => a.price.compareTo(b.price));
+  } else if (param.sortOption == ProductSortOption.priceHighToLow){
+    temp.sort((a,b) => b.price.compareTo(a.price));
+  }
   return temp;
 }
+
 
   
   Future<void> _emitFilteredProducts(Emitter<SearchState> emit) async {
   final products = _allProducts;
   final category = _currentCategory;
   final keyword = _currentKeyword;
+  final minPrice = _minPrice;
+  final maxPrice = _maxPrice;
+  final sortOption = _sortOption;
+
 
   final temp = await Isolate.run(
     () => _filterProductsTask(
@@ -141,15 +172,18 @@ static List<Product> _filterProductsTask(_FilterParam param) {
         products: products,
         category: category,
         keyword: keyword,
+        minPrice: minPrice,
+        maxPrice: maxPrice,
+        sortOption: sortOption,
       ),
     ),
   );
 
   if (emit.isDone) return;
   if (temp.isEmpty) {
-    emit(SearchEmpty(selectedCategory: _currentCategory)); 
+    emit(SearchEmpty( selectedCategory: _currentCategory, minPrice: _minPrice, maxPrice: _maxPrice, sortOption: _sortOption)); 
   } else {
-    emit(SearchLoaded(temp, selectedCategory: _currentCategory)); 
+    emit(SearchLoaded(temp, selectedCategory: _currentCategory, minPrice: _minPrice, maxPrice: _maxPrice, sortOption: _sortOption)); 
   }
 }
 }

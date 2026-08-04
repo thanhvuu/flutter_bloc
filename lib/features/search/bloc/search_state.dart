@@ -2,14 +2,27 @@ part of 'search_bloc.dart';
 
 sealed class SearchState extends Equatable {
   final String selectedCategory;
-  const SearchState({this.selectedCategory = 'ALL'});
+  final double minPrice;
+  final double maxPrice;
+  final ProductSortOption sortOption;
+  const SearchState({
+    this.selectedCategory = 'ALL',
+    this.minPrice = 0,
+    this.maxPrice = 1000,
+    this.sortOption = ProductSortOption.none,                   
+  });
   
   @override
-  List<Object?> get props => [selectedCategory];
+  List<Object?> get props => [selectedCategory, minPrice, maxPrice,sortOption];
 }
 
 final class SearchInitial extends SearchState {
-  const SearchInitial() : super(selectedCategory: 'ALL');
+  const SearchInitial() : super(
+    selectedCategory: 'ALL',
+    minPrice: 0,
+    maxPrice: 1000,
+    sortOption: ProductSortOption.none,
+    );
 }
 
 final class SearchLoading extends SearchState {
@@ -17,7 +30,12 @@ final class SearchLoading extends SearchState {
 }
 
 final class SearchEmpty extends SearchState {
-  const SearchEmpty({super.selectedCategory = 'ALL'});
+  const SearchEmpty({
+    super.selectedCategory = 'ALL',
+    super.minPrice = 0,
+    super.maxPrice = 1000,
+    super.sortOption = ProductSortOption.none,
+  });
 }
 
 final class SearchLoaded extends SearchState {
@@ -25,10 +43,10 @@ final class SearchLoaded extends SearchState {
   final bool hasReachedMax;
   final bool isFetchingMore;
 
-  const SearchLoaded(this.results, {super.selectedCategory = 'ALL',this.hasReachedMax=false, this.isFetchingMore= false});
+  const SearchLoaded(this.results, {super.selectedCategory = 'ALL',this.hasReachedMax=false, this.isFetchingMore= false, super.minPrice = 0, super.maxPrice = 1000,super.sortOption = ProductSortOption.none,});
 
   @override  
-  List<Object?> get props => [results, selectedCategory, hasReachedMax, isFetchingMore];
+  List<Object?> get props => [results, selectedCategory, hasReachedMax, isFetchingMore, minPrice, maxPrice, sortOption];
 
 }
 

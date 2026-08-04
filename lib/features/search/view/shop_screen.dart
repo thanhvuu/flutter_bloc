@@ -1,10 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:bloc_app_demo/features/search/bloc/search_bloc.dart';
-import 'package:bloc_app_demo/domain/entities/product.dart';
-import 'package:bloc_app_demo/core/widgets/product_card.dart';
+import 'widgets/shop_search_bar.dart';
+import 'widgets/category_selector.dart';
+import 'widgets/shop_product_grid.dart';
 
 class ShopScreen extends StatefulWidget {
   final String? initialCategory;
@@ -51,176 +50,25 @@ class _ShopScreenState extends State<ShopScreen> {
     }
   }
 
-  bool get _isBottom{
-    if(!_scrollController.hasClients) return false;
+  bool get _isBottom {
+    if (!_scrollController.hasClients) return false;
     final maxScroll = _scrollController.position.maxScrollExtent;
     final currentScroll = _scrollController.offset;
-    return currentScroll >= (maxScroll * 0.85);//cuộn 85% trang
+    return currentScroll >= (maxScroll * 0.85);
   }
 
   @override
-  Widget build(BuildContext context) {    
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0, 
-        title: Container(
-          height: 40,
-          decoration: BoxDecoration(
-            color: Colors.grey.shade100,
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: TextField(
-            controller: _searchController,
-            textInputAction: TextInputAction.search,
-            decoration: InputDecoration(
-              hintText: 'search.hint'.tr(),
-              hintStyle: TextStyle(color: Colors.grey.shade500, fontSize: 14),
-              prefixIcon: const Icon(Icons.search, color: Colors.black),
-              border: InputBorder.none,
-              contentPadding: const EdgeInsets.symmetric(vertical: 10),
-              suffixIcon: IconButton(
-                icon: const Icon(Icons.cancel, color: Colors.grey, size: 20),
-                onPressed: () {
-                  _searchController.clear();
-                  context.read<SearchBloc>().add(ClearSearch());
-                },
-              ),
-            ),
-            onChanged: (value) {
-              context.read<SearchBloc>().add(SearchKeywordChanged(value));
-            },
-          ),
-        ),
-      ),
+      appBar: ShopSearchBar(controller: _searchController),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 10),
-          BlocBuilder<SearchBloc, SearchState>(
-            builder: (context, state) {
-              final activeCategory = state.selectedCategory; 
-              return SizedBox(
-                height: 35,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  itemCount: categories.length,
-                  itemBuilder: (context, index) {
-                    final cat = categories[index];
-                    final bool isSelected = cat.toLowerCase() == activeCategory.toLowerCase();
-
-                    String displayName = cat;
-                if (cat == 'ALL') {
-                displayName = 'home.all'.tr();
-              } else if (cat == 'Footwear') {
-                displayName = 'home.footwear'.tr();
-              } else if (cat == 'Apparel') {
-                displayName = 'home.apparel'.tr();
-              } else if (cat == 'Running') {
-                displayName = 'home.running'.tr();
-              } else if (cat == 'Training') {
-                displayName = 'home.training'.tr();
-              } else if (cat == 'Basketball') {
-                displayName = 'home.basketball'.tr();
-              }
-
-
-                    return GestureDetector(
-                      onTap: () {
-                        context.read<SearchBloc>().add(LoadProductsEvent(category: cat));
-                      },
-                      child: Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 5),
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        decoration: BoxDecoration(
-                          color: isSelected ? Colors.red : Colors.transparent,
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(color: isSelected ? Colors.red : Colors.grey.shade300),
-                        ),
-                        child: Center(
-                          child: Text(
-                            displayName,
-                            style: TextStyle(
-                              color: isSelected ? Colors.white : Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 12,
-                            ),
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              );
-            },
-          ),
+          CategorySelector(categories: categories),
           const SizedBox(height: 15),
-          
-          // 2. HIỂN THỊ DANH SÁCH SẢN PHẨM
-          Expanded(
-            child: BlocBuilder<SearchBloc, SearchState>(
-              builder: (context, state) {
-                if (state is SearchLoading) {
-                  return const Center(child: CircularProgressIndicator(color: Colors.black));
-                }
-
-                if (state is SearchEmpty) {
-                  return Center(
-                    child: Text(
-                      'search.empty'.tr(), 
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  );
-                }
-
-                if (state is SearchError) {
-                  return Center(child: Text(state.message, style: const TextStyle(color: Colors.red)));
-                }
-
-                if (state is SearchLoaded) {
-                  final products = state.results;
-
-                  return Column(
-                    children: [
-                      Expanded(
-                  child: GridView.builder(
-                    controller: _scrollController,
-                    padding: const EdgeInsets.all(16.0),
-                    keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,           
-                      childAspectRatio: 0.6,       
-                      crossAxisSpacing: 16,
-                      mainAxisSpacing: 24,
-                    ),
-                    itemCount: products.length,
-                    itemBuilder: (context, index) {
-                      final Product product = products[index];
-                      return ProductCard(product: product); 
-                    },
-                  ),
-                      ),
-
-                      if (state.isFetchingMore)
-                          const Padding(
-                            padding: EdgeInsets.symmetric(vertical: 12),
-                            child: Center(
-                              child: Center(
-                                child: CircularProgressIndicator(color: Colors.red, strokeWidth: 2.5,),
-                              )
-                            ),
-                          )
-
-                    ]
-                  );
-                }
-
-                return const SizedBox.shrink();
-              },
-            ),
-          ),
+          ShopProductGrid(scrollController: _scrollController),
         ],
       ),
     );
