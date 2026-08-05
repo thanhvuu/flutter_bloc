@@ -138,5 +138,12 @@
     "credit_card": "CREDIT / DEBIT CARD",
     "cod": "CASH ON DELIVERY (COD)",
     "shipping_info": "SHIPPING INFORMATION"
+  },
+  "filter": {
+    "title": "Filter & Sort",
+    "price_range": "Price Range: ${min} - ${max}",
+    "sort_by": "Sort by Price:",
+    "price_low_to_high": "Price: Low -> High",
+    "price_high_to_low": "Price: High -> Low"
   }
 }

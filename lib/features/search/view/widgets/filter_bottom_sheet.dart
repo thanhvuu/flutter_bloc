@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:bloc_app_demo/features/search/bloc/search_bloc.dart';
 
 class FilterBottomSheet {
@@ -27,9 +28,9 @@ class FilterBottomSheet {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
-                            'Bộ lọc & Sắp xếp',
-                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                          Text(
+                            'filter.title'.tr(),
+                            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                           ),
                           IconButton(
                             icon: const Icon(Icons.close),
@@ -40,7 +41,10 @@ class FilterBottomSheet {
                       const Divider(),
                       const SizedBox(height: 10),
                       Text(
-                        'Khoảng giá: \$${currentRange.start.round()} - \$${currentRange.end.round()}',
+                        'filter.price_range'.tr(namedArgs: {
+                          'min': currentRange.start.round().toString(),
+                          'max': currentRange.end.round().toString(),
+                        }),
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                       RangeSlider(
@@ -60,15 +64,15 @@ class FilterBottomSheet {
                         },
                       ),
                       const SizedBox(height: 20),
-                      const Text(
-                        'Sắp xếp theo giá:',
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                      Text(
+                        'filter.sort_by'.tr(),
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 10),
                       Row(
                         children: [
                           ChoiceChip(
-                            label: const Text('Giá: Thấp -> Cao'),
+                            label: Text('filter.price_low_to_high'.tr()),
                             selected: selectedSort == ProductSortOption.priceLowToHigh,
                             selectedColor: Colors.red,
                             labelStyle: TextStyle(
@@ -86,7 +90,7 @@ class FilterBottomSheet {
                           ),
                           const SizedBox(width: 10),
                           ChoiceChip(
-                            label: const Text('Giá: Cao -> Thấp'),
+                            label: Text('filter.price_high_to_low'.tr()),
                             selected: selectedSort == ProductSortOption.priceHighToLow,
                             selectedColor: Colors.red,
                             labelStyle: TextStyle(

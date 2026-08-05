@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:isolate';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:diacritic/diacritic.dart';
 import 'package:bloc_app_demo/domain/repositories/product_repository.dart';
 import 'package:bloc_app_demo/domain/entities/product.dart';
 import 'package:equatable/equatable.dart';
@@ -143,8 +144,8 @@ static List<Product> _filterProductsTask(_FilterParam param) {
     temp = temp.where((p) => p.category.toLowerCase() == lowerCategory).toList();
   }
   if(param.keyword.isNotEmpty) {
-    final lowerKeyword = param.keyword.toLowerCase();
-    temp = temp.where((p) => p.name.toLowerCase().contains(lowerKeyword)).toList();
+    final lowerKeyword = removeDiacritics(param.keyword.toLowerCase());
+    temp = temp.where((p) => removeDiacritics(p.name.toLowerCase()).contains(lowerKeyword)).toList();
   }
   temp = temp.where((p) => p.price >= param.minPrice && p.price <= param.maxPrice).toList();
   if(param.sortOption == ProductSortOption.priceLowToHigh){

@@ -138,5 +138,12 @@
     "credit_card": "THẺ TÍN DỤNG / GHI NỢ",
     "cod": "THANH TOÁN KHI NHẬN HÀNG (COD)",
     "shipping_info": "THÔNG TIN GIAO HÀNG"
+  },
+  "filter": {
+    "title": "Bộ lọc & Sắp xếp",
+    "price_range": "Khoảng giá: ${min} - ${max}",
+    "sort_by": "Sắp xếp theo giá:",
+    "price_low_to_high": "Giá: Thấp -> Cao",
+    "price_high_to_low": "Giá: Cao -> Thấp"
   }
 }
