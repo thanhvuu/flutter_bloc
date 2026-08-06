@@ -18,6 +18,8 @@ import 'package:bloc_app_demo/data/data_sources/implements/product_remote_data_s
 import 'package:bloc_app_demo/data/data_sources/implements/product_local_data_source_impl.dart';
 import 'package:bloc_app_demo/data/data_sources/implements/cart_local_data_source_impl.dart';
 import 'package:bloc_app_demo/data/data_sources/implements/order_remote_data_source_impl.dart';
+import 'package:bloc_app_demo/data/data_sources/implements/theme_local_data_source_impl.dart';
+import 'package:bloc_app_demo/data/repositories/theme_repository_impl.dart';
 
 class Injection {
   late final ProductRepositoryImpl productRepository;
@@ -27,6 +29,7 @@ class Injection {
   late final NetworkRepositoryImpl networkRepository;
   late final PaymentRepositoryImpl paymentRepository;
   late final LocationRepositoryImpl locationRepository;
+  late final ThemeRepositoryImpl themeRepository;
 
   Future<void> init() async {
     // Hive
@@ -53,6 +56,7 @@ class Injection {
     final cartLocalDataSource = CartLocalDataSourceImpl(cartDao: CartDao());
     final orderRemoteDataSource = OrderRemoteDataSourceImpl(restClient: restClient);
     final locationNativeDataSource = LocationNativeDataSourceImpl();
+    final themeLocalDataSource = ThemeLocalDataSourceImpl();
 
     // Repository
     productRepository = ProductRepositoryImpl(
@@ -69,5 +73,6 @@ class Injection {
         OrderRepositoryImpl(remoteDataSource: orderRemoteDataSource);
     locationRepository =
         LocationRepositoryImpl(nativeDataSource: locationNativeDataSource);
+    themeRepository = ThemeRepositoryImpl(localDataSource: themeLocalDataSource);
   }
 }

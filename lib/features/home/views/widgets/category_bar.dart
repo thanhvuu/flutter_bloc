@@ -62,7 +62,7 @@ class CategoryBar extends StatelessWidget {
                     child: Text(
                       displayName,
                       style: TextStyle(
-                        color: isSelected ? Colors.white : Colors.grey,
+                        color: isSelected ? Colors.white : Colors.black,
                         fontWeight: FontWeight.bold,
                         fontSize: 14,
                       ),

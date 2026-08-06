@@ -16,6 +16,8 @@ import 'package:bloc_app_demo/features/network/view/no_network_screen.dart';
 import 'package:bloc_app_demo/features/payment/bloc/payment_bloc.dart';
 import 'package:bloc_app_demo/core/blocs/location/cubit/location_cubit.dart';
 import 'package:bloc_app_demo/core/utils/app_bloc_observe.dart';
+import 'package:bloc_app_demo/core/blocs/theme/cubit/theme_cubit.dart';
+import 'package:bloc_app_demo/core/theme/app_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -70,36 +72,41 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => LocationCubit(repository: injection.locationRepository),
-),
-      ],
-      child: MaterialApp.router(
-
-        localizationsDelegates: context.localizationDelegates,
-        supportedLocales: context.supportedLocales,
-        locale: context.locale,
-
-
-
-        title: 'BLoC App Demo',
-        scrollBehavior: const MaterialScrollBehavior().copyWith(
-          dragDevices: {
-            PointerDeviceKind.mouse, 
-            PointerDeviceKind.touch, 
-            PointerDeviceKind.stylus,
-            PointerDeviceKind.trackpad, 
-          },
         ),
-        routerConfig: AppRouter.router,
-
-        builder: (context, child) {
-          return BlocBuilder<NetworkBloc, NetworkState>(
-            builder: (context, state) {
-              return Stack(
-                children: [
-                  child ?? const SizedBox.shrink(), 
-                  if (state is NetworkFailure)
-                    const NoNetworkOverlay(),
-                ],
+        BlocProvider<ThemeCubit>(
+          create: (context) => ThemeCubit(themeRepository: injection.themeRepository),
+        ),
+      ],
+      child: BlocBuilder<ThemeCubit, ThemeMode>(
+        builder: (context, themeMode) {
+          return MaterialApp.router(
+            theme: AppTheme.lightTheme,
+            darkTheme: AppTheme.darkTheme,
+            themeMode: themeMode,
+            localizationsDelegates: context.localizationDelegates,
+            supportedLocales: context.supportedLocales,
+            locale: context.locale,
+            title: 'BLoC App Demo',
+            scrollBehavior: const MaterialScrollBehavior().copyWith(
+              dragDevices: {
+                PointerDeviceKind.mouse, 
+                PointerDeviceKind.touch, 
+                PointerDeviceKind.stylus,
+                PointerDeviceKind.trackpad, 
+              },
+            ),
+            routerConfig: AppRouter.router,
+            builder: (context, child) {
+              return BlocBuilder<NetworkBloc, NetworkState>(
+                builder: (context, state) {
+                  return Stack(
+                    children: [
+                      child ?? const SizedBox.shrink(), 
+                      if (state is NetworkFailure)
+                        const NoNetworkOverlay(),
+                    ],
+                  );
+                },
               );
             },
           );

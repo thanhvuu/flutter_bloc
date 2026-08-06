@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -29,18 +30,23 @@ class ProductCard extends StatelessWidget {
           children: [
             Stack(
               children: [
-                Container(
+                SizedBox(
                   height: 180,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                    
-                      image: ResizeImage(
-                        NetworkImage(product.imageUrl),
-                        width: 200, 
+                  width: double.infinity,
+                  child: CachedNetworkImage(
+                    imageUrl: product.imageUrl,
+                    fit:BoxFit.cover,
+                    placeholder: (context, url) => Container(
+                      color: const Color(0xFF2A2A2A),
+                      child: const Center(
+                        child: CircularProgressIndicator(color: Colors.red, strokeWidth: 2,),
                       ),
-                      fit: BoxFit.cover,
                     ),
-                  ),
+                    errorWidget: (context, url, error) => Container(
+                      color: const Color(0xFF2A2A2A),
+                      child: const Icon(Icons.broken_image, color:  Colors.grey,),
+                    )),
+                  
                 ),
                 Container(
                   margin: const EdgeInsets.all(10),

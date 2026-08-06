@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class ProductImage extends StatelessWidget {
   final String imageUrl;
@@ -10,13 +11,16 @@ class ProductImage extends StatelessWidget {
     return Container(
       height: 300,
       width: double.infinity,
-      color: const Color(0xFFF0F0F0),
-      child: Image.network(
-        imageUrl,
-        fit: BoxFit.contain,
-        errorBuilder: (context, error, stackTrace) => 
+      color: Colors.white,
+      child: CachedNetworkImage(
+        imageUrl: imageUrl,
+        fit: BoxFit.cover,
+        placeholder: (context, url) => const Center(
+          child: CircularProgressIndicator(color: Colors.red,),
+        ),
+        errorWidget: (context, url, error) => 
             const Icon(Icons.broken_image, size: 100, color: Colors.grey),
-      ),
-    );
+        ),
+      );
   }
 }

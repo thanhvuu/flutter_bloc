@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:bloc_app_demo/core/blocs/theme/cubit/theme_cubit.dart';
 
 class SettingsModal extends StatefulWidget {
   final bool isDarkMode;
@@ -18,7 +20,6 @@ class SettingsModal extends StatefulWidget {
   }) {
     showModalBottomSheet(
       context: context,
-      backgroundColor: Colors.white,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
       ),
@@ -58,7 +59,7 @@ class _SettingsModalState extends State<SettingsModal> {
           const Divider(thickness: 1.5, height: 24),
           ListTile(
             contentPadding: EdgeInsets.zero,
-            leading: const Icon(Icons.language, color: Colors.black),
+            leading: const Icon(Icons.language),
             title: Text('settings.language'.tr(), style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
             trailing: DropdownButton<String>(
               value: context.locale.languageCode,
@@ -78,14 +79,15 @@ class _SettingsModalState extends State<SettingsModal> {
           const Divider(),
           SwitchListTile(
             contentPadding: EdgeInsets.zero,
-            secondary: Icon(_isDarkMode ? Icons.dark_mode : Icons.light_mode, color: Colors.black),
+            secondary: Icon(_isDarkMode ? Icons.dark_mode : Icons.light_mode),
             title: Text('settings.dark_mode'.tr(), style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
             value: _isDarkMode,
-            activeColor: Colors.black,
+            activeColor: Colors.red,
             onChanged: (val) {
               setState(() {
                 _isDarkMode = val;
               });
+              context.read<ThemeCubit>().changeTheme(val ? ThemeMode.dark : ThemeMode.light);
               widget.onDarkModeChanged(val);
             },
           ),

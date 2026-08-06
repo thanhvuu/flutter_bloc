@@ -8,6 +8,7 @@ import 'package:bloc_app_demo/features/auth/view/widgets/profile_menu_item.dart'
 import 'package:bloc_app_demo/features/auth/view/widgets/personal_info_modal.dart';
 import 'package:bloc_app_demo/features/auth/view/widgets/settings_modal.dart';
 import 'package:bloc_app_demo/features/auth/view/widgets/my_orders_modal.dart';
+import 'package:bloc_app_demo/core/blocs/theme/cubit/theme_cubit.dart';
 
 class DashboardView extends StatefulWidget {
   final User user;
@@ -18,8 +19,6 @@ class DashboardView extends StatefulWidget {
 }
 
 class _DashboardViewState extends State<DashboardView> {
-  bool _isDarkMode = false;
-
   @override
   void initState() {
     super.initState();
@@ -72,11 +71,16 @@ class _DashboardViewState extends State<DashboardView> {
             // 3. SETTINGS
             ProfileMenuItem(
               title: 'profile.settings_menu'.tr(),
-              onTap: () => SettingsModal.show(
-                context,
-                isDarkMode: _isDarkMode,
-                onDarkModeChanged: (val) => setState(() => _isDarkMode = val),
-              ),
+              onTap: () {
+                final currentTheme = context.read<ThemeCubit>().state;
+                SettingsModal.show(
+                  context,
+                  isDarkMode: currentTheme == ThemeMode.dark,
+                  onDarkModeChanged: (val) {
+                    context.read<ThemeCubit>().changeTheme(val ? ThemeMode.dark : ThemeMode.light);
+                  },
+                );
+              },
             ),
 
             const SizedBox(height: 40),
